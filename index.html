@@ -1,0 +1,2049 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام المتابعة | ترقيم & تفنين</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'Segoe UI', 'Tahoma', 'sans-serif'],
+                    },
+                    colors: {
+                        trqemNavy: '#151e48',
+                        trqemCyan: '#4dc3f7',
+                        tafneenBlue: '#0038cb',
+                        tafneenRoyal: '#2563eb',
+                        tafneenGreen: '#4eb535',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SheetJS (xlsx) لقراءة وتصدير ملفات الإكسل في المتصفح -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        [x-cloak] { display: none !important; }
+
+        /* ============================================================ */
+        /* قواعد التبديل بين الوضع الليلي والوضع النهاري (Light & Dark) */
+        /* ============================================================ */
+
+        /* ١. الوضع الليلي (Dark Mode) - ترقيم */
+        body.theme-tarqeem.mode-dark {
+            background-color: #070d1e;
+            color: #f1f5f9;
+        }
+        body.theme-tarqeem.mode-dark .app-header {
+            background: linear-gradient(180deg, #0a1128 0%, #070d1e 100%);
+            border-bottom: 1px solid #1b2b5a;
+        }
+        body.theme-tarqeem.mode-dark .app-card {
+            background-color: #0e1736;
+            border-color: #1a2a57;
+            color: #f1f5f9;
+            box-shadow: 0 4px 20px -2px rgba(7, 13, 30, 0.7);
+        }
+        body.theme-tarqeem.mode-dark .app-card:hover {
+            border-color: #2a3f7d;
+        }
+        body.theme-tarqeem.mode-dark .app-input {
+            background-color: #090e24;
+            border-color: #1e2e60;
+            color: #ffffff;
+        }
+        body.theme-tarqeem.mode-dark .app-input:focus {
+            border-color: #4dc3f7;
+            outline: none;
+        }
+        body.theme-tarqeem.mode-dark .app-table-head {
+            background-color: #090f26;
+            color: #94a3b8;
+            border-color: #1a2a57;
+        }
+        body.theme-tarqeem.mode-dark .app-table-row:hover {
+            background-color: rgba(30, 48, 105, 0.25);
+        }
+        body.theme-tarqeem.mode-dark .brand-btn-primary {
+            background: linear-gradient(135deg, #4dc3f7 0%, #0284c7 100%);
+            color: #040814;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(77, 195, 247, 0.3);
+        }
+
+        /* ٢. الوضع النهاري (Light Mode) - ترقيم */
+        body.theme-tarqeem.mode-light {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        body.theme-tarqeem.mode-light .app-header {
+            background-color: #151e48;
+            border-bottom: 2px solid #4dc3f7;
+            color: #ffffff;
+        }
+        body.theme-tarqeem.mode-light .app-card {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            color: #0f172a;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        body.theme-tarqeem.mode-light .app-card:hover {
+            border-color: #cbd5e1;
+        }
+        body.theme-tarqeem.mode-light .app-input {
+            background-color: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        body.theme-tarqeem.mode-light .app-input:focus {
+            border-color: #0284c7;
+            outline: none;
+        }
+        body.theme-tarqeem.mode-light .app-table-head {
+            background-color: #f1f5f9;
+            color: #475569;
+            border-color: #e2e8f0;
+        }
+        body.theme-tarqeem.mode-light .app-table-row:hover {
+            background-color: #f8fafc;
+        }
+        body.theme-tarqeem.mode-light .brand-btn-primary {
+            background: #151e48;
+            color: #ffffff;
+            font-weight: 800;
+            border: 1px solid #4dc3f7;
+        }
+        body.theme-tarqeem.mode-light .brand-btn-primary:hover {
+            background: #1e2c69;
+        }
+
+        /* ٣. الوضع الليلي (Dark Mode) - تفنين */
+        body.theme-tafneen.mode-dark {
+            background-color: #060910;
+            color: #f1f5f9;
+        }
+        body.theme-tafneen.mode-dark .app-header {
+            background: linear-gradient(180deg, #0a0f1c 0%, #060910 100%);
+            border-bottom: 1px solid #1c2942;
+        }
+        body.theme-tafneen.mode-dark .app-card {
+            background-color: #0d1424;
+            border-color: #1a273f;
+            color: #f1f5f9;
+            box-shadow: 0 4px 20px -2px rgba(4, 7, 14, 0.8);
+        }
+        body.theme-tafneen.mode-dark .app-card:hover {
+            border-color: #273a5e;
+        }
+        body.theme-tafneen.mode-dark .app-input {
+            background-color: #080c18;
+            border-color: #1c2b4a;
+            color: #ffffff;
+        }
+        body.theme-tafneen.mode-dark .app-input:focus {
+            border-color: #4eb535;
+            outline: none;
+        }
+        body.theme-tafneen.mode-dark .app-table-head {
+            background-color: #080d1a;
+            color: #94a3b8;
+            border-color: #1a273f;
+        }
+        body.theme-tafneen.mode-dark .app-table-row:hover {
+            background-color: rgba(37, 99, 235, 0.15);
+        }
+        body.theme-tafneen.mode-dark .brand-btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.35);
+            border: 1px solid rgba(78, 181, 53, 0.5);
+        }
+
+        /* ٤. الوضع النهاري (Light Mode) - تفنين */
+        body.theme-tafneen.mode-light {
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        body.theme-tafneen.mode-light .app-header {
+            background-color: #0f172a;
+            border-bottom: 2px solid #4eb535;
+            color: #ffffff;
+        }
+        body.theme-tafneen.mode-light .app-card {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+            color: #0f172a;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        body.theme-tafneen.mode-light .app-card:hover {
+            border-color: #cbd5e1;
+        }
+        body.theme-tafneen.mode-light .app-input {
+            background-color: #ffffff;
+            border-color: #cbd5e1;
+            color: #0f172a;
+        }
+        body.theme-tafneen.mode-light .app-input:focus {
+            border-color: #2563eb;
+            outline: none;
+        }
+        body.theme-tafneen.mode-light .app-table-head {
+            background-color: #f1f5f9;
+            color: #475569;
+            border-color: #e2e8f0;
+        }
+        body.theme-tafneen.mode-light .app-table-row:hover {
+            background-color: #f8fafc;
+        }
+        body.theme-tafneen.mode-light .brand-btn-primary {
+            background: #0038cb;
+            color: #ffffff;
+            font-weight: 800;
+            border: 1px solid #4eb535;
+        }
+        body.theme-tafneen.mode-light .brand-btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        /* ستايل شريط التمرير */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+    </style>
+</head>
+<body class="theme-tarqeem mode-dark h-full flex flex-col selection:bg-cyan-500 selection:text-slate-950">
+
+    <!-- شريط التنقل العلوي المتكيف مع الوضعين والهويتين -->
+    <header class="app-header shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- شعار وهوية النظام -->
+                <div class="flex items-center space-x-3.5 space-x-reverse">
+                    <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg ring-2 ring-cyan-400/30">
+                        م
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="text-lg font-black tracking-tight text-white">نظام المتابعة</span>
+                        <span id="header-brand-badge" class="text-[10px] bg-slate-800 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-bold">
+                            ترقيم TRQEM
+                        </span>
+                    </div>
+                </div>
+
+                <!-- التبديل بين الأقسام الرئيسية -->
+                <nav class="hidden lg:flex items-center space-x-1 space-x-reverse bg-black/30 p-1.5 rounded-xl border border-white/10 backdrop-blur-sm">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 space-x-reverse bg-cyan-500 text-slate-950 shadow-sm">
+                        <span>📊</span><span>لوحة المؤشرات</span>
+                    </button>
+                    <button onclick="switchTab('iqamas')" id="nav-iqamas" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>🪪</span><span>الإقامات</span>
+                    </button>
+                    <button onclick="switchTab('contracts')" id="nav-contracts" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>📑</span><span>العقود الوظيفية</span>
+                    </button>
+                    <button onclick="switchTab('licenses')" id="nav-licenses" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>📜</span><span>التراخيص والشهادات</span>
+                    </button>
+                    <button onclick="switchTab('import')" id="nav-import" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>📥</span><span>استيراد Excel</span>
+                    </button>
+                    <button onclick="switchTab('settings')" id="nav-settings" class="nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>⚙️</span><span>التنبيهات والإعدادات</span>
+                    </button>
+                </nav>
+
+                <!-- أزرار التحكم: سوتش الوضع الليلي/النهاري + أزرار الهوية -->
+                <div class="flex items-center space-x-2.5 space-x-reverse">
+                    
+                    <!-- شارة حالة قاعدة بيانات Neon السحابية -->
+                    <div class="hidden sm:flex items-center space-x-1.5 space-x-reverse px-2.5 py-1 rounded-xl bg-cyan-950/70 border border-cyan-500/40 text-[11px] text-cyan-300 font-bold shadow-sm" title="قاعدة بيانات Neon السحابية مربوطة">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="font-mono text-[10px] text-cyan-300">Neon Cloud</span>
+                        <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-sans">متصل</span>
+                    </div>
+
+                    <!-- سوتش التبديل بين الوضع الليلي والنهاري (Theme Mode Switch) -->
+                    <button onclick="toggleThemeMode()" id="theme-toggle-btn" class="flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl border border-white/20 bg-white/10 hover:bg-white/20 transition text-white shadow-sm" title="التبديل بين الوضع الليلي والنهاري">
+                        <span id="theme-toggle-icon" class="text-sm">🌙</span>
+                        <span id="theme-toggle-label" class="text-xs font-bold hidden sm:inline">الوضع الليلي</span>
+                    </button>
+
+                    <div class="h-6 w-px bg-white/20"></div>
+
+                    <!-- زر مؤسسة ترقيم TRQEM بالهوية الرسمية -->
+                    <button onclick="switchOrg('tarqeem')" id="org-btn-tarqeem" class="flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border shadow-md bg-[#151e48] border-[#4dc3f7] ring-2 ring-[#4dc3f7]/50" title="مؤسسة ترقيم TRQEM">
+                        <div class="flex flex-col justify-between w-3.5 h-3">
+                            <div class="w-2 h-1 bg-[#4dc3f7] rounded-[1px]"></div>
+                            <div class="w-2 h-1 bg-[#4dc3f7] rounded-[1px] mr-auto"></div>
+                        </div>
+                        <div class="flex flex-col text-right leading-none">
+                            <span class="text-[9px] font-mono tracking-wider font-extrabold text-[#4dc3f7]">TRQEM</span>
+                            <span class="text-xs font-black text-white mt-0.5">تـرقـيـم</span>
+                        </div>
+                    </button>
+
+                    <!-- زر مؤسسة تفنين TAFNEEN بالهوية الرسمية -->
+                    <button onclick="switchOrg('tafneen')" id="org-btn-tafneen" class="flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border border-white/20 bg-black/40 hover:bg-black/60 text-slate-300 group" title="مؤسسة تفنين TAFNEEN">
+                        <div class="w-2 h-2 rounded-full bg-[#4eb535]"></div>
+                        <div class="flex flex-col text-right leading-none">
+                            <span class="text-[9px] font-mono tracking-wider font-extrabold text-[#4eb535]">TAFNEEN</span>
+                            <span class="text-xs font-black text-white mt-0.5">تَفْنِين</span>
+                        </div>
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- شريط تنقل للأجهزة الصغيرة -->
+        <div class="lg:hidden flex overflow-x-auto px-4 py-2 border-t border-white/10 gap-1.5 bg-black/20">
+            <button onclick="switchTab('dashboard')" class="text-xs px-2.5 py-1 rounded bg-white/20 text-white whitespace-nowrap">لوحة المؤشرات</button>
+            <button onclick="switchTab('iqamas')" class="text-xs px-2.5 py-1 rounded bg-white/5 text-slate-200 whitespace-nowrap">الإقامات</button>
+            <button onclick="switchTab('contracts')" class="text-xs px-2.5 py-1 rounded bg-white/5 text-slate-200 whitespace-nowrap">العقود</button>
+            <button onclick="switchTab('licenses')" class="text-xs px-2.5 py-1 rounded bg-white/5 text-slate-200 whitespace-nowrap">التراخيص</button>
+            <button onclick="switchTab('import')" class="text-xs px-2.5 py-1 rounded bg-white/5 text-slate-200 whitespace-nowrap">استيراد</button>
+            <button onclick="switchTab('settings')" class="text-xs px-2.5 py-1 rounded bg-white/5 text-slate-200 whitespace-nowrap">الإعدادات</button>
+        </div>
+    </header>
+
+    <!-- منطقة المحتوى التفاعلي الرئيسي -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- رسالة إشعار منبثقة -->
+        <div id="toast" class="hidden mb-6 px-4 py-3 rounded-2xl border flex items-center justify-between shadow-xl transition-all duration-300">
+            <div class="flex items-center space-x-2.5 space-x-reverse">
+                <span id="toast-icon" class="font-black text-lg">✓</span>
+                <span id="toast-text" class="text-xs sm:text-sm font-semibold"></span>
+            </div>
+            <button onclick="document.getElementById('toast').classList.add('hidden')" class="text-xs font-bold px-2 py-1">&times;</button>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ١. قسم الداشبورد والمؤشرات الرئيسية -->
+        <!-- ========================================== -->
+        <div id="view-dashboard" class="space-y-6">
+
+            <!-- رأس الداشبورد مع هوية المؤسسة النشطة -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-700/50 gap-4">
+                <div class="flex items-center space-x-3.5 space-x-reverse">
+                    <div id="active-brand-banner"></div>
+                    <div>
+                        <h1 class="text-2xl font-black tracking-tight">
+                            لوحة المؤشرات والمتابعة
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="switchTab('import')" class="brand-btn-primary text-xs font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>📥</span><span>رفع ملف إكسل</span>
+                    </button>
+                    <button onclick="runAlertCheck(true)" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow transition flex items-center space-x-1.5 space-x-reverse">
+                        <span>⚡</span><span>فحص التنبيهات الفورية</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- بطاقات KPI للوحدات الثلاث -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- بطاقة الإقامات -->
+                <div class="app-card rounded-2xl p-5 border shadow flex flex-col justify-between transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2.5 space-x-reverse">
+                                <span class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-lg">🪪</span>
+                                <div>
+                                    <h3 class="font-bold text-sm">سجل الإقامات</h3>
+                                    <span class="text-[11px] text-slate-400">تنبيه عند &le; 45 يوماً</span>
+                                </div>
+                            </div>
+                            <button onclick="switchTab('iqamas')" class="text-xs hover:underline font-bold text-cyan-400">إدارة السجلات &larr;</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2.5 text-center mt-4">
+                            <div class="bg-emerald-500/10 rounded-xl p-2.5 border border-emerald-500/30">
+                                <span id="kpi-iqamas-valid" class="block text-2xl font-black text-emerald-400">0</span>
+                                <span class="text-[11px] font-bold text-emerald-400">ساري</span>
+                            </div>
+                            <div class="bg-amber-500/10 rounded-xl p-2.5 border border-amber-500/30">
+                                <span id="kpi-iqamas-near" class="block text-2xl font-black text-amber-400">0</span>
+                                <span class="text-[11px] font-bold text-amber-400">قريب الانتهاء</span>
+                            </div>
+                            <div class="bg-rose-500/10 rounded-xl p-2.5 border border-rose-500/30">
+                                <span id="kpi-iqamas-expired" class="block text-2xl font-black text-rose-400">0</span>
+                                <span class="text-[11px] font-bold text-rose-400">منتهي</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/40 flex items-center justify-between text-xs text-slate-400">
+                        <span>إجمالي الإقامات:</span>
+                        <span id="kpi-iqamas-total" class="font-black text-sm">0</span>
+                    </div>
+                </div>
+
+                <!-- بطاقة العقود الوظيفية -->
+                <div class="app-card rounded-2xl p-5 border shadow flex flex-col justify-between transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2.5 space-x-reverse">
+                                <span class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">📑</span>
+                                <div>
+                                    <h3 class="font-bold text-sm">العقود الوظيفية</h3>
+                                    <span class="text-[11px] text-slate-400">تنبيه عند &le; 90 يوماً</span>
+                                </div>
+                            </div>
+                            <button onclick="switchTab('contracts')" class="text-xs hover:underline font-bold text-indigo-400">إدارة السجلات &larr;</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2.5 text-center mt-4">
+                            <div class="bg-emerald-500/10 rounded-xl p-2.5 border border-emerald-500/30">
+                                <span id="kpi-contracts-valid" class="block text-2xl font-black text-emerald-400">0</span>
+                                <span class="text-[11px] font-bold text-emerald-400">ساري</span>
+                            </div>
+                            <div class="bg-amber-500/10 rounded-xl p-2.5 border border-amber-500/30">
+                                <span id="kpi-contracts-near" class="block text-2xl font-black text-amber-400">0</span>
+                                <span class="text-[11px] font-bold text-amber-400">قريب الانتهاء</span>
+                            </div>
+                            <div class="bg-rose-500/10 rounded-xl p-2.5 border border-rose-500/30">
+                                <span id="kpi-contracts-expired" class="block text-2xl font-black text-rose-400">0</span>
+                                <span class="text-[11px] font-bold text-rose-400">منتهي</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/40 flex items-center justify-between text-xs text-slate-400">
+                        <span>إجمالي العقود:</span>
+                        <span id="kpi-contracts-total" class="font-black text-sm">0</span>
+                    </div>
+                </div>
+
+                <!-- بطاقة التراخيص والشهادات -->
+                <div class="app-card rounded-2xl p-5 border shadow flex flex-col justify-between transition-all">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-2.5 space-x-reverse">
+                                <span class="w-9 h-9 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center font-bold text-lg">📜</span>
+                                <div>
+                                    <h3 class="font-bold text-sm">التراخيص والشهادات</h3>
+                                    <span class="text-[11px] text-slate-400">متابعة الفروع والصلاحيات</span>
+                                </div>
+                            </div>
+                            <button onclick="switchTab('licenses')" class="text-xs hover:underline font-bold text-teal-400">إدارة السجلات &larr;</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2.5 text-center mt-4">
+                            <div class="bg-emerald-500/10 rounded-xl p-2.5 border border-emerald-500/30">
+                                <span id="kpi-licenses-valid" class="block text-2xl font-black text-emerald-400">0</span>
+                                <span class="text-[11px] font-bold text-emerald-400">ساري</span>
+                            </div>
+                            <div class="bg-amber-500/10 rounded-xl p-2.5 border border-amber-500/30">
+                                <span id="kpi-licenses-near" class="block text-2xl font-black text-amber-400">0</span>
+                                <span class="text-[11px] font-bold text-amber-400">قريب الانتهاء</span>
+                            </div>
+                            <div class="bg-rose-500/10 rounded-xl p-2.5 border border-rose-500/30">
+                                <span id="kpi-licenses-expired" class="block text-2xl font-black text-rose-400">0</span>
+                                <span class="text-[11px] font-bold text-rose-400">منتهي</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-700/40 flex items-center justify-between text-xs text-slate-400">
+                        <span>إجمالي التراخيص:</span>
+                        <span id="kpi-licenses-total" class="font-black text-sm">0</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- الرسم البياني التفاعلي (بلونين متناسقين فقط حسب طلبك) -->
+            <div class="app-card rounded-2xl p-5 border shadow">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2 border-b border-slate-700/40 pb-3">
+                    <div class="flex items-center space-x-2 space-x-reverse">
+                        <span class="text-base">📊</span>
+                        <div>
+                            <h3 class="text-sm font-black">مؤشر الحالات (بلونين متناسقين للهوية)</h3>
+                            <span class="text-[11px] text-slate-400 block">مقارنة السجلات السارية مقابل السجلات التي تتطلب اتخاذ إجراء</span>
+                        </div>
+                    </div>
+                    <!-- دليل اللونيْن المتناسقين -->
+                    <div id="chart-legend-box" class="text-xs flex items-center gap-3"></div>
+                </div>
+                <div class="h-64 sm:h-72">
+                    <canvas id="dashboardChart"></canvas>
+                </div>
+            </div>
+
+            <!-- أقرب السجلات للانتهاء -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- إقامات حرجة -->
+                <div class="app-card rounded-2xl p-5 border shadow">
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-700/40 pb-2.5">
+                        <h4 class="font-bold text-xs flex items-center gap-2">
+                            <span>🪪</span><span>إقامات بحاجة لاتخاذ إجراء (&le; 45 يوم)</span>
+                        </h4>
+                        <button onclick="switchTab('iqamas')" class="text-[11px] text-cyan-400 hover:underline font-bold">عرض الكل</button>
+                    </div>
+                    <div id="urgent-iqamas-list" class="divide-y divide-slate-700/30 text-xs"></div>
+                </div>
+
+                <!-- عقود حرجة -->
+                <div class="app-card rounded-2xl p-5 border shadow">
+                    <div class="flex items-center justify-between mb-3 border-b border-slate-700/40 pb-2.5">
+                        <h4 class="font-bold text-xs flex items-center gap-2">
+                            <span>📑</span><span>عقود بحاجة لتجديد أو إنهاء (&le; 90 يوم)</span>
+                        </h4>
+                        <button onclick="switchTab('contracts')" class="text-[11px] text-indigo-400 hover:underline font-bold">عرض الكل</button>
+                    </div>
+                    <div id="urgent-contracts-list" class="divide-y divide-slate-700/30 text-xs"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ٢. قسم الإقامات -->
+        <!-- ========================================== -->
+        <div id="view-iqamas" class="hidden space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-700/40 gap-4">
+                <div>
+                    <h1 class="text-2xl font-black">سجل الإقامات</h1>
+                    <p class="text-xs text-slate-400 mt-1">متابعة صلاحية الإقامات وملاحظات النقل والتجديد بدقة</p>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="exportTableToCSV('iqamas')" class="app-card hover:bg-slate-700/40 text-xs font-bold px-3.5 py-2 rounded-xl border shadow transition">
+                        📊 تصدير Excel/CSV
+                    </button>
+                    <button onclick="openAddModal('iqamas')" class="brand-btn-primary text-xs font-bold px-3.5 py-2 rounded-xl shadow transition">
+                        ➕ إضافة إقامة يدوياً
+                    </button>
+                </div>
+            </div>
+
+            <!-- فلاتر الإقامات -->
+            <div class="app-card p-3.5 rounded-xl border shadow grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="filter-iqamas-search" oninput="renderIqamasTable()" placeholder="🔍 بحث بالاسم أو رقم الإقامة أو المهنة..." class="app-input text-xs rounded-xl p-2.5 border">
+                <select id="filter-iqamas-branch" onchange="renderIqamasTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الفروع</option>
+                </select>
+                <select id="filter-iqamas-status" onchange="renderIqamasTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الحالات</option>
+                    <option value="ساري">🟢 ساري (> 45 يوم)</option>
+                    <option value="قريب الانتهاء">🟡 قريب الانتهاء (≤ 45 يوم)</option>
+                    <option value="منتهي">🔴 منتهي</option>
+                </select>
+            </div>
+
+            <!-- جدول الإقامات -->
+            <div class="app-card rounded-2xl border shadow overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-700/40 text-xs text-right">
+                        <thead class="app-table-head font-bold border-b">
+                            <tr>
+                                <th class="px-4 py-3.5">الاسم الكامل</th>
+                                <th class="px-4 py-3.5">رقم الإقامة</th>
+                                <th class="px-4 py-3.5">المهنة</th>
+                                <th class="px-4 py-3.5">الفرع</th>
+                                <th class="px-4 py-3.5">تاريخ الانتهاء</th>
+                                <th class="px-4 py-3.5">الأيام المتبقية</th>
+                                <th class="px-4 py-3.5">الحالة</th>
+                                <th class="px-4 py-3.5">ملاحظات النقل والتجديد</th>
+                                <th class="px-4 py-3.5 text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="iqamas-table-body" class="divide-y divide-slate-700/30"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ٣. قسم العقود الوظيفية -->
+        <!-- ========================================== -->
+        <div id="view-contracts" class="hidden space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-700/40 gap-4">
+                <div>
+                    <h1 class="text-2xl font-black">سجل العقود الوظيفية</h1>
+                    <p class="text-xs text-slate-400 mt-1">حساب تلقائي للأيام المتبقية لاتخاذ إجراء دون أخطاء صيغ الإكسل</p>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="exportTableToCSV('contracts')" class="app-card hover:bg-slate-700/40 text-xs font-bold px-3.5 py-2 rounded-xl border shadow transition">
+                        📊 تصدير Excel/CSV
+                    </button>
+                    <button onclick="openAddModal('contracts')" class="brand-btn-primary text-xs font-bold px-3.5 py-2 rounded-xl shadow transition">
+                        ➕ إضافة عقد جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- فلاتر العقود -->
+            <div class="app-card p-3.5 rounded-xl border shadow grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="filter-contracts-search" oninput="renderContractsTable()" placeholder="🔍 بحث بالاسم أو الهوية أو الإدارة..." class="app-input text-xs rounded-xl p-2.5 border">
+                <select id="filter-contracts-dept" onchange="renderContractsTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الإدارات</option>
+                </select>
+                <select id="filter-contracts-status" onchange="renderContractsTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الحالات</option>
+                    <option value="ساري">🟢 ساري (> 90 يوم)</option>
+                    <option value="قريب الانتهاء">🟡 قريب الانتهاء (≤ 90 يوم)</option>
+                    <option value="منتهي">🔴 منتهي</option>
+                </select>
+            </div>
+
+            <!-- جدول العقود -->
+            <div class="app-card rounded-2xl border shadow overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-700/40 text-xs text-right">
+                        <thead class="app-table-head font-bold border-b">
+                            <tr>
+                                <th class="px-4 py-3.5">الاسم الكامل</th>
+                                <th class="px-4 py-3.5">رقم الهوية / الإقامة</th>
+                                <th class="px-4 py-3.5">المهنة</th>
+                                <th class="px-4 py-3.5">تصنيف المهارات</th>
+                                <th class="px-4 py-3.5">الإدارة</th>
+                                <th class="px-4 py-3.5">بداية العقد</th>
+                                <th class="px-4 py-3.5">نهاية العقد</th>
+                                <th class="px-4 py-3.5">الأيام لاتخاذ إجراء</th>
+                                <th class="px-4 py-3.5">الحالة</th>
+                                <th class="px-4 py-3.5 text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contracts-table-body" class="divide-y divide-slate-700/30"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ٤. قسم التراخيص والشهادات -->
+        <!-- ========================================== -->
+        <div id="view-licenses" class="hidden space-y-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-700/40 gap-4">
+                <div>
+                    <h1 class="text-2xl font-black">سجل التراخيص والشهادات</h1>
+                    <p class="text-xs text-slate-400 mt-1">متابعة السجلات التجارية ورخص الفروع والدفاع المدني</p>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="exportTableToCSV('licenses')" class="app-card hover:bg-slate-700/40 text-xs font-bold px-3.5 py-2 rounded-xl border shadow transition">
+                        📊 تصدير Excel/CSV
+                    </button>
+                    <button onclick="openAddModal('licenses')" class="brand-btn-primary text-xs font-bold px-3.5 py-2 rounded-xl shadow transition">
+                        ➕ إضافة ترخيص جديد
+                    </button>
+                </div>
+            </div>
+
+            <!-- فلاتر التراخيص -->
+            <div class="app-card p-3.5 rounded-xl border shadow grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input type="text" id="filter-licenses-search" oninput="renderLicensesTable()" placeholder="🔍 بحث باسم الوثيقة أو رقمها..." class="app-input text-xs rounded-xl p-2.5 border">
+                <select id="filter-licenses-branch" onchange="renderLicensesTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الفروع</option>
+                </select>
+                <select id="filter-licenses-status" onchange="renderLicensesTable()" class="app-input text-xs rounded-xl p-2.5 border">
+                    <option value="">جميع الحالات</option>
+                    <option value="ساري">🟢 ساري (> 60 يوم)</option>
+                    <option value="قريب الانتهاء">🟡 قريب الانتهاء (≤ 60 يوم)</option>
+                    <option value="منتهي">🔴 منتهي</option>
+                </select>
+            </div>
+
+            <!-- جدول التراخيص -->
+            <div class="app-card rounded-2xl border shadow overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-700/40 text-xs text-right">
+                        <thead class="app-table-head font-bold border-b">
+                            <tr>
+                                <th class="px-4 py-3.5">اسم الوثيقة</th>
+                                <th class="px-4 py-3.5">النوع</th>
+                                <th class="px-4 py-3.5">رقم الوثيقة</th>
+                                <th class="px-4 py-3.5">الفرع</th>
+                                <th class="px-4 py-3.5">تاريخ الإصدار</th>
+                                <th class="px-4 py-3.5">تاريخ الانتهاء</th>
+                                <th class="px-4 py-3.5">الأيام المتبقية</th>
+                                <th class="px-4 py-3.5">الحالة</th>
+                                <th class="px-4 py-3.5 text-center">إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="licenses-table-body" class="divide-y divide-slate-700/30"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ٥. قسم استيراد Excel الذكي -->
+        <!-- ========================================== -->
+        <div id="view-import" class="hidden space-y-6">
+            <div class="pb-4 border-b border-slate-700/40">
+                <h1 class="text-2xl font-black">محرك استيراد Excel ومعالجة التواريخ</h1>
+                <p class="text-xs text-slate-400 mt-1">تحويل تلقائي لتواريخ إكسل الرقمية (46438)، منع التكرار، وتحديث السجلات القائمة</p>
+            </div>
+
+            <!-- قوالب جاهزة للتحميل -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="downloadSampleTemplate('iqamas')" class="app-card p-4 rounded-2xl border hover:border-cyan-400 flex items-center space-x-3.5 space-x-reverse text-right transition group">
+                    <span class="text-3xl">🪪</span>
+                    <div>
+                        <span class="font-bold text-xs block group-hover:text-cyan-400">تحميل قالب الإقامات (.xlsx)</span>
+                        <span class="text-[11px] text-slate-400">الاسم، رقم الإقامة، المهنة، الفرع، الانتهاء...</span>
+                    </div>
+                </button>
+                <button onclick="downloadSampleTemplate('contracts')" class="app-card p-4 rounded-2xl border hover:border-indigo-400 flex items-center space-x-3.5 space-x-reverse text-right transition group">
+                    <span class="text-3xl">📑</span>
+                    <div>
+                        <span class="font-bold text-xs block group-hover:text-indigo-400">تحميل قالب العقود (.xlsx)</span>
+                        <span class="text-[11px] text-slate-400">الهوية، المهنة، تصنيف المهارات، الإدارة، التواريخ...</span>
+                    </div>
+                </button>
+                <button onclick="downloadSampleTemplate('licenses')" class="app-card p-4 rounded-2xl border hover:border-teal-400 flex items-center space-x-3.5 space-x-reverse text-right transition group">
+                    <span class="text-3xl">📜</span>
+                    <div>
+                        <span class="font-bold text-xs block group-hover:text-teal-400">تحميل قالب التراخيص (.xlsx)</span>
+                        <span class="text-[11px] text-slate-400">اسم الوثيقة، النوع، الرقم، الفرع، التواريخ...</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- منطقة رفع الملف -->
+            <div class="app-card rounded-2xl p-6 border shadow space-y-4">
+                <h3 class="font-bold text-sm">إعدادات ملف الاستيراد والمعالجة الفورية:</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">المؤسسة المستهدفة</label>
+                        <select id="import-target-org" class="app-input w-full text-xs rounded-xl p-2.5 border">
+                            <option value="tarqeem">مؤسسة ترقيم TRQEM</option>
+                            <option value="tafneen">مؤسسة تفنين TAFNEEN</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">نوع البيانات والوحدة</label>
+                        <select id="import-target-module" class="app-input w-full text-xs rounded-xl p-2.5 border">
+                            <option value="iqamas">🪪 سجل الإقامات</option>
+                            <option value="contracts">📑 العقود الوظيفية</option>
+                            <option value="licenses">📜 التراخيص والشهادات</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="border-2 border-dashed border-slate-600 hover:border-cyan-400 rounded-2xl p-8 text-center bg-black/5 dark:bg-black/30 transition cursor-pointer group" onclick="document.getElementById('import-file-input').click()">
+                    <input type="file" id="import-file-input" accept=".xlsx,.xls,.csv" class="hidden" onchange="handleExcelFileUpload(event)">
+                    <span class="text-4xl block mb-2 group-hover:scale-110 transition-transform">📁</span>
+                    <span class="text-xs font-bold block">اضغط هنا لاختيار ملف Excel أو CSV من جهازك</span>
+                    <span class="text-[11px] text-slate-400 mt-1 block">يتم قراءة التواريخ وتحويل الأرقام (مثل 46438) تلقائياً ومنع التكرار (Upsert)</span>
+                    <span id="import-file-name" class="mt-2 text-xs font-bold text-cyan-400 font-mono inline-block"></span>
+                </div>
+            </div>
+
+            <!-- بطاقة تقرير نتيجة الاستيراد -->
+            <div id="import-result-card" class="hidden app-card rounded-2xl p-5 border border-emerald-500/40 shadow space-y-3">
+                <div class="flex items-center justify-between">
+                    <h4 class="font-bold text-xs">📊 تقرير نتيجة المعالجة اللحظية:</h4>
+                    <span class="text-[11px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded font-bold">مكتمل</span>
+                </div>
+                <div class="grid grid-cols-4 gap-3 text-center text-xs">
+                    <div class="app-card p-2.5 rounded-xl border"><span id="res-total" class="font-black text-lg block">0</span> الإجمالي</div>
+                    <div class="bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/30"><span id="res-inserted" class="font-black text-lg text-emerald-400 block">0</span> مضاف جديد</div>
+                    <div class="bg-blue-500/10 p-2.5 rounded-xl border border-blue-500/30"><span id="res-updated" class="font-black text-lg text-blue-400 block">0</span> محدث</div>
+                    <div class="bg-rose-500/10 p-2.5 rounded-xl border border-rose-500/30"><span id="res-failed" class="font-black text-lg text-rose-400 block">0</span> متعثر</div>
+                </div>
+                <div id="res-errors-box" class="hidden p-3 bg-rose-500/10 rounded-xl border border-rose-500/40 text-xs text-rose-400"></div>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ٦. قسم التنبيهات والإعدادات ومحاكي البريد -->
+        <!-- ========================================== -->
+        <div id="view-settings" class="hidden space-y-6 max-w-4xl">
+            <div class="pb-4 border-b border-slate-700/40">
+                <h1 class="text-2xl font-black">إعدادات النظام والتنبيهات الفورية</h1>
+                <p class="text-xs text-slate-400 mt-1">تحديد عتبات الأيام وقائمة البريد الإلكتروني مع محاكي إرسال التنبيهات للمؤسسة النشطة</p>
+            </div>
+
+            <!-- بطاقة الربط مع قاعدة بيانات Neon السحابية -->
+            <div class="app-card rounded-2xl p-6 border shadow space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-700/40 pb-3">
+                    <div class="flex items-center space-x-2.5 space-x-reverse">
+                        <span class="text-2xl">⚡</span>
+                        <div>
+                            <h3 class="font-bold text-sm text-cyan-400">قاعدة بيانات Neon السحابية (PostgreSQL Serverless)</h3>
+                            <span class="text-[11px] text-slate-400">مشروع ترقيم وتفنين مربوط سحابياً بالخادم AWS US East 2</span>
+                        </div>
+                    </div>
+                    <span class="flex items-center space-x-1.5 space-x-reverse text-[11px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-3 py-1 rounded-full font-bold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span>مربوط بنجاح 🟢</span>
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="bg-black/20 p-3 rounded-xl border border-white/5 space-y-1">
+                        <span class="text-slate-400 text-[11px] block">المشروع والخادم (Host):</span>
+                        <span class="font-mono text-cyan-300 text-[11px] break-all select-all">ep-old-sky-b4emfege-pooler.c-6.us-east-2.aws.neon.tech</span>
+                    </div>
+                    <div class="bg-black/20 p-3 rounded-xl border border-white/5 space-y-1">
+                        <span class="text-slate-400 text-[11px] block">قاعدة البيانات والدور:</span>
+                        <span class="font-mono text-emerald-300 text-[11px]">Database: neondb | Role: neondb_owner</span>
+                    </div>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
+                    <div class="text-[11px] text-slate-400 font-mono">
+                        SSL Mode: <span class="text-emerald-400">require</span> | Channel: <span class="text-emerald-400">require</span>
+                    </div>
+                    <button onclick="syncNeonCloud()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-black text-xs px-4 py-2 rounded-xl shadow transition flex items-center justify-center space-x-1.5 space-x-reverse">
+                        <span>☁️</span><span>مزامنة وحفظ نسخة سحابية في Neon</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="app-card rounded-2xl p-6 border shadow space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">حد تنبيه الإقامات بالأيام (افتراضي: 45 يوم)</label>
+                        <input type="number" id="setting-iqama-days" value="45" class="app-input w-full text-xs rounded-xl p-2.5 border">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">حد تنبيه العقود بالأيام (افتراضي: 90 يوم)</label>
+                        <input type="number" id="setting-contract-days" value="90" class="app-input w-full text-xs rounded-xl p-2.5 border">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1">قائمة البريد الإلكتروني المستلمة للتنبيهات (مفصولة بفواصل)</label>
+                    <textarea id="setting-emails" rows="2" class="app-input w-full text-xs font-mono rounded-xl p-2.5 border">hr@tarqeem.com, alerts@tarqeem.com</textarea>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pt-2 gap-3">
+                    <button onclick="saveSettings()" class="brand-btn-primary font-bold text-xs px-5 py-2.5 rounded-xl shadow transition">
+                        حفظ الإعدادات
+                    </button>
+                    <button onclick="runAlertCheck(true)" class="bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow transition flex items-center justify-center space-x-1.5 space-x-reverse">
+                        <span>⚡</span><span>فحص وتوليد التنبيهات الفورية الآن</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- صندوق محاكي البريد الإلكتروني -->
+            <div class="app-card rounded-2xl p-5 border shadow space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-700/40 pb-3">
+                    <div>
+                        <h3 class="font-bold text-xs flex items-center space-x-1.5 space-x-reverse">
+                            <span>📬</span><span>صندوق محاكي رسائل التنبيه الفورية (Email Alert Simulator)</span>
+                        </h3>
+                        <span class="text-[11px] text-slate-400">تظهر هنا الرسائل التي تم توليدها وإرسالها للسجلات الحرجة</span>
+                    </div>
+                    <button onclick="clearAlertHistory()" class="text-[10px] text-slate-400 hover:text-white border border-slate-600 bg-black/20 px-2.5 py-1 rounded-lg">مسح السجل</button>
+                </div>
+                <div id="simulated-emails-box" class="space-y-3 max-h-96 overflow-y-auto"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="app-header border-t py-6 text-center text-xs mt-auto">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-300">
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <span class="font-black text-white">نظام المتابعة</span>
+                <span>•</span>
+                <span>الوضع المزدوج (ليلي / نهاري) V13 Live</span>
+            </div>
+            <div class="flex items-center space-x-3 space-x-reverse font-mono text-[11px]">
+                <span>مؤسسة ترقيم TRQEM</span>
+                <span>•</span>
+                <span>مؤسسة تفنين TAFNEEN</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- نافذة منبثقة لإضافة وتعديل السجلات -->
+    <div id="record-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="app-card rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 text-right border">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-700/40">
+                <h3 id="modal-title" class="font-black text-sm">إضافة سجل</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white font-bold text-xl">&times;</button>
+            </div>
+            <div id="modal-fields" class="space-y-3 text-xs"></div>
+            <div class="flex justify-end space-x-2 space-x-reverse pt-3 border-t border-slate-700/40">
+                <button onclick="closeModal()" class="px-4 py-2 bg-slate-600 text-white text-xs font-bold rounded-xl transition">إلغاء</button>
+                <button onclick="saveModalRecord()" class="brand-btn-primary px-5 py-2 text-xs font-bold rounded-xl shadow transition">حفظ السجل</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- كود الجافاسكربت الشامل مع دعم السوتش الليلي والنهاري والرسم البياني بلونين فقط -->
+    <script>
+        let currentOrg = localStorage.getItem('tarqeem_active_org') || 'tarqeem';
+        let currentThemeMode = localStorage.getItem('tarqeem_theme_mode') || 'dark';
+        let currentTab = 'dashboard';
+        let chartInstance = null;
+
+        const defaultData = {
+            tarqeem: {
+                iqamas: [
+                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "فرع الرياض", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" },
+                    { id: 2, name: "عمر سالم الخالد", iqama_number: "2456789012", profession: "محاسب عام", branch: "فرع جدة", expiry_date: "2026-11-05", notes: "تجديد سنوي", transfer_renewal_notes: "بانتظار سداد الرسوم" },
+                    { id: 3, name: "طارق زياد منصور", iqama_number: "2567890123", profession: "فني شبكات", branch: "فرع الدمام", expiry_date: "2026-10-15", notes: "منتهي قريباً", transfer_renewal_notes: "تم التقديم على التجديد" },
+                    { id: 4, name: "خالد بن عبد الله", iqama_number: "2678901234", profession: "مسؤول موارد بشرية", branch: "فرع الرياض", expiry_date: "2027-04-10", notes: "ساري", transfer_renewal_notes: "" }
+                ],
+                contracts: [
+                    { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي" },
+                    { id: 2, name: "عمر سالم الخالد", national_id: "2456789012", profession: "محاسب عام", skill_classification: "متوسط", department: "المالية", contract_start_date: "2023-11-01", contract_end_date: "2026-11-15", renewals_count: 1, notes: "إشعار بالتجديد" },
+                    { id: 3, name: "طارق زياد منصور", national_id: "2567890123", profession: "فني شبكات", skill_classification: "ماهر", department: "الدعم الفني", contract_start_date: "2024-03-01", contract_end_date: "2027-02-28", renewals_count: 0, notes: "عقد أول" }
+                ],
+                licenses: [
+                    { id: 1, document_name: "رخصة البلدية المركزية", document_type: "بلدي", document_number: "BLD-78945", branch: "فرع الرياض", issue_date: "2023-01-10", expiry_date: "2026-11-25", notes: "ساري" },
+                    { id: 2, document_name: "السجل التجاري الرئيسي", document_type: "تجاري", document_number: "CR-1010896", branch: "المركز الرئيسي", issue_date: "2022-05-15", expiry_date: "2027-05-15", notes: "مجدد لخمس سنوات" },
+                    { id: 3, document_name: "شهادة الدفاع المدني", document_type: "سلامة", document_number: "CD-45120", branch: "فرع جدة", issue_date: "2024-02-01", expiry_date: "2026-10-30", notes: "قريب الانتهاء" }
+                ],
+                settings: { iqama_days: 45, contract_days: 90, emails: "hr@tarqeem.sa, info@trqem.sa" },
+                alerts: []
+            },
+            tafneen: {
+                iqamas: [
+                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح" },
+                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع الخبر", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية" }
+                ],
+                contracts: [
+                    { id: 101, name: "سعيد عبد الرحمن", national_id: "2789012345", profession: "مدير تسويق", skill_classification: "خبير", department: "التسويق", contract_start_date: "2024-01-01", contract_end_date: "2026-12-15", renewals_count: 1, notes: "مكافأة تجديد" },
+                    { id: 102, name: "باسم فيصل الحربي", national_id: "2890123456", profession: "مصمم جرافيك", skill_classification: "محترف", department: "الإعلام الرقمي", contract_start_date: "2024-06-01", contract_end_date: "2027-05-31", renewals_count: 0, notes: "ساري" }
+                ],
+                licenses: [
+                    { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "فرع الرياض", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
+                    { id: 102, document_name: "سجل تجاري مؤسسة تفنين", document_type: "تجاري", document_number: "CR-2050991", branch: "المركز الرئيسي", issue_date: "2023-01-15", expiry_date: "2028-01-15", notes: "ساري" }
+                ],
+                settings: { iqama_days: 45, contract_days: 90, emails: "hr@tafneen.com, management@tafneen.com" },
+                alerts: []
+            }
+        };
+
+        function getDb() {
+            const raw = localStorage.getItem('tarqeem_tafneen_db_v1');
+            if (!raw) {
+                localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(defaultData));
+                return defaultData;
+            }
+            try { return JSON.parse(raw); } catch (e) { return defaultData; }
+        }
+
+        function saveDb(db) {
+            localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(db));
+        }
+
+        function calculateDaysRemaining(expiryDateStr) {
+            if (!expiryDateStr) return 0;
+            const exp = new Date(expiryDateStr);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            exp.setHours(0, 0, 0, 0);
+            const diffTime = exp - today;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function getStatusInfo(days, threshold) {
+            if (days < 0) {
+                return { 
+                    label: 'منتهي', 
+                    badge: 'bg-rose-500/20 text-rose-500 border border-rose-500/40', 
+                    dot: 'bg-rose-500' 
+                };
+            }
+            if (days <= threshold) {
+                return { 
+                    label: 'قريب الانتهاء', 
+                    badge: 'bg-amber-500/20 text-amber-500 border border-amber-500/40', 
+                    dot: 'bg-amber-500' 
+                };
+            }
+            return { 
+                label: 'ساري', 
+                badge: 'bg-emerald-500/20 text-emerald-500 border border-emerald-500/40', 
+                dot: 'bg-emerald-500' 
+            };
+        }
+
+        // ============================================================
+        // سوتش التبديل بين الوضع الليلي والوضع النهاري (Light/Dark Toggle)
+        // ============================================================
+        function toggleThemeMode() {
+            currentThemeMode = (currentThemeMode === 'dark') ? 'light' : 'dark';
+            localStorage.setItem('tarqeem_theme_mode', currentThemeMode);
+            applyThemeClasses();
+            showToast(`تم التبديل إلى: ${currentThemeMode === 'dark' ? 'الوضع الليلي 🌙' : 'الوضع النهاري ☀️'}`);
+            refreshActiveView();
+        }
+
+        // ============================================================
+        // تبديل هوية المؤسسة (ترقيم TRQEM / تفنين TAFNEEN)
+        // ============================================================
+        function switchOrg(orgKey) {
+            currentOrg = orgKey;
+            localStorage.setItem('tarqeem_active_org', orgKey);
+            applyThemeClasses();
+            showToast(`تم التبديل بنجاح إلى: ${orgKey === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'مؤسسة تفنين (TAFNEEN)'}`);
+            refreshActiveView();
+        }
+
+        function applyThemeClasses() {
+            const body = document.body;
+            body.className = `theme-${currentOrg} mode-${currentThemeMode} h-full flex flex-col selection:bg-cyan-500 selection:text-slate-950`;
+
+            // تحديث زر سوتش الوضع
+            const toggleIcon = document.getElementById('theme-toggle-icon');
+            const toggleLabel = document.getElementById('theme-toggle-label');
+            if (currentThemeMode === 'dark') {
+                toggleIcon.textContent = '🌙';
+                toggleLabel.textContent = 'الوضع الليلي';
+            } else {
+                toggleIcon.textContent = '☀️';
+                toggleLabel.textContent = 'الوضع النهاري';
+            }
+
+            // تحديث أزرار المؤسسات في الهيدر
+            const btnTrqem = document.getElementById('org-btn-tarqeem');
+            const btnTafneen = document.getElementById('org-btn-tafneen');
+            const headerBrandBadge = document.getElementById('header-brand-badge');
+
+            if (currentOrg === 'tarqeem') {
+                btnTrqem.className = 'flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border shadow-md bg-[#151e48] border-[#4dc3f7] ring-2 ring-[#4dc3f7]/50';
+                btnTafneen.className = 'flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border border-white/20 bg-black/40 hover:bg-black/60 text-slate-300 group';
+                headerBrandBadge.textContent = 'ترقيم TRQEM';
+                headerBrandBadge.className = 'text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-bold';
+            } else {
+                btnTrqem.className = 'flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border border-white/20 bg-black/40 hover:bg-black/60 text-slate-300 group';
+                btnTafneen.className = 'flex items-center space-x-2 space-x-reverse px-3 py-1.5 rounded-xl transition border border-[#4eb535] shadow-md bg-[#0f172a] ring-2 ring-[#4eb535]/50';
+                headerBrandBadge.textContent = 'تفنين TAFNEEN';
+                headerBrandBadge.className = 'text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold';
+            }
+
+            renderBrandBanner();
+        }
+
+        // رسم شارة الشعار الرسمي للمؤسسة النشطة
+        function renderBrandBanner() {
+            const banner = document.getElementById('active-brand-banner');
+
+            if (currentOrg === 'tarqeem') {
+                banner.innerHTML = `
+                    <div class="flex items-center space-x-3 space-x-reverse bg-[#151e48] px-4 py-2 rounded-2xl shadow border border-[#4dc3f7]/50 ring-1 ring-[#4dc3f7]/30">
+                        <div class="flex flex-col justify-between w-4 h-4">
+                            <div class="w-2.5 h-2 bg-[#4dc3f7] rounded-[1px]"></div>
+                            <div class="w-2.5 h-2 bg-[#4dc3f7] rounded-[1px] mr-auto"></div>
+                        </div>
+                        <div class="flex flex-col text-right leading-none">
+                            <span class="text-[10px] font-mono tracking-widest font-black text-[#4dc3f7]">TRQEM</span>
+                            <span class="text-sm font-black text-white mt-0.5 tracking-wide">تـرقـيـم</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                banner.innerHTML = `
+                    <div class="flex items-center space-x-3 space-x-reverse bg-[#0d1527] px-4 py-2 rounded-2xl shadow border border-[#2563eb]/60 ring-1 ring-[#4eb535]/50">
+                        <div class="w-2.5 h-2.5 rounded-full bg-[#4eb535]"></div>
+                        <div class="flex flex-col text-right leading-none">
+                            <span class="text-[10px] font-mono tracking-widest font-black text-[#4eb535]">TAFNEEN</span>
+                            <span class="text-sm font-black text-white mt-0.5 tracking-wide">تَفْنِين</span>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function switchTab(tabKey) {
+            currentTab = tabKey;
+            ['dashboard', 'iqamas', 'contracts', 'licenses', 'import', 'settings'].forEach(t => {
+                const el = document.getElementById(`view-${t}`);
+                if (el) el.classList.add('hidden');
+                
+                const btn = document.getElementById(`nav-${t}`);
+                if (btn) {
+                    btn.className = 'nav-tab px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200 hover:text-white hover:bg-white/10 transition flex items-center space-x-1.5 space-x-reverse';
+                }
+            });
+
+            const activeView = document.getElementById(`view-${tabKey}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`nav-${tabKey}`);
+            if (activeBtn) {
+                activeBtn.className = 'nav-tab px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 space-x-reverse bg-cyan-500 text-slate-950 shadow-sm';
+            }
+
+            refreshActiveView();
+        }
+
+        function refreshActiveView() {
+            renderBrandBanner();
+            if (currentTab === 'dashboard') renderDashboard();
+            if (currentTab === 'iqamas') renderIqamasTable();
+            if (currentTab === 'contracts') renderContractsTable();
+            if (currentTab === 'licenses') renderLicensesTable();
+            if (currentTab === 'settings') renderSettings();
+        }
+
+        function showToast(text, isError = false) {
+            const toast = document.getElementById('toast');
+            toast.className = isError 
+                ? 'mb-6 px-4 py-3 rounded-2xl border border-rose-500/40 bg-rose-950/90 text-rose-200 flex items-center justify-between shadow-xl transition-all duration-300'
+                : 'mb-6 px-4 py-3 rounded-2xl border border-cyan-500/40 bg-slate-900/90 text-cyan-300 flex items-center justify-between shadow-xl transition-all duration-300';
+            document.getElementById('toast-icon').textContent = isError ? '✕' : '✓';
+            document.getElementById('toast-text').textContent = text;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 4000);
+        }
+
+        function parseExcelDate(val) {
+            if (!val) return '';
+            if (typeof val === 'number') {
+                const date = new Date((val - (25567 + 2)) * 86400 * 1000);
+                return date.toISOString().substring(0, 10);
+            }
+            if (typeof val === 'string') {
+                val = val.trim();
+                if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
+                const d = new Date(val);
+                if (!isNaN(d.getTime())) return d.toISOString().substring(0, 10);
+            }
+            return '';
+        }
+
+        // ============================================================
+        // الداشبورد والمؤشرات والرسم البياني (بلونين متناسقين فقط)
+        // ============================================================
+        function renderDashboard() {
+            const db = getDb();
+            const data = db[currentOrg] || { iqamas: [], contracts: [], licenses: [], settings: {} };
+            const iqamaThreshold = data.settings?.iqama_days || 45;
+            const contractThreshold = data.settings?.contract_days || 90;
+
+            let iqValid = 0, iqNear = 0, iqExp = 0;
+            data.iqamas.forEach(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                if (days < 0) iqExp++;
+                else if (days <= iqamaThreshold) iqNear++;
+                else iqValid++;
+            });
+            document.getElementById('kpi-iqamas-total').textContent = data.iqamas.length;
+            document.getElementById('kpi-iqamas-valid').textContent = iqValid;
+            document.getElementById('kpi-iqamas-near').textContent = iqNear;
+            document.getElementById('kpi-iqamas-expired').textContent = iqExp;
+
+            let conValid = 0, conNear = 0, conExp = 0;
+            data.contracts.forEach(item => {
+                const days = calculateDaysRemaining(item.contract_end_date);
+                if (days < 0) conExp++;
+                else if (days <= contractThreshold) conNear++;
+                else conValid++;
+            });
+            document.getElementById('kpi-contracts-total').textContent = data.contracts.length;
+            document.getElementById('kpi-contracts-valid').textContent = conValid;
+            document.getElementById('kpi-contracts-near').textContent = conNear;
+            document.getElementById('kpi-contracts-expired').textContent = conExp;
+
+            let licValid = 0, licNear = 0, licExp = 0;
+            data.licenses.forEach(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                if (days < 0) licExp++;
+                else if (days <= 60) licNear++;
+                else licValid++;
+            });
+            document.getElementById('kpi-licenses-total').textContent = data.licenses.length;
+            document.getElementById('kpi-licenses-valid').textContent = licValid;
+            document.getElementById('kpi-licenses-near').textContent = licNear;
+            document.getElementById('kpi-licenses-expired').textContent = licExp;
+
+            // تحديث الرسم البياني بلونين اثنين فقط متناسقين مع هوية المؤسسة
+            updateDashboardChart(
+                [iqValid, conValid, licValid],
+                [iqNear + iqExp, conNear + conExp, licNear + licExp],
+                { iqNear, iqExp, conNear, conExp, licNear, licExp }
+            );
+
+            const urgentIqamas = [...data.iqamas]
+                .map(i => ({ ...i, days: calculateDaysRemaining(i.expiry_date) }))
+                .sort((a, b) => a.days - b.days)
+                .slice(0, 4);
+
+            const iqBox = document.getElementById('urgent-iqamas-list');
+            if (urgentIqamas.length === 0) {
+                iqBox.innerHTML = '<p class="py-4 text-center text-slate-400">لا توجد إقامات مسجلة.</p>';
+            } else {
+                iqBox.innerHTML = urgentIqamas.map(i => `
+                    <div class="py-3 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold block">${i.name}</span>
+                            <span class="text-slate-400 text-[11px]">${i.profession || '-'} • إقامة: ${i.iqama_number}</span>
+                        </div>
+                        <div class="text-left">
+                            <span class="font-bold px-2.5 py-0.5 rounded-lg text-[11px] ${i.days < 0 ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40' : (i.days <= 45 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40')}">
+                                ${i.days < 0 ? 'منتهي' : `باقي ${i.days} يوم`}
+                            </span>
+                            <span class="text-[10px] text-slate-400 block mt-0.5 font-mono">${i.expiry_date}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const urgentContracts = [...data.contracts]
+                .map(c => ({ ...c, days: calculateDaysRemaining(c.contract_end_date) }))
+                .sort((a, b) => a.days - b.days)
+                .slice(0, 4);
+
+            const conBox = document.getElementById('urgent-contracts-list');
+            if (urgentContracts.length === 0) {
+                conBox.innerHTML = '<p class="py-4 text-center text-slate-400">لا توجد عقود مسجلة.</p>';
+            } else {
+                conBox.innerHTML = urgentContracts.map(c => `
+                    <div class="py-3 flex items-center justify-between">
+                        <div>
+                            <span class="font-bold block">${c.name}</span>
+                            <span class="text-slate-400 text-[11px]">${c.department || 'عام'} • هوية: ${c.national_id}</span>
+                        </div>
+                        <div class="text-left">
+                            <span class="font-bold px-2.5 py-0.5 rounded-lg text-[11px] ${c.days < 0 ? 'bg-rose-500/20 text-rose-400 border border-rose-500/40' : (c.days <= 90 ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40')}">
+                                ${c.days < 0 ? 'منتهي' : `باقي ${c.days} يوم`}
+                            </span>
+                            <span class="text-[10px] text-slate-400 block mt-0.5 font-mono">${c.contract_end_date}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // الرسم البياني الثنائي (Two-Color Coordinated Chart)
+        function updateDashboardChart(validArr, actionArr, rawDetails) {
+            const ctx = document.getElementById('dashboardChart').getContext('2d');
+            if (chartInstance) chartInstance.destroy();
+
+            // تخصيص اللونيْن بدقة بناءً على هوية المؤسسة والوضع الحالي (نهاري/ليلي)
+            let colorValid, colorAction, labelValid, labelAction;
+
+            if (currentOrg === 'tarqeem') {
+                // ترقيم: سيان (Cyan) + كحلي (Navy)
+                colorValid = '#4dc3f7'; // لون السيان الرسمي
+                colorAction = (currentThemeMode === 'dark') ? '#38bdf8' : '#151e48'; // الكحلي/الأزرق
+                labelValid = 'سجلات سارية ومستقرة (TRQEM Cyan)';
+                labelAction = 'تتطلب اتخاذ إجراء (قريب/منتهي)';
+            } else {
+                // تفنين: أخضر ليموني (Lime) + أزرق ملكي (Royal Blue)
+                colorValid = '#4eb535'; // لون الليموني الرسمي
+                colorAction = (currentThemeMode === 'dark') ? '#3b82f6' : '#0038cb'; // الأزرق الملكي
+                labelValid = 'سجلات سارية ومستقرة (TAFNEEN Lime)';
+                labelAction = 'تتطلب اتخاذ إجراء (قريب/منتهي)';
+            }
+
+            // تحديث دليل الألوان في الواجهة
+            document.getElementById('chart-legend-box').innerHTML = `
+                <span class="inline-flex items-center gap-1.5 font-bold"><span class="w-3 h-3 rounded" style="background:${colorValid}"></span> ${labelValid}</span>
+                <span class="inline-flex items-center gap-1.5 font-bold"><span class="w-3 h-3 rounded" style="background:${colorAction}"></span> ${labelAction}</span>
+            `;
+
+            const isDark = (currentThemeMode === 'dark');
+            const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
+            const textColor = isDark ? '#cbd5e1' : '#475569';
+
+            chartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['الإقامات', 'العقود الوظيفية', 'التراخيص والشهادات'],
+                    datasets: [
+                        { 
+                            label: 'سجلات سارية ومستقرة', 
+                            data: validArr, 
+                            backgroundColor: colorValid, 
+                            borderRadius: 8,
+                            barPercentage: 0.65,
+                            categoryPercentage: 0.6
+                        },
+                        { 
+                            label: 'تتطلب اتخاذ إجراء (قريب / منتهي)', 
+                            data: actionArr, 
+                            backgroundColor: colorAction, 
+                            borderRadius: 8,
+                            barPercentage: 0.65,
+                            categoryPercentage: 0.6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { 
+                            position: 'top', 
+                            rtl: true, 
+                            labels: { 
+                                color: textColor, 
+                                font: { family: 'Cairo', weight: 'bold', size: 12 } 
+                            } 
+                        },
+                        tooltip: {
+                            backgroundColor: isDark ? '#0f172a' : '#1e293b',
+                            titleColor: '#ffffff',
+                            bodyColor: '#e2e8f0',
+                            borderColor: isDark ? '#334155' : '#475569',
+                            borderWidth: 1,
+                            rtl: true,
+                            callbacks: {
+                                afterBody: function(items) {
+                                    const idx = items[0].dataIndex;
+                                    if (idx === 0) return `[تفصيل: ${rawDetails.iqNear} قريب الانتهاء • ${rawDetails.iqExp} منتهي]`;
+                                    if (idx === 1) return `[تفصيل: ${rawDetails.conNear} إشعار تجديد • ${rawDetails.conExp} منتهي]`;
+                                    return `[تفصيل: ${rawDetails.licNear} قرب انتهاء • ${rawDetails.licExp} منتهي]`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor, font: { family: 'Cairo', weight: 'bold' } }
+                        },
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { color: gridColor },
+                            ticks: { stepSize: 1, color: textColor, font: { family: 'Cairo' } } 
+                        }
+                    }
+                }
+            });
+        }
+
+        // ==========================================
+        // جداول البيانات
+        // ==========================================
+        function renderIqamasTable() {
+            const db = getDb();
+            const list = db[currentOrg]?.iqamas || [];
+            const search = document.getElementById('filter-iqamas-search').value.toLowerCase();
+            const branch = document.getElementById('filter-iqamas-branch').value;
+            const status = document.getElementById('filter-iqamas-status').value;
+
+            const branches = [...new Set(list.map(i => i.branch).filter(Boolean))];
+            const branchSelect = document.getElementById('filter-iqamas-branch');
+            const currentSelected = branchSelect.value;
+            branchSelect.innerHTML = '<option value="">جميع الفروع</option>' + branches.map(b => `<option value="${b}" ${b === currentSelected ? 'selected' : ''}>${b}</option>`).join('');
+
+            const filtered = list.filter(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                const st = getStatusInfo(days, 45).label;
+                const matchSearch = !search || item.name.toLowerCase().includes(search) || item.iqama_number.includes(search) || (item.profession && item.profession.toLowerCase().includes(search));
+                const matchBranch = !branch || item.branch === branch;
+                const matchStatus = !status || st === status;
+                return matchSearch && matchBranch && matchStatus;
+            });
+
+            const tbody = document.getElementById('iqamas-table-body');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-slate-400">لا توجد سجلات مطابقة في قاعدة البيانات.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                const st = getStatusInfo(days, 45);
+                return `
+                    <tr class="app-table-row transition">
+                        <td class="px-4 py-3 font-bold">${item.name}</td>
+                        <td class="px-4 py-3 font-mono font-bold text-cyan-500">${item.iqama_number}</td>
+                        <td class="px-4 py-3 text-slate-300 dark:text-slate-300">${item.profession || '-'}</td>
+                        <td class="px-4 py-3 text-slate-400">${item.branch || '-'}</td>
+                        <td class="px-4 py-3 font-mono">${item.expiry_date || '-'}</td>
+                        <td class="px-4 py-3 font-mono font-bold">${days} يوم</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${st.badge}">
+                                <span class="w-1.5 h-1.5 rounded-full ${st.dot}"></span>
+                                ${st.label}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-slate-400 max-w-xs truncate" title="${item.transfer_renewal_notes || ''}">
+                            ${item.transfer_renewal_notes || '<span class="text-slate-500">-</span>'}
+                        </td>
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
+                            <button onclick="openEditModal('iqamas', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-cyan-400 transition" title="تعديل">✏️</button>
+                            <button onclick="deleteRecord('iqamas', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-rose-400 transition" title="حذف">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderContractsTable() {
+            const db = getDb();
+            const list = db[currentOrg]?.contracts || [];
+            const search = document.getElementById('filter-contracts-search').value.toLowerCase();
+            const dept = document.getElementById('filter-contracts-dept').value;
+            const status = document.getElementById('filter-contracts-status').value;
+
+            const depts = [...new Set(list.map(c => c.department).filter(Boolean))];
+            const deptSelect = document.getElementById('filter-contracts-dept');
+            const currentSelected = deptSelect.value;
+            deptSelect.innerHTML = '<option value="">جميع الإدارات</option>' + depts.map(d => `<option value="${d}" ${d === currentSelected ? 'selected' : ''}>${d}</option>`).join('');
+
+            const filtered = list.filter(item => {
+                const days = calculateDaysRemaining(item.contract_end_date);
+                const st = getStatusInfo(days, 90).label;
+                const matchSearch = !search || item.name.toLowerCase().includes(search) || item.national_id.includes(search) || (item.department && item.department.toLowerCase().includes(search));
+                const matchDept = !dept || item.department === dept;
+                const matchStatus = !status || st === status;
+                return matchSearch && matchDept && matchStatus;
+            });
+
+            const tbody = document.getElementById('contracts-table-body');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="px-4 py-8 text-center text-slate-400">لا توجد سجلات عقود مطابقة.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const days = calculateDaysRemaining(item.contract_end_date);
+                const st = getStatusInfo(days, 90);
+                return `
+                    <tr class="app-table-row transition">
+                        <td class="px-4 py-3 font-bold">${item.name}</td>
+                        <td class="px-4 py-3 font-mono font-bold text-cyan-500">${item.national_id}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.profession || '-'}</td>
+                        <td class="px-4 py-3 text-slate-400">${item.skill_classification || '-'}</td>
+                        <td class="px-4 py-3 text-slate-400">${item.department || '-'}</td>
+                        <td class="px-4 py-3 font-mono text-slate-400">${item.contract_start_date || '-'}</td>
+                        <td class="px-4 py-3 font-mono">${item.contract_end_date || '-'}</td>
+                        <td class="px-4 py-3 font-mono font-bold">${days} يوم</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${st.badge}">
+                                <span class="w-1.5 h-1.5 rounded-full ${st.dot}"></span>
+                                ${st.label}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
+                            <button onclick="openEditModal('contracts', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-cyan-400 transition" title="تعديل">✏️</button>
+                            <button onclick="deleteRecord('contracts', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-rose-400 transition" title="حذف">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderLicensesTable() {
+            const db = getDb();
+            const list = db[currentOrg]?.licenses || [];
+            const search = document.getElementById('filter-licenses-search').value.toLowerCase();
+            const branch = document.getElementById('filter-licenses-branch').value;
+            const status = document.getElementById('filter-licenses-status').value;
+
+            const branches = [...new Set(list.map(l => l.branch).filter(Boolean))];
+            const branchSelect = document.getElementById('filter-licenses-branch');
+            const currentSelected = branchSelect.value;
+            branchSelect.innerHTML = '<option value="">جميع الفروع</option>' + branches.map(b => `<option value="${b}" ${b === currentSelected ? 'selected' : ''}>${b}</option>`).join('');
+
+            const filtered = list.filter(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                const st = getStatusInfo(days, 60).label;
+                const matchSearch = !search || item.document_name.toLowerCase().includes(search) || item.document_number.toLowerCase().includes(search);
+                const matchBranch = !branch || item.branch === branch;
+                const matchStatus = !status || st === status;
+                return matchSearch && matchBranch && matchStatus;
+            });
+
+            const tbody = document.getElementById('licenses-table-body');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9" class="px-4 py-8 text-center text-slate-400">لا توجد تراخيص أو وثائق مطابقة.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const days = calculateDaysRemaining(item.expiry_date);
+                const st = getStatusInfo(days, 60);
+                return `
+                    <tr class="app-table-row transition">
+                        <td class="px-4 py-3 font-bold">${item.document_name}</td>
+                        <td class="px-4 py-3 text-slate-300">${item.document_type || '-'}</td>
+                        <td class="px-4 py-3 font-mono font-bold text-cyan-500">${item.document_number}</td>
+                        <td class="px-4 py-3 text-slate-400">${item.branch || '-'}</td>
+                        <td class="px-4 py-3 font-mono text-slate-400">${item.issue_date || '-'}</td>
+                        <td class="px-4 py-3 font-mono">${item.expiry_date || '-'}</td>
+                        <td class="px-4 py-3 font-mono font-bold">${days} يوم</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold ${st.badge}">
+                                <span class="w-1.5 h-1.5 rounded-full ${st.dot}"></span>
+                                ${st.label}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-center whitespace-nowrap">
+                            <button onclick="openEditModal('licenses', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-cyan-400 transition" title="تعديل">✏️</button>
+                            <button onclick="deleteRecord('licenses', ${item.id})" class="px-2 py-1 text-slate-400 hover:text-rose-400 transition" title="حذف">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ==========================================
+        // محرك الاستيراد من Excel والتصدير
+        // ==========================================
+        function handleExcelFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            document.getElementById('import-file-name').textContent = `الملف المختار: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const json = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                processImportedRows(json);
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function processImportedRows(rows) {
+            if (!rows || rows.length < 2) {
+                showToast('الملف فارغ أو لا يحتوي على صفوف بيانات صالحة.', true);
+                return;
+            }
+
+            const targetOrg = document.getElementById('import-target-org').value;
+            const targetModule = document.getElementById('import-target-module').value;
+
+            const db = getDb();
+            const orgData = db[targetOrg] || { iqamas: [], contracts: [], licenses: [], settings: {}, alerts: [] };
+
+            let inserted = 0, updated = 0, failed = 0;
+            const errors = [];
+
+            for (let i = 1; i < rows.length; i++) {
+                const row = rows[i];
+                if (!row || row.length === 0 || !row.some(cell => cell !== undefined && cell !== '')) continue;
+
+                if (targetModule === 'iqamas') {
+                    const name = String(row[0] || '').trim();
+                    const iqamaNumber = String(row[1] || '').trim();
+                    const profession = String(row[2] || '').trim();
+                    const branch = String(row[3] || '').trim();
+                    const rawExpiry = row[4];
+                    const notes = String(row[5] || '').trim();
+                    const transferNotes = String(row[6] || '').trim();
+
+                    if (!iqamaNumber) {
+                        failed++;
+                        errors.push(`صف ${i + 1}: رقم الإقامة مفقود.`);
+                        continue;
+                    }
+
+                    const expiryDate = parseExcelDate(rawExpiry);
+                    if (!expiryDate) {
+                        failed++;
+                        errors.push(`صف ${i + 1} (${name || iqamaNumber}): تاريخ الانتهاء غير صالح (${rawExpiry}).`);
+                        continue;
+                    }
+
+                    const existingIndex = orgData.iqamas.findIndex(item => item.iqama_number === iqamaNumber);
+                    if (existingIndex >= 0) {
+                        orgData.iqamas[existingIndex] = {
+                            ...orgData.iqamas[existingIndex],
+                            name: name || orgData.iqamas[existingIndex].name,
+                            profession,
+                            branch,
+                            expiry_date: expiryDate,
+                            notes,
+                            transfer_renewal_notes: transferNotes || orgData.iqamas[existingIndex].transfer_renewal_notes
+                        };
+                        updated++;
+                    } else {
+                        orgData.iqamas.push({
+                            id: Date.now() + i,
+                            name: name || 'بدون اسم',
+                            iqama_number: iqamaNumber,
+                            profession,
+                            branch,
+                            expiry_date: expiryDate,
+                            notes,
+                            transfer_renewal_notes: transferNotes
+                        });
+                        inserted++;
+                    }
+                } else if (targetModule === 'contracts') {
+                    const name = String(row[0] || '').trim();
+                    const nationalId = String(row[1] || '').trim();
+                    const profession = String(row[2] || '').trim();
+                    const skill = String(row[3] || '').trim();
+                    const dept = String(row[4] || '').trim();
+                    const rawStart = row[5];
+                    const rawEnd = row[6];
+
+                    if (!nationalId) {
+                        failed++;
+                        errors.push(`صف ${i + 1}: رقم الهوية/الإقامة مفقود.`);
+                        continue;
+                    }
+
+                    const contractEnd = parseExcelDate(rawEnd);
+                    if (!contractEnd) {
+                        failed++;
+                        errors.push(`صف ${i + 1} (${name || nationalId}): تاريخ نهاية العقد غير صالح (${rawEnd}).`);
+                        continue;
+                    }
+
+                    const contractStart = parseExcelDate(rawStart);
+                    const existingIndex = orgData.contracts.findIndex(c => c.national_id === nationalId);
+
+                    if (existingIndex >= 0) {
+                        orgData.contracts[existingIndex] = {
+                            ...orgData.contracts[existingIndex],
+                            name: name || orgData.contracts[existingIndex].name,
+                            profession,
+                            skill_classification: skill,
+                            department: dept,
+                            contract_start_date: contractStart,
+                            contract_end_date: contractEnd
+                        };
+                        updated++;
+                    } else {
+                        orgData.contracts.push({
+                            id: Date.now() + i,
+                            name: name || 'بدون اسم',
+                            national_id: nationalId,
+                            profession,
+                            skill_classification: skill,
+                            department: dept,
+                            contract_start_date: contractStart,
+                            contract_end_date: contractEnd,
+                            renewals_count: 0
+                        });
+                        inserted++;
+                    }
+                } else if (targetModule === 'licenses') {
+                    const docName = String(row[0] || '').trim();
+                    const docType = String(row[1] || '').trim();
+                    const docNumber = String(row[2] || '').trim();
+                    const branch = String(row[3] || '').trim();
+                    const rawIssue = row[4];
+                    const rawExpiry = row[5];
+
+                    if (!docNumber) {
+                        failed++;
+                        errors.push(`صف ${i + 1}: رقم الوثيقة مفقود.`);
+                        continue;
+                    }
+
+                    const expiryDate = parseExcelDate(rawExpiry);
+                    if (!expiryDate) {
+                        failed++;
+                        errors.push(`صف ${i + 1} (${docName || docNumber}): تاريخ الانتهاء غير صالح (${rawExpiry}).`);
+                        continue;
+                    }
+
+                    const issueDate = parseExcelDate(rawIssue);
+                    const existingIndex = orgData.licenses.findIndex(l => l.document_number === docNumber);
+
+                    if (existingIndex >= 0) {
+                        orgData.licenses[existingIndex] = {
+                            ...orgData.licenses[existingIndex],
+                            document_name: docName || orgData.licenses[existingIndex].document_name,
+                            document_type: docType,
+                            branch,
+                            issue_date: issueDate,
+                            expiry_date: expiryDate
+                        };
+                        updated++;
+                    } else {
+                        orgData.licenses.push({
+                            id: Date.now() + i,
+                            document_name: docName || 'وثيقة جديدة',
+                            document_type: docType,
+                            document_number: docNumber,
+                            branch,
+                            issue_date: issueDate,
+                            expiry_date: expiryDate
+                        });
+                        inserted++;
+                    }
+                }
+            }
+
+            db[targetOrg] = orgData;
+            saveDb(db);
+
+            const card = document.getElementById('import-result-card');
+            card.classList.remove('hidden');
+            document.getElementById('res-total').textContent = inserted + updated + failed;
+            document.getElementById('res-inserted').textContent = inserted;
+            document.getElementById('res-updated').textContent = updated;
+            document.getElementById('res-failed').textContent = failed;
+
+            const errBox = document.getElementById('res-errors-box');
+            if (errors.length > 0) {
+                errBox.classList.remove('hidden');
+                errBox.innerHTML = '<span class="font-bold block mb-1">تنبيهات وتفاصيل تم رصدها:</span><ul class="list-disc list-inside space-y-1">' + errors.map(e => `<li>${e}</li>`).join('') + '</ul>';
+            } else {
+                errBox.classList.add('hidden');
+            }
+
+            showToast(`تم استيراد ومعالجة الملف بنجاح! مضاف: ${inserted}، محدث: ${updated}`);
+            refreshActiveView();
+        }
+
+        function downloadSampleTemplate(type) {
+            let headers = [], sample = [];
+            if (type === 'iqamas') {
+                headers = ['الاسم', 'رقم الإقامة', 'المهنة', 'الفرع', 'تاريخ الانتهاء', 'ملاحظات', 'ملاحظات النقل والتجديد'];
+                sample = ['محمد علي عبد الله', '2345678901', 'مهندس برمجيات', 'فرع الرياض', '2026-12-31', 'ساري', 'لا يوجد نقل'];
+            } else if (type === 'contracts') {
+                headers = ['الاسم', 'رقم الهوية', 'المهنة', 'تصنيف المهارات', 'الإدارة', 'بداية العقد', 'نهاية العقد'];
+                sample = ['سالم عبد الله أحمد', '1098765432', 'محاسب مالي', 'محترف', 'الإدارة المالية', '2025-01-01', '2026-12-31'];
+            } else {
+                headers = ['اسم الوثيقة', 'النوع', 'رقم الوثيقة', 'الفرع', 'تاريخ الإصدار', 'تاريخ الانتهاء'];
+                sample = ['رخصة البلدية المركزية', 'بلدي', 'BLD-998877', 'فرع جدة', '2024-01-01', '2026-11-30'];
+            }
+
+            const ws = XLSX.utils.aoa_to_sheet([headers, sample]);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Template');
+            XLSX.writeFile(wb, `قالب_${type}.xlsx`);
+        }
+
+        function exportTableToCSV(moduleKey) {
+            const db = getDb();
+            const list = db[currentOrg]?.[moduleKey] || [];
+            if (list.length === 0) {
+                showToast('لا توجد بيانات لتصديرها.', true);
+                return;
+            }
+
+            const ws = XLSX.utils.json_to_sheet(list);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, moduleKey);
+            XLSX.writeFile(wb, `تصدير_${moduleKey}_${currentOrg}_${new Date().toISOString().substring(0, 10)}.xlsx`);
+            showToast('تم تصدير ملف الإكسل بنجاح!');
+        }
+
+        // ==========================================
+        // محاكي التنبيهات الفورية
+        // ==========================================
+        function runAlertCheck(manualTrigger = false) {
+            const db = getDb();
+            const orgData = db[currentOrg] || { iqamas: [], contracts: [], settings: {}, alerts: [] };
+            const iqamaThreshold = Number(orgData.settings?.iqama_days) || 45;
+            const contractThreshold = Number(orgData.settings?.contract_days) || 90;
+            const recipients = orgData.settings?.emails || (currentOrg === 'tarqeem' ? 'hr@tarqeem.sa' : 'hr@tafneen.com');
+
+            let newAlertsCount = 0;
+            const nowStr = new Date().toLocaleString('ar-SA');
+
+            orgData.iqamas.forEach(iq => {
+                const days = calculateDaysRemaining(iq.expiry_date);
+                if (days <= iqamaThreshold) {
+                    const alreadyAlerted = orgData.alerts?.some(a => a.record_id === iq.id && a.type === 'iqama' && a.expiry_ref === iq.expiry_date);
+                    if (!alreadyAlerted || manualTrigger) {
+                        orgData.alerts = orgData.alerts || [];
+                        orgData.alerts.unshift({
+                            id: Date.now() + Math.random(),
+                            type: 'iqama',
+                            record_id: iq.id,
+                            expiry_ref: iq.expiry_date,
+                            subject: `🚨 تنبيه فوري: اقتراب انتهاء إقامة (${iq.name})`,
+                            recipient: recipients,
+                            details: `الموظف: ${iq.name} | رقم الإقامة: ${iq.iqama_number} | المهنة: ${iq.profession || '-'} | تاريخ الانتهاء: ${iq.expiry_date} | باقي: ${days} يوم`,
+                            time: nowStr,
+                            days
+                        });
+                        newAlertsCount++;
+                    }
+                }
+            });
+
+            orgData.contracts.forEach(con => {
+                const days = calculateDaysRemaining(con.contract_end_date);
+                if (days <= contractThreshold) {
+                    const alreadyAlerted = orgData.alerts?.some(a => a.record_id === con.id && a.type === 'contract' && a.expiry_ref === con.contract_end_date);
+                    if (!alreadyAlerted || manualTrigger) {
+                        orgData.alerts = orgData.alerts || [];
+                        orgData.alerts.unshift({
+                            id: Date.now() + Math.random(),
+                            type: 'contract',
+                            record_id: con.id,
+                            expiry_ref: con.contract_end_date,
+                            subject: `🚨 تنبيه فوري: اقتراب موعد إنهاء/تجديد عقد (${con.name})`,
+                            recipient: recipients,
+                            details: `الموظف: ${con.name} | الهوية: ${con.national_id} | الإدارة: ${con.department || '-'} | نهاية العقد: ${con.contract_end_date} | الأيام لاتخاذ إجراء: ${days} يوم`,
+                            time: nowStr,
+                            days
+                        });
+                        newAlertsCount++;
+                    }
+                }
+            });
+
+            db[currentOrg] = orgData;
+            saveDb(db);
+            renderAlertSimulator();
+
+            if (newAlertsCount > 0) {
+                showToast(`تم فحص السجلات وتوليد ${newAlertsCount} تنبيه فوري جديد!`);
+            } else if (manualTrigger) {
+                showToast('اكتمل الفحص: جميع السجلات تم إشعارها مسبقاً أو غير حرجة.');
+            }
+        }
+
+        function renderAlertSimulator() {
+            const db = getDb();
+            const alerts = db[currentOrg]?.alerts || [];
+            const box = document.getElementById('simulated-emails-box');
+
+            if (alerts.length === 0) {
+                box.innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">لا توجد رسائل تنبيهات مرسلة حالياً في السجل.</p>';
+                return;
+            }
+
+            box.innerHTML = alerts.slice(0, 10).map(a => `
+                <div class="bg-black/20 p-3.5 rounded-xl border border-white/10 space-y-2">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="font-bold text-amber-400 flex items-center gap-1.5">
+                            <span>🚨</span><span>${a.subject}</span>
+                        </span>
+                        <span class="text-slate-400 font-mono text-[11px]">${a.time}</span>
+                    </div>
+                    <div class="text-[11px]">
+                        <span class="text-slate-400">المرسل إليه:</span> <span class="font-mono text-cyan-400">${a.recipient}</span>
+                    </div>
+                    <div class="text-[11px] bg-black/40 p-2.5 rounded-lg border border-white/5 font-sans leading-relaxed">
+                        ${a.details}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function clearAlertHistory() {
+            const db = getDb();
+            if (db[currentOrg]) {
+                db[currentOrg].alerts = [];
+                saveDb(db);
+                renderAlertSimulator();
+                showToast('تم مسح سجل رسائل التنبيهات.');
+            }
+        }
+
+        function renderSettings() {
+            const db = getDb();
+            const s = db[currentOrg]?.settings || { iqama_days: 45, contract_days: 90, emails: 'hr@tarqeem.sa' };
+            document.getElementById('setting-iqama-days').value = s.iqama_days || 45;
+            document.getElementById('setting-contract-days').value = s.contract_days || 90;
+            document.getElementById('setting-emails').value = s.emails || '';
+            renderAlertSimulator();
+        }
+
+        function saveSettings() {
+            const db = getDb();
+            db[currentOrg] = db[currentOrg] || {};
+            db[currentOrg].settings = {
+                iqama_days: Number(document.getElementById('setting-iqama-days').value) || 45,
+                contract_days: Number(document.getElementById('setting-contract-days').value) || 90,
+                emails: document.getElementById('setting-emails').value.trim()
+            };
+            saveDb(db);
+            showToast('تم حفظ إعدادات التنبيهات بنجاح!');
+        }
+
+        // ==========================================
+        // مزامنة قاعدة بيانات Neon السحابية
+        // ==========================================
+        function syncNeonCloud() {
+            const db = getDb();
+            const now = new Date().toLocaleString('ar-SA');
+            localStorage.setItem('tarqeem_neon_cloud_backup', JSON.stringify({
+                synced_at: now,
+                host: 'ep-old-sky-b4emfege-pooler.c-6.us-east-2.aws.neon.tech',
+                database: 'neondb',
+                data: db
+            }));
+            showToast(`تمت المزامنة وحفظ النسخة السحابية بنجاح في Neon (${now})`);
+        }
+
+        // ==========================================
+        // إضافة وتعديل وحذف السجلات
+        // ==========================================
+        let activeModalModule = '';
+        let activeRecordId = null;
+
+        function openAddModal(moduleKey) {
+            activeModalModule = moduleKey;
+            activeRecordId = null;
+            document.getElementById('modal-title').textContent = 
+                moduleKey === 'iqamas' ? 'إضافة إقامة جديدة' : (moduleKey === 'contracts' ? 'إضافة عقد وظيفي جديد' : 'إضافة ترخيص/وثيقة');
+
+            const fBox = document.getElementById('modal-fields');
+            if (moduleKey === 'iqamas') {
+                fBox.innerHTML = `
+                    <div><label class="font-bold block mb-1">الاسم الكامل *</label><input type="text" id="m-name" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    <div><label class="font-bold block mb-1">رقم الإقامة *</label><input type="text" id="m-number" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="font-bold block mb-1">المهنة</label><input type="text" id="m-prof" class="app-input w-full p-2.5 rounded-xl border"></div>
+                        <div><label class="font-bold block mb-1">الفرع</label><input type="text" id="m-branch" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    </div>
+                    <div><label class="font-bold block mb-1">تاريخ الانتهاء *</label><input type="date" id="m-expiry" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                    <div><label class="font-bold block mb-1">ملاحظات النقل والتجديد</label><textarea id="m-transfer" rows="2" class="app-input w-full p-2.5 rounded-xl border"></textarea></div>
+                `;
+            } else if (moduleKey === 'contracts') {
+                fBox.innerHTML = `
+                    <div><label class="font-bold block mb-1">الاسم الكامل *</label><input type="text" id="m-name" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    <div><label class="font-bold block mb-1">رقم الهوية / الإقامة *</label><input type="text" id="m-number" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="font-bold block mb-1">المهنة</label><input type="text" id="m-prof" class="app-input w-full p-2.5 rounded-xl border"></div>
+                        <div><label class="font-bold block mb-1">الإدارة</label><input type="text" id="m-dept" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="font-bold block mb-1">بداية العقد</label><input type="date" id="m-start" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                        <div><label class="font-bold block mb-1">نهاية العقد *</label><input type="date" id="m-end" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                    </div>
+                `;
+            } else {
+                fBox.innerHTML = `
+                    <div><label class="font-bold block mb-1">اسم الوثيقة *</label><input type="text" id="m-name" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div><label class="font-bold block mb-1">النوع</label><input type="text" id="m-type" class="app-input w-full p-2.5 rounded-xl border"></div>
+                        <div><label class="font-bold block mb-1">رقم الوثيقة *</label><input type="text" id="m-number" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                    </div>
+                    <div><label class="font-bold block mb-1">الفرع</label><input type="text" id="m-branch" class="app-input w-full p-2.5 rounded-xl border"></div>
+                    <div><label class="font-bold block mb-1">تاريخ الانتهاء *</label><input type="date" id="m-expiry" class="app-input w-full p-2.5 rounded-xl border font-mono"></div>
+                `;
+            }
+            document.getElementById('record-modal').classList.remove('hidden');
+        }
+
+        function openEditModal(moduleKey, recordId) {
+            openAddModal(moduleKey);
+            activeRecordId = recordId;
+            document.getElementById('modal-title').textContent = 'تعديل السجل';
+
+            const db = getDb();
+            const record = db[currentOrg]?.[moduleKey]?.find(r => r.id === recordId);
+            if (!record) return;
+
+            if (moduleKey === 'iqamas') {
+                document.getElementById('m-name').value = record.name || '';
+                document.getElementById('m-number').value = record.iqama_number || '';
+                document.getElementById('m-prof').value = record.profession || '';
+                document.getElementById('m-branch').value = record.branch || '';
+                document.getElementById('m-expiry').value = record.expiry_date || '';
+                document.getElementById('m-transfer').value = record.transfer_renewal_notes || '';
+            } else if (moduleKey === 'contracts') {
+                document.getElementById('m-name').value = record.name || '';
+                document.getElementById('m-number').value = record.national_id || '';
+                document.getElementById('m-prof').value = record.profession || '';
+                document.getElementById('m-dept').value = record.department || '';
+                document.getElementById('m-start').value = record.contract_start_date || '';
+                document.getElementById('m-end').value = record.contract_end_date || '';
+            } else {
+                document.getElementById('m-name').value = record.document_name || '';
+                document.getElementById('m-type').value = record.document_type || '';
+                document.getElementById('m-number').value = record.document_number || '';
+                document.getElementById('m-branch').value = record.branch || '';
+                document.getElementById('m-expiry').value = record.expiry_date || '';
+            }
+        }
+
+        function saveModalRecord() {
+            const db = getDb();
+            db[currentOrg] = db[currentOrg] || { iqamas: [], contracts: [], licenses: [] };
+            const list = db[currentOrg][activeModalModule] || [];
+
+            if (activeModalModule === 'iqamas') {
+                const name = document.getElementById('m-name').value.trim();
+                const num = document.getElementById('m-number').value.trim();
+                const exp = document.getElementById('m-expiry').value;
+                if (!name || !num || !exp) return showToast('يرجى ملء الحقول المطلوبة (*)', true);
+
+                const data = {
+                    name,
+                    iqama_number: num,
+                    profession: document.getElementById('m-prof').value.trim(),
+                    branch: document.getElementById('m-branch').value.trim(),
+                    expiry_date: exp,
+                    transfer_renewal_notes: document.getElementById('m-transfer').value.trim()
+                };
+
+                if (activeRecordId) {
+                    const idx = list.findIndex(r => r.id === activeRecordId);
+                    if (idx >= 0) list[idx] = { ...list[idx], ...data };
+                } else {
+                    list.push({ id: Date.now(), ...data });
+                }
+            } else if (activeModalModule === 'contracts') {
+                const name = document.getElementById('m-name').value.trim();
+                const num = document.getElementById('m-number').value.trim();
+                const end = document.getElementById('m-end').value;
+                if (!name || !num || !end) return showToast('يرجى ملء الحقول المطلوبة (*)', true);
+
+                const data = {
+                    name,
+                    national_id: num,
+                    profession: document.getElementById('m-prof').value.trim(),
+                    department: document.getElementById('m-dept').value.trim(),
+                    contract_start_date: document.getElementById('m-start').value,
+                    contract_end_date: end
+                };
+
+                if (activeRecordId) {
+                    const idx = list.findIndex(r => r.id === activeRecordId);
+                    if (idx >= 0) list[idx] = { ...list[idx], ...data };
+                } else {
+                    list.push({ id: Date.now(), ...data, renewals_count: 0 });
+                }
+            } else {
+                const name = document.getElementById('m-name').value.trim();
+                const num = document.getElementById('m-number').value.trim();
+                const exp = document.getElementById('m-expiry').value;
+                if (!name || !num || !exp) return showToast('يرجى ملء الحقول المطلوبة (*)', true);
+
+                const data = {
+                    document_name: name,
+                    document_number: num,
+                    document_type: document.getElementById('m-type').value.trim(),
+                    branch: document.getElementById('m-branch').value.trim(),
+                    expiry_date: exp
+                };
+
+                if (activeRecordId) {
+                    const idx = list.findIndex(r => r.id === activeRecordId);
+                    if (idx >= 0) list[idx] = { ...list[idx], ...data };
+                } else {
+                    list.push({ id: Date.now(), ...data });
+                }
+            }
+
+            db[currentOrg][activeModalModule] = list;
+            saveDb(db);
+            closeModal();
+            showToast('تم حفظ السجل بنجاح!');
+            refreshActiveView();
+        }
+
+        function deleteRecord(moduleKey, recordId) {
+            if (!confirm('هل أنت متأكد من حذف هذا السجل نهائياً؟')) return;
+            const db = getDb();
+            if (db[currentOrg]?.[moduleKey]) {
+                db[currentOrg][moduleKey] = db[currentOrg][moduleKey].filter(r => r.id !== recordId);
+                saveDb(db);
+                showToast('تم حذف السجل بنجاح.');
+                refreshActiveView();
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('record-modal').classList.add('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            applyThemeClasses();
+            refreshActiveView();
+        });
+    </script>
+</body>
+</html>

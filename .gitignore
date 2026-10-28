@@ -1,0 +1,26 @@
+# Dependencies
+/vendor
+/node_modules
+
+# Environment
+.env
+.env.backup
+.env.production
+
+# Logs & Storage
+*.log
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# OS / Editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
