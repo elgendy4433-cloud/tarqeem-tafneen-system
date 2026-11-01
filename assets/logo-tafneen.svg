@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 70" width="240" height="70">
+  <rect width="240" height="70" rx="14" fill="#0d1424" stroke="#1e2d4d" stroke-width="1.5"/>
+  <!-- Circular green glowing dot -->
+  <circle cx="45" cy="35" r="5" fill="#4eb535" filter="drop-shadow(0 0 6px #4eb535)"/>
+  <!-- Arabic word تفنين in bright royal blue / white -->
+  <text x="145" y="38" text-anchor="middle" fill="#ffffff" font-family="'Cairo', sans-serif" font-weight="900" font-size="26" letter-spacing="1">تَفْنِين</text>
+  <!-- English word TAFNEEN in vibrant lime green -->
+  <text x="145" y="56" text-anchor="middle" fill="#4eb535" font-family="'Cairo', sans-serif" font-weight="900" font-size="11" letter-spacing="3">TAFNEEN</text>
+</svg>

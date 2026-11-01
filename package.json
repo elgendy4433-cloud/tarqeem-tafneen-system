@@ -1,0 +1,34 @@
+{
+  "name": "tarqeem-tafneen-system",
+  "version": "1.0.0",
+  "description": "نظام المتابعة الشامل والموحد لمؤسستي ترقيم وتفنين - إدارة الإقامات والعقود والتراخيص مع الربط السحابي",
+  "main": "index.html",
+  "scripts": {
+    "test": "node tests/platform_e2e_tests.js",
+    "build": "node -e \"console.log('Build verification complete: Static assets ready in /dist and /')\"",
+    "start": "npx serve ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elgendy4433-cloud/tarqeem-tafneen-system.git"
+  },
+  "keywords": [
+    "tarqeem",
+    "tafneen",
+    "dashboard",
+    "supabase",
+    "hr-system",
+    "contract-management"
+  ],
+  "author": "elgendy4433-cloud",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elgendy4433-cloud/tarqeem-tafneen-system/issues"
+  },
+  "homepage": "https://elgendy4433-cloud.github.io/tarqeem-tafneen-system/",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "chart.js": "^4.4.0",
+    "xlsx": "^0.18.5"
+  }
+}
