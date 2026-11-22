@@ -116,36 +116,54 @@
                         <!-- بطاقة ترقيم -->
                         <button type="button" onclick="selectLoginOrg('tarqeem')" id="login-card-tarqeem" class="p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-sky-500 bg-sky-50/80 dark:bg-sky-950/40 ring-2 ring-sky-500/20 shadow-sm cursor-pointer">
                             <div class="flex items-center justify-between w-full mb-2">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center">
-                                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                                        </svg>
-                                    </div>
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center">
+                                    <svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="trqGradLogin" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#38bdf8"/>
+                                                <stop offset="100%" stop-color="#0284c7"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="48" height="48" rx="14" fill="#080e22" stroke="url(#trqGradLogin)" stroke-width="2"/>
+                                        <rect x="26" y="12" width="12" height="8" rx="2.5" fill="url(#trqGradLogin)"/>
+                                        <rect x="10" y="28" width="12" height="8" rx="2.5" fill="url(#trqGradLogin)"/>
+                                        <circle cx="16" cy="16" r="2.8" fill="#38bdf8"/>
+                                        <circle cx="23" cy="16" r="2.8" fill="#38bdf8"/>
+                                        <path d="M12 24C18 24 24 23 30 18" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+                                        <path d="M18 32H36" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round"/>
+                                    </svg>
                                 </div>
                                 <span id="login-check-tarqeem" class="w-5 h-5 rounded-full bg-sky-500 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
                             </div>
                             <div>
                                 <span class="block text-xs font-black text-slate-900 dark:text-white">مؤسسة ترقيم</span>
-                                <span class="text-[10px] text-sky-600 dark:text-sky-400 font-mono font-bold tracking-wider">TRQEM PORTAL</span>
+                                <span class="text-[10px] text-sky-600 dark:text-sky-400 font-mono font-bold tracking-wider">مكة المكرمة • TRQEM</span>
                             </div>
                         </button>
 
                         <!-- بطاقة تفنين -->
                         <button type="button" onclick="selectLoginOrg('tafneen')" id="login-card-tafneen" class="p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer">
                             <div class="flex items-center justify-between w-full mb-2">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-emerald-500 p-0.5 shadow-md shadow-blue-500/20 flex items-center justify-center">
-                                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                        </svg>
-                                    </div>
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center">
+                                    <svg class="w-10 h-10" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="tafGradLogin" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#2563eb"/>
+                                                <stop offset="60%" stop-color="#10b981"/>
+                                                <stop offset="100%" stop-color="#059669"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="48" height="48" rx="14" fill="#060c18" stroke="url(#tafGradLogin)" stroke-width="2"/>
+                                        <path d="M16 28C16 21 20.5 17 26 17C31 17 34 20 34 24.5C34 28.5 31 31.5 26.5 31.5C21.5 31.5 16 28 16 28Z" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="26" cy="11.5" r="3.5" fill="#10b981"/>
+                                        <path d="M12 28H36" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                                    </svg>
                                 </div>
                                 <span id="login-check-tafneen" class="hidden w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
                             </div>
                             <div>
                                 <span class="block text-xs font-black text-slate-900 dark:text-white">شركة تفنين</span>
-                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold tracking-wider">TAFNEEN PORTAL</span>
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold tracking-wider">جدة • TAFNEEN</span>
                             </div>
                         </button>
                     </div>
@@ -270,12 +288,22 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3 space-x-reverse">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-lg shadow-sky-500/30 flex items-center justify-center">
-                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                                        </svg>
-                                    </div>
+                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0">
+                                    <svg class="w-14 h-14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="trqGradSelect" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#38bdf8"/>
+                                                <stop offset="100%" stop-color="#0284c7"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="48" height="48" rx="14" fill="#080e22" stroke="url(#trqGradSelect)" stroke-width="2"/>
+                                        <rect x="26" y="12" width="12" height="8" rx="2.5" fill="url(#trqGradSelect)"/>
+                                        <rect x="10" y="28" width="12" height="8" rx="2.5" fill="url(#trqGradSelect)"/>
+                                        <circle cx="16" cy="16" r="2.8" fill="#38bdf8"/>
+                                        <circle cx="23" cy="16" r="2.8" fill="#38bdf8"/>
+                                        <path d="M12 24C18 24 24 23 30 18" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+                                        <path d="M18 32H36" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <span class="text-xs font-mono font-black text-sky-500 tracking-wider block">TRQEM</span>
@@ -284,7 +312,7 @@
                             </div>
                             <span id="badge-access-tarqeem" class="text-[10px] px-2.5 py-1 rounded-full font-bold">مصرح لك 🟢</span>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 1010896541 • المركز الرئيسي الرياض</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 1010896541 • المقر الرئيسي: مكة المكرمة</p>
                         <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
                             <div class="flex justify-between"><span>الدور المخصص:</span><span id="role-text-tarqeem" class="font-bold text-sky-600 dark:text-sky-400">مدير عام</span></div>
                             <div class="flex justify-between"><span>بيانات المؤسسة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص ترقيم</span></div>
@@ -301,12 +329,20 @@
                     <div class="space-y-4">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center space-x-3 space-x-reverse">
-                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-0.5 shadow-lg shadow-emerald-500/30 flex items-center justify-center">
-                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                        <svg class="w-8 h-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                        </svg>
-                                    </div>
+                                <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0">
+                                    <svg class="w-14 h-14" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <defs>
+                                            <linearGradient id="tafGradSelect" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#2563eb"/>
+                                                <stop offset="60%" stop-color="#10b981"/>
+                                                <stop offset="100%" stop-color="#059669"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <rect width="48" height="48" rx="14" fill="#060c18" stroke="url(#tafGradSelect)" stroke-width="2"/>
+                                        <path d="M16 28C16 21 20.5 17 26 17C31 17 34 20 34 24.5C34 28.5 31 31.5 26.5 31.5C21.5 31.5 16 28 16 28Z" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <circle cx="26" cy="11.5" r="3.5" fill="#10b981"/>
+                                        <path d="M12 28H36" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                                    </svg>
                                 </div>
                                 <div>
                                     <span class="text-xs font-mono font-black text-emerald-500 tracking-wider block">TAFNEEN</span>
@@ -315,7 +351,7 @@
                             </div>
                             <span id="badge-access-tafneen" class="text-[10px] px-2.5 py-1 rounded-full font-bold">مصرح لك 🟢</span>
                         </div>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 2050991423 • المقر الرئيسي الدمام</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 2050991423 • المقر الرئيسي: جدة</p>
                         <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
                             <div class="flex justify-between"><span>الدور المخصص:</span><span id="role-text-tafneen" class="font-bold text-emerald-600 dark:text-emerald-400">مشرف</span></div>
                             <div class="flex justify-between"><span>بيانات الشركة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص تفنين</span></div>
@@ -345,63 +381,88 @@
         <!-- الشريط العلوي الرئيسي الثابت (Sticky Full-Width Header) -->
         <header id="main-top-navbar" class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-200">
             
-            <!-- السطر العلوي: الشعار وهوية المنشأة وأدوات التحكم والحساب -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/80">
+            <!-- السطر الأول: هوية المنشأة الرسمية (مؤسسة ترقيم / شركة تفنين) والشعار المربع الرسمي وأدوات الإجراءات -->
+            <div id="top-branding-row" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/80">
                 
-                <!-- هوية المنشأة والشعار الرسمي المكبر -->
-                <div class="flex items-center space-x-3.5 space-x-reverse">
-                    <div id="topbar-logo-badge" class="flex items-center space-x-3 space-x-reverse">
-                        <div id="topbar-logo-icon" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center shrink-0">
-                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                <svg class="w-7 h-7 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                                </svg>
-                            </div>
+                <!-- هوية المنشأة والشعار المربع الرسمي المعتمد -->
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <!-- المربع الرسمي المعتمد للشعار -->
+                    <div id="topbar-logo-icon" class="w-14 h-14 sm:w-16 sm:h-16 shrink-0 flex items-center justify-center transition-transform hover:scale-105">
+                        <svg class="w-14 h-14 sm:w-16 sm:h-16" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="trqSvgGradStatic" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#38bdf8"/>
+                                    <stop offset="100%" stop-color="#0284c7"/>
+                                </linearGradient>
+                                <linearGradient id="trqSvgBgStatic" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#0b1736"/>
+                                    <stop offset="100%" stop-color="#040817"/>
+                                </linearGradient>
+                            </defs>
+                            <rect width="48" height="48" rx="14" fill="url(#trqSvgBgStatic)"/>
+                            <rect x="1.5" y="1.5" width="45" height="45" rx="12.5" stroke="url(#trqSvgGradStatic)" stroke-width="2" stroke-opacity="0.8"/>
+                            <rect x="26" y="12" width="12" height="8" rx="2.5" fill="url(#trqSvgGradStatic)"/>
+                            <rect x="10" y="28" width="12" height="8" rx="2.5" fill="url(#trqSvgGradStatic)"/>
+                            <circle cx="16" cy="16" r="2.8" fill="#38bdf8"/>
+                            <circle cx="23" cy="16" r="2.8" fill="#38bdf8"/>
+                            <path d="M12 24C18 24 24 23 30 18" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M18 32H36" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round"/>
+                            <text x="24" y="42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="5.5" font-weight="900" fill="#38bdf8" letter-spacing="1">TRQEM</text>
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2.5 space-x-reverse">
+                            <h1 id="topbar-org-name" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-none">مؤسسة ترقيم</h1>
+                            <span id="topbar-org-code" class="text-xs font-mono font-black px-2.5 py-0.5 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-300 dark:border-sky-800">TRQEM MODE</span>
+                            <span class="inline-flex items-center text-[11px] text-emerald-500 font-bold">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 ml-1.5 animate-pulse"></span>
+                                نشط لحظياً
+                            </span>
                         </div>
-                        <div>
-                            <div class="flex items-center space-x-2 space-x-reverse">
-                                <span id="topbar-org-name" class="text-base font-black text-slate-900 dark:text-white tracking-tight leading-none">مؤسسة ترقيم</span>
-                                <span id="topbar-org-code" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">TRQEM</span>
-                            </div>
-                            <span id="topbar-org-sub" class="text-[11px] text-slate-400 font-medium block mt-0.5">سجل تجاري: 1010896541 • المركز الرئيسي</span>
-                        </div>
+                        <p id="topbar-org-sub" class="text-xs text-slate-500 dark:text-slate-400 font-medium">سجل تجاري: 1010896541 • المقر الرئيسي: مكة المكرمة • مؤشرات المتابعة اللحظية</p>
                     </div>
                 </div>
 
-                <!-- أدوات التحكم والملف الشخصي والتبديل للأدمن -->
-                <div class="flex items-center space-x-2.5 space-x-reverse">
-                    
-                    <!-- زر تبديل المنشأة المباشر (يظهر فقط للأدمن) -->
-                    <button onclick="openCompanySelectionScreen()" id="top-switch-company-btn" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-sky-500/20 flex items-center space-x-1.5 space-x-reverse cursor-pointer" title="تبديل المنشأة (متاح لمدير النظام فقط)">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                <!-- أزرار الإجراءات السريعة وأدوات التحكم (الأدمن، المظهر، الحساب) -->
+                <div class="flex items-center space-x-2 space-x-reverse flex-wrap gap-y-2">
+                    <button onclick="switchTab('import')" class="px-3.5 py-2 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 space-x-reverse shadow-sm">
+                        <span>📥</span><span>استيراد ملف</span>
+                    </button>
+                    <button onclick="openSendEmailModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 space-x-reverse" title="إرسال تقرير تنبيهات السجلات الحرجة">
+                        <span>📧</span><span>إرسال تقرير</span>
+                    </button>
+
+                    <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
+
+                    <!-- زر تبديل المنشأة المباشر (للأدمن فقط) -->
+                    <button onclick="openCompanySelectionScreen()" id="top-switch-company-btn" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 space-x-reverse cursor-pointer" title="تبديل المنشأة (متاح لمدير النظام فقط)">
                         <span>تبديل المنشأة ⇄</span>
                     </button>
 
-                    <!-- سوتش المظهر (Dark / Light Mode) -->
-                    <button onclick="toggleThemeMode()" id="theme-toggle-btn" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="تبديل المظهر النهاري/الليلي">
+                    <!-- زر المظهر -->
+                    <button onclick="toggleThemeMode()" id="theme-toggle-btn" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="تبديل المظهر">
                         <span id="theme-toggle-icon">🌙</span>
                     </button>
 
-                    <!-- بطاقة المستخدم وتسجيل الخروج -->
+                    <!-- بطاقة المستخدم -->
                     <div id="top-user-pill" class="flex items-center space-x-2 space-x-reverse pl-1 pr-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
-                        <div id="user-avatar" class="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                        <div id="user-avatar" class="w-6 h-6 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
                             م
                         </div>
                         <div class="hidden sm:block text-right">
                             <span id="user-name-display" class="text-xs font-bold text-slate-900 dark:text-white block leading-none">مدير عام</span>
                             <span id="user-role-badge" class="text-[9px] text-slate-400 font-mono">ADMIN</span>
                         </div>
-                        <button onclick="logoutUser()" class="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition shrink-0" title="تسجيل الخروج">
+                        <button onclick="logoutUser()" class="p-1 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition shrink-0" title="تسجيل الخروج">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                         </button>
                     </div>
-
                 </div>
             </div>
 
-            <!-- السطر الثاني: شريط التبويبات العلوي الأفقي (Horizontal Navigation Tabs) -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
-                <nav id="top-nav-tabs" class="flex items-center space-x-1 space-x-reverse py-1.5 min-w-max">
+            <!-- السطر الثاني: شريط التبويبات العلوي الأفقي (نزّلناها لتكون تحت مؤسسة ترقيم!) -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto bg-slate-50/70 dark:bg-slate-900/70">
+                <nav id="top-nav-tabs" class="flex items-center space-x-1.5 space-x-reverse py-2 min-w-max">
                     <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                         <span>لوحة المؤشرات</span>
@@ -451,48 +512,6 @@
                 <!-- ============================================================ -->
                 <div id="view-dashboard" class="space-y-6">
                     
-                    <!-- بطاقة الترويسة الرئيسية الموسعة والشعار البارز (Dashboard Hero Card) -->
-                    <div id="dashboard-hero-card" class="rounded-3xl p-6 sm:p-7 border-2 border-sky-500/30 bg-gradient-to-r from-sky-50/50 via-white to-sky-50/20 dark:from-sky-950/20 dark:via-slate-900 dark:to-slate-900/80 shadow-xl shadow-sky-500/5 transition-all duration-300">
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                            
-                            <!-- شعار الشركة المكبر ومعلومات المنشأة -->
-                            <div class="flex items-center space-x-4 space-x-reverse">
-                                <div id="dash-hero-logo" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-1 shadow-xl shadow-sky-500/25 flex items-center justify-center shrink-0">
-                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
-                                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="space-y-1">
-                                    <div class="flex items-center space-x-2.5 space-x-reverse">
-                                        <h1 id="dash-hero-title" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">مؤسسة ترقيم</h1>
-                                        <span id="dash-brand-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-300 dark:border-sky-800">TRQEM MODE</span>
-                                    </div>
-                                    <p id="dash-hero-sub" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">سجل تجاري: 1010896541 • المركز الرئيسي الرياض • مؤشرات المتابعة اللحظية</p>
-                                    <div class="flex items-center space-x-3 space-x-reverse text-[11px] text-slate-400 pt-0.5">
-                                        <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 ml-1.5 animate-pulse"></span>النظام نشط ومحدث لحظياً</span>
-                                        <span>•</span>
-                                        <span id="dash-today-date" class="font-mono"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- أزرار الإجراءات السريعة في الترويسة -->
-                            <div class="flex items-center space-x-2.5 space-x-reverse shrink-0">
-                                <button onclick="switchTab('import')" class="px-4 py-2.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 space-x-reverse shadow-sm">
-                                    <span>📥</span><span>استيراد ملف</span>
-                                </button>
-                                <button onclick="openSendEmailModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-md shadow-emerald-500/20 flex items-center space-x-1.5 space-x-reverse" title="إرسال تقرير تنبيهات السجلات الحرجة إلى البريد الإلكتروني">
-                                    <span>📧</span><span>إرسال تقرير</span>
-                                </button>
-                                <button onclick="runAlertCheck(true)" id="dash-alert-btn" class="px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition shadow-md shadow-sky-500/25 flex items-center space-x-1.5 space-x-reverse">
-                                    <span>⚡</span><span>فحص التنبيهات</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- شريط خيارات وفلاتر المؤشرات (KPI Control & Filter Bar) -->
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
                         
@@ -1360,10 +1379,10 @@
         const defaultData = {
             tarqeem: {
                 iqamas: [
-                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "فرع الرياض", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" },
+                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" },
                     { id: 2, name: "عمر سالم الخالد", iqama_number: "2456789012", profession: "محاسب عام", branch: "فرع جدة", expiry_date: "2026-11-05", notes: "تجديد سنوي", transfer_renewal_notes: "بانتظار سداد الرسوم" },
-                    { id: 3, name: "طارق زياد منصور", iqama_number: "2567890123", profession: "فني شبكات", branch: "فرع الدمام", expiry_date: "2026-10-15", notes: "منتهي قريباً", transfer_renewal_notes: "تم التقديم على التجديد" },
-                    { id: 4, name: "خالد بن عبد الله", iqama_number: "2678901234", profession: "مسؤول موارد بشرية", branch: "فرع الرياض", expiry_date: "2027-04-10", notes: "ساري", transfer_renewal_notes: "" }
+                    { id: 3, name: "طارق زياد منصور", iqama_number: "2567890123", profession: "فني شبكات", branch: "فرع الطائف", expiry_date: "2026-10-15", notes: "منتهي قريباً", transfer_renewal_notes: "تم التقديم على التجديد" },
+                    { id: 4, name: "خالد بن عبد الله", iqama_number: "2678901234", profession: "مسؤول موارد بشرية", branch: "فرع مكة المكرمة", expiry_date: "2027-04-10", notes: "ساري", transfer_renewal_notes: "" }
                 ],
                 contracts: [
                     { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي" },
@@ -1371,8 +1390,8 @@
                     { id: 3, name: "طارق زياد منصور", national_id: "2567890123", profession: "فني شبكات", skill_classification: "ماهر", department: "الدعم الفني", contract_start_date: "2024-03-01", contract_end_date: "2027-02-28", renewals_count: 0, notes: "عقد أول" }
                 ],
                 licenses: [
-                    { id: 1, document_name: "رخصة البلدية المركزية", document_type: "بلدي", document_number: "BLD-78945", branch: "فرع الرياض", issue_date: "2023-01-10", expiry_date: "2026-11-25", notes: "ساري" },
-                    { id: 2, document_name: "السجل التجاري الرئيسي", document_type: "تجاري", document_number: "CR-1010896", branch: "المركز الرئيسي", issue_date: "2022-05-15", expiry_date: "2027-05-15", notes: "مجدد لخمس سنوات" },
+                    { id: 1, document_name: "رخصة البلدية المركزية", document_type: "بلدي", document_number: "BLD-78945", branch: "فرع مكة المكرمة", issue_date: "2023-01-10", expiry_date: "2026-11-25", notes: "ساري" },
+                    { id: 2, document_name: "السجل التجاري الرئيسي", document_type: "تجاري", document_number: "CR-1010896", branch: "المقر الرئيسي مكة", issue_date: "2022-05-15", expiry_date: "2027-05-15", notes: "مجدد لخمس سنوات" },
                     { id: 3, document_name: "شهادة الدفاع المدني", document_type: "سلامة", document_number: "CD-45120", branch: "فرع جدة", issue_date: "2024-02-01", expiry_date: "2026-10-30", notes: "قريب الانتهاء" }
                 ],
                 settings: { iqama_days: 45, contract_days: 90, license_days: 60, emails: "hr@tarqeem.sa, info@trqem.sa", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
@@ -1384,16 +1403,16 @@
             },
             tafneen: {
                 iqamas: [
-                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح" },
-                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع الخبر", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية" }
+                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي جدة", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح" },
+                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع مكة المكرمة", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية" }
                 ],
                 contracts: [
                     { id: 101, name: "سعيد عبد الرحمن", national_id: "2789012345", profession: "مدير تسويق", skill_classification: "خبير", department: "التسويق", contract_start_date: "2024-01-01", contract_end_date: "2026-12-15", renewals_count: 1, notes: "مكافأة تجديد" },
                     { id: 102, name: "باسم فيصل الحربي", national_id: "2890123456", profession: "مصمم جرافيك", skill_classification: "محترف", department: "الإعلام الرقمي", contract_start_date: "2024-06-01", contract_end_date: "2027-05-31", renewals_count: 0, notes: "ساري" }
                 ],
                 licenses: [
-                    { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "فرع الرياض", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
-                    { id: 102, document_name: "سجل تجاري شركة تفنين", document_type: "تجاري", document_number: "CR-2050991", branch: "المركز الرئيسي", issue_date: "2023-01-15", expiry_date: "2028-01-15", notes: "ساري" }
+                    { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "المقر الرئيسي جدة", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
+                    { id: 102, document_name: "سجل تجاري شركة تفنين", document_type: "تجاري", document_number: "CR-2050991", branch: "المركز الرئيسي جدة", issue_date: "2023-01-15", expiry_date: "2028-01-15", notes: "ساري" }
                 ],
                 settings: { iqama_days: 45, contract_days: 90, license_days: 60, emails: "hr@tafneen.com, management@tafneen.com", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
                 members: [
@@ -1788,17 +1807,61 @@
         }
 
         // مولد الشعارات المتجهة الرسمية الفاخرة (Vector SVG Generator)
-        function getOrgLogoSvg(orgKey, sizeClass = 'w-7 h-7') {
+        function getOrgLogoSvg(orgKey, sizeClass = 'w-12 h-12') {
             if (orgKey === 'tarqeem') {
                 return `
-                    <svg class="${sizeClass} text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    <svg class="${sizeClass}" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="trqSvgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#38bdf8"/>
+                                <stop offset="100%" stop-color="#0284c7"/>
+                            </linearGradient>
+                            <linearGradient id="trqSvgBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#0b1736"/>
+                                <stop offset="100%" stop-color="#040817"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- الإطار الخارجي المتوهج للشعار المربع -->
+                        <rect width="48" height="48" rx="14" fill="url(#trqSvgBg)"/>
+                        <rect x="1.5" y="1.5" width="45" height="45" rx="12.5" stroke="url(#trqSvgGrad)" stroke-width="2" stroke-opacity="0.8"/>
+                        <!-- علامات الترقيم الرقمية المزدوجة التوقيعية (TRQEM Quotation Blocks) -->
+                        <rect x="26" y="12" width="12" height="8" rx="2.5" fill="url(#trqSvgGrad)"/>
+                        <rect x="10" y="28" width="12" height="8" rx="2.5" fill="url(#trqSvgGrad)"/>
+                        <!-- النقطتان التوقيعيتان لحرف التاء في ترقيم -->
+                        <circle cx="16" cy="16" r="2.8" fill="#38bdf8"/>
+                        <circle cx="23" cy="16" r="2.8" fill="#38bdf8"/>
+                        <!-- خط التشكيل الانسيابي الأنيق -->
+                        <path d="M12 24C18 24 24 23 30 18" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round"/>
+                        <path d="M18 32H36" stroke="#e0f2fe" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- نص TRQEM المونوغرامي الفاخر -->
+                        <text x="24" y="42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="5.5" font-weight="900" fill="#38bdf8" letter-spacing="1">TRQEM</text>
                     </svg>
                 `;
             } else {
                 return `
-                    <svg class="${sizeClass} text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    <svg class="${sizeClass}" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="tafSvgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#2563eb"/>
+                                <stop offset="60%" stop-color="#10b981"/>
+                                <stop offset="100%" stop-color="#059669"/>
+                            </linearGradient>
+                            <linearGradient id="tafSvgBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#091322"/>
+                                <stop offset="100%" stop-color="#030811"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- الإطار الخارجي المتوهج للشعار المربع -->
+                        <rect width="48" height="48" rx="14" fill="url(#tafSvgBg)"/>
+                        <rect x="1.5" y="1.5" width="45" height="45" rx="12.5" stroke="url(#tafSvgGrad)" stroke-width="2" stroke-opacity="0.8"/>
+                        <!-- مونوغرام حرف الفاء الإبداعي (حلقة الفن والإتقان) -->
+                        <path d="M16 28C16 21 20.5 17 26 17C31 17 34 20 34 24.5C34 28.5 31 31.5 26.5 31.5C21.5 31.5 16 28 16 28Z" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- نقطة تفنين الزمردية الإبداعية المتوهجة -->
+                        <circle cx="26" cy="11.5" r="3.5" fill="#10b981"/>
+                        <!-- خط التشكيل الفني الأخضر -->
+                        <path d="M12 28H36" stroke="#10b981" stroke-width="2.5" stroke-linecap="round"/>
+                        <!-- نص TAFNEEN المونوغرامي الفاخر -->
+                        <text x="24" y="42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="5" font-weight="900" fill="#10b981" letter-spacing="1">TAFNEEN</text>
                     </svg>
                 `;
             }
@@ -1815,21 +1878,19 @@
             const switchBtn = document.getElementById('top-switch-company-btn');
 
             if (logoIcon) {
-                if (isTarqeem) {
-                    logoIcon.className = 'w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center shrink-0';
-                    logoIcon.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tarqeem', 'w-7 h-7')}</div>`;
-                } else {
-                    logoIcon.className = 'w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-0.5 shadow-md shadow-emerald-500/20 flex items-center justify-center shrink-0';
-                    logoIcon.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tafneen', 'w-7 h-7')}</div>`;
-                }
+                logoIcon.innerHTML = getOrgLogoSvg(currentOrg, 'w-14 h-14 sm:w-16 sm:h-16');
             }
 
             if (orgName) orgName.textContent = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
             if (orgCode) {
-                orgCode.textContent = isTarqeem ? 'TRQEM' : 'TAFNEEN';
-                orgCode.className = `text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'}`;
+                orgCode.textContent = isTarqeem ? 'TRQEM MODE' : 'TAFNEEN MODE';
+                orgCode.className = `text-[10px] sm:text-xs font-mono font-black px-2.5 py-0.5 rounded-full ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-300 dark:border-sky-800' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800'}`;
             }
-            if (orgSub) orgSub.textContent = isTarqeem ? 'سجل تجاري: 1010896541 • المركز الرئيسي الرياض' : 'سجل تجاري: 2050991423 • المقر الرئيسي الدمام';
+            if (orgSub) {
+                orgSub.textContent = isTarqeem 
+                    ? 'سجل تجاري: 1010896541 • المقر الرئيسي: مكة المكرمة • مؤشرات المتابعة اللحظية' 
+                    : 'سجل تجاري: 2050991423 • المقر الرئيسي: جدة • مؤشرات المتابعة اللحظية';
+            }
 
             if (switchBtn) {
                 switchBtn.className = isTarqeem 
@@ -1837,7 +1898,9 @@
                     : 'px-3.5 py-2 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-emerald-500/20 flex items-center space-x-1.5 space-x-reverse cursor-pointer';
             }
 
-            // 2. تحديث بطاقة الترويسة الرئيسية في لوحة المؤشرات (Dashboard Hero Card)
+
+
+            // 2. تحديث بطاقة الترويسة في الداشبورد في حال وجودها
             const heroCard = document.getElementById('dashboard-hero-card');
             const heroLogo = document.getElementById('dash-hero-logo');
             const heroTitle = document.getElementById('dash-hero-title');
@@ -1859,17 +1922,15 @@
             }
 
             if (heroLogo) {
-                if (isTarqeem) {
-                    heroLogo.className = 'w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-1 shadow-xl shadow-sky-500/25 flex items-center justify-center shrink-0';
-                    heroLogo.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tarqeem', 'w-10 h-10 sm:w-12 sm:h-12')}</div>`;
-                } else {
-                    heroLogo.className = 'w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-1 shadow-xl shadow-emerald-500/25 flex items-center justify-center shrink-0';
-                    heroLogo.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tafneen', 'w-10 h-10 sm:w-12 sm:h-12')}</div>`;
-                }
+                heroLogo.innerHTML = getOrgLogoSvg(currentOrg, 'w-16 h-16 sm:w-20 sm:h-20');
             }
 
             if (heroTitle) heroTitle.textContent = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
-            if (heroSub) heroSub.textContent = isTarqeem ? 'سجل تجاري: 1010896541 • المركز الرئيسي الرياض • مؤشرات المتابعة اللحظية' : 'سجل تجاري: 2050991423 • المقر الرئيسي الدمام • مؤشرات المتابعة اللحظية';
+            if (heroSub) {
+                heroSub.textContent = isTarqeem 
+                    ? 'سجل تجاري: 1010896541 • المقر الرئيسي: مكة المكرمة • مؤشرات المتابعة اللحظية' 
+                    : 'سجل تجاري: 2050991423 • المقر الرئيسي: جدة • مؤشرات المتابعة اللحظية';
+            }
             if (dashBadge) {
                 dashBadge.textContent = isTarqeem ? 'TRQEM MODE' : 'TAFNEEN MODE';
                 dashBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-bold font-mono border ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-300 dark:border-sky-800' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'}`;
