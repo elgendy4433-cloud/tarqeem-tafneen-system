@@ -108,6 +108,49 @@
 
             <!-- تبويب الدخول الرئيسي -->
             <div id="gate-view-login" class="space-y-4">
+                
+                <!-- خيار تحديد المنشأة من صفحة الدخول مباشرة -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">اختر منشأة الدخول المخصصة:</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <!-- بطاقة ترقيم -->
+                        <button type="button" onclick="selectLoginOrg('tarqeem')" id="login-card-tarqeem" class="p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-sky-500 bg-sky-50/80 dark:bg-sky-950/40 ring-2 ring-sky-500/20 shadow-sm cursor-pointer">
+                            <div class="flex items-center justify-between w-full mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-400 to-sky-600 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center">
+                                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-sky-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span id="login-check-tarqeem" class="w-5 h-5 rounded-full bg-sky-500 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-black text-slate-900 dark:text-white">مؤسسة ترقيم</span>
+                                <span class="text-[10px] text-sky-600 dark:text-sky-400 font-mono font-bold tracking-wider">TRQEM PORTAL</span>
+                            </div>
+                        </button>
+
+                        <!-- بطاقة تفنين -->
+                        <button type="button" onclick="selectLoginOrg('tafneen')" id="login-card-tafneen" class="p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer">
+                            <div class="flex items-center justify-between w-full mb-2">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-emerald-500 p-0.5 shadow-md shadow-blue-500/20 flex items-center justify-center">
+                                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <span id="login-check-tafneen" class="hidden w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold">✓</span>
+                            </div>
+                            <div>
+                                <span class="block text-xs font-black text-slate-900 dark:text-white">شركة تفنين</span>
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold tracking-wider">TAFNEEN PORTAL</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">البريد الإلكتروني المهني</label>
                     <div class="relative">
@@ -223,48 +266,62 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 
                 <!-- بطاقة ترقيم -->
-                <div id="company-card-tarqeem" class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-200 hover:border-sky-500">
-                    <div class="space-y-3">
+                <div id="company-card-tarqeem" class="border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-6 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300 hover:border-sky-500 hover:shadow-xl hover:shadow-sky-500/10">
+                    <div class="space-y-4">
                         <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-500 flex items-center justify-center font-black text-sm">
-                                TRQ
+                            <div class="flex items-center space-x-3 space-x-reverse">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-lg shadow-sky-500/30 flex items-center justify-center">
+                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-mono font-black text-sky-500 tracking-wider block">TRQEM</span>
+                                    <h3 class="text-lg font-black text-slate-900 dark:text-white leading-tight">مؤسسة ترقيم</h3>
+                                </div>
                             </div>
-                            <span id="badge-access-tarqeem" class="text-[10px] px-2 py-0.5 rounded-full font-semibold">مصرح لك 🟢</span>
+                            <span id="badge-access-tarqeem" class="text-[10px] px-2.5 py-1 rounded-full font-bold">مصرح لك 🟢</span>
                         </div>
-                        <div>
-                            <h3 class="text-base font-bold text-slate-900 dark:text-white">مؤسسة ترقيم (TRQEM)</h3>
-                            <span class="text-xs text-slate-500 block mt-0.5">سجل تجاري: 1010896541 • المركز الرئيسي</span>
-                        </div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 space-y-1">
+                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 1010896541 • المركز الرئيسي الرياض</p>
+                        <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
                             <div class="flex justify-between"><span>الدور المخصص:</span><span id="role-text-tarqeem" class="font-bold text-sky-600 dark:text-sky-400">مدير عام</span></div>
-                            <div class="flex justify-between"><span>البيانات المتاحة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص</span></div>
+                            <div class="flex justify-between"><span>بيانات المؤسسة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص ترقيم</span></div>
                         </div>
                     </div>
-                    <button onclick="selectAndEnterCompany('tarqeem')" id="btn-enter-tarqeem" class="mt-4 w-full py-2.5 px-4 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-semibold rounded-xl text-xs transition shadow-sm flex items-center justify-center space-x-1.5 space-x-reverse">
+                    <button onclick="selectAndEnterCompany('tarqeem')" id="btn-enter-tarqeem" class="mt-5 w-full py-3 px-4 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 active:from-sky-700 text-white font-bold rounded-2xl text-xs transition shadow-lg shadow-sky-500/25 flex items-center justify-center space-x-2 space-x-reverse cursor-pointer">
                         <span>الدخول إلى لوحة ترقيم</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
                 </div>
 
                 <!-- بطاقة تفنين -->
-                <div id="company-card-tafneen" class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-200 hover:border-blue-500">
-                    <div class="space-y-3">
+                <div id="company-card-tafneen" class="border-2 border-slate-200 dark:border-slate-800 rounded-3xl p-6 bg-white dark:bg-slate-900 flex flex-col justify-between transition-all duration-300 hover:border-emerald-500 hover:shadow-xl hover:shadow-emerald-500/10">
+                    <div class="space-y-4">
                         <div class="flex items-center justify-between">
-                            <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-500 flex items-center justify-center font-black text-sm">
-                                TAF
+                            <div class="flex items-center space-x-3 space-x-reverse">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-0.5 shadow-lg shadow-emerald-500/30 flex items-center justify-center">
+                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                        <svg class="w-8 h-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-mono font-black text-emerald-500 tracking-wider block">TAFNEEN</span>
+                                    <h3 class="text-lg font-black text-slate-900 dark:text-white leading-tight">شركة تفنين</h3>
+                                </div>
                             </div>
-                            <span id="badge-access-tafneen" class="text-[10px] px-2 py-0.5 rounded-full font-semibold">مصرح لك 🟢</span>
+                            <span id="badge-access-tafneen" class="text-[10px] px-2.5 py-1 rounded-full font-bold">مصرح لك 🟢</span>
                         </div>
-                        <div>
-                            <h3 class="text-base font-bold text-slate-900 dark:text-white">شركة تفنين (TAFNEEN)</h3>
-                            <span class="text-xs text-slate-500 block mt-0.5">سجل تجاري: 2050991423 • المقر الرئيسي</span>
-                        </div>
-                        <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 space-y-1">
-                            <div class="flex justify-between"><span>الدور المخصص:</span><span id="role-text-tafneen" class="font-bold text-blue-600 dark:text-blue-400">مشرف</span></div>
-                            <div class="flex justify-between"><span>البيانات المتاحة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص</span></div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">سجل تجاري: 2050991423 • المقر الرئيسي الدمام</p>
+                        <div class="text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+                            <div class="flex justify-between"><span>الدور المخصص:</span><span id="role-text-tafneen" class="font-bold text-emerald-600 dark:text-emerald-400">مشرف</span></div>
+                            <div class="flex justify-between"><span>بيانات الشركة:</span><span class="text-slate-500">إقامات، عقود، وتراخيص تفنين</span></div>
                         </div>
                     </div>
-                    <button onclick="selectAndEnterCompany('tafneen')" id="btn-enter-tafneen" class="mt-4 w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-semibold rounded-xl text-xs transition shadow-sm flex items-center justify-center space-x-1.5 space-x-reverse">
+                    <button onclick="selectAndEnterCompany('tafneen')" id="btn-enter-tafneen" class="mt-5 w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 active:from-blue-700 text-white font-bold rounded-2xl text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2 space-x-reverse cursor-pointer">
                         <span>الدخول إلى لوحة تفنين</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </button>
@@ -281,158 +338,104 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- 3. الهيكل الرئيسي للتطبيق (Sidebar + Content Canvas) -->
+    <!-- 3. الهيكل الرئيسي للتطبيق: الشريط العلوي الشامل (Top Navigation) -->
     <!-- ============================================================ -->
-    <div class="flex-1 flex overflow-hidden">
+    <div class="flex-1 flex flex-col min-h-screen bg-slate-50 dark:bg-[#090d16]">
 
-        <!-- القائمة الجانبية الثابتة والحديثة (Modern Persistent Sidebar) -->
-        <aside id="app-sidebar" class="w-64 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 transition-all duration-200 z-30">
-            <div class="flex flex-col h-full">
+        <!-- الشريط العلوي الرئيسي الثابت (Sticky Full-Width Header) -->
+        <header id="main-top-navbar" class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm transition-colors duration-200">
+            
+            <!-- السطر العلوي: الشعار وهوية المنشأة وأدوات التحكم والحساب -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4 border-b border-slate-100 dark:border-slate-800/80">
                 
-                <!-- رأس القائمة الجانبية مع شعار النظام -->
-                <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                    <div class="flex items-center space-x-2.5 space-x-reverse">
-                        <div class="w-8 h-8 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-sm shadow">
-                            م
+                <!-- هوية المنشأة والشعار الرسمي المكبر -->
+                <div class="flex items-center space-x-3.5 space-x-reverse">
+                    <div id="topbar-logo-badge" class="flex items-center space-x-3 space-x-reverse">
+                        <div id="topbar-logo-icon" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center shrink-0">
+                            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                <svg class="w-7 h-7 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                                </svg>
+                            </div>
                         </div>
                         <div>
-                            <span class="text-sm font-bold text-slate-900 dark:text-white block leading-none">نظام المتابعة</span>
-                            <span class="text-[10px] text-slate-400 font-mono">Enterprise v2.5</span>
+                            <div class="flex items-center space-x-2 space-x-reverse">
+                                <span id="topbar-org-name" class="text-base font-black text-slate-900 dark:text-white tracking-tight leading-none">مؤسسة ترقيم</span>
+                                <span id="topbar-org-code" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">TRQEM</span>
+                            </div>
+                            <span id="topbar-org-sub" class="text-[11px] text-slate-400 font-medium block mt-0.5">سجل تجاري: 1010896541 • المركز الرئيسي</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- بطاقة المنشأة النشطة الحالية والتبديل السريع -->
-                <div class="p-3">
-                    <div class="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/80 dark:border-slate-700/60 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">المنشأة الحالية</span>
-                            <button onclick="openCompanySelectionScreen()" class="text-[11px] text-brand-600 hover:text-brand-500 font-semibold" title="تغيير المنشأة">تبديل ⇄</button>
-                        </div>
-                        <div class="flex items-center space-x-2 space-x-reverse">
-                            <span id="sidebar-org-indicator" class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>
-                            <span id="sidebar-org-name" class="text-xs font-bold text-slate-900 dark:text-white">مؤسسة ترقيم (TRQEM)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- عناصر التصفح المبوب (Sidebar Navigation Items) -->
-                <nav class="flex-1 px-3 space-y-1 overflow-y-auto">
+                <!-- أدوات التحكم والملف الشخصي والتبديل للأدمن -->
+                <div class="flex items-center space-x-2.5 space-x-reverse">
                     
-                    <div class="pt-2 pb-1 px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">نظرة عامة</div>
-                    <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium transition bg-brand-50 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300">
+                    <!-- زر تبديل المنشأة المباشر (يظهر فقط للأدمن) -->
+                    <button onclick="openCompanySelectionScreen()" id="top-switch-company-btn" class="px-3.5 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-sky-500/20 flex items-center space-x-1.5 space-x-reverse cursor-pointer" title="تبديل المنشأة (متاح لمدير النظام فقط)">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                        <span>تبديل المنشأة ⇄</span>
+                    </button>
+
+                    <!-- سوتش المظهر (Dark / Light Mode) -->
+                    <button onclick="toggleThemeMode()" id="theme-toggle-btn" class="p-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="تبديل المظهر النهاري/الليلي">
+                        <span id="theme-toggle-icon">🌙</span>
+                    </button>
+
+                    <!-- بطاقة المستخدم وتسجيل الخروج -->
+                    <div id="top-user-pill" class="flex items-center space-x-2 space-x-reverse pl-1 pr-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60">
+                        <div id="user-avatar" class="w-7 h-7 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                            م
+                        </div>
+                        <div class="hidden sm:block text-right">
+                            <span id="user-name-display" class="text-xs font-bold text-slate-900 dark:text-white block leading-none">مدير عام</span>
+                            <span id="user-role-badge" class="text-[9px] text-slate-400 font-mono">ADMIN</span>
+                        </div>
+                        <button onclick="logoutUser()" class="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition shrink-0" title="تسجيل الخروج">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- السطر الثاني: شريط التبويبات العلوي الأفقي (Horizontal Navigation Tabs) -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-auto">
+                <nav id="top-nav-tabs" class="flex items-center space-x-1 space-x-reverse py-1.5 min-w-max">
+                    <button onclick="switchTab('dashboard')" id="nav-btn-dashboard" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                         <span>لوحة المؤشرات</span>
                     </button>
-
-                    <div class="pt-3 pb-1 px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">الموارد البشرية</div>
-                    <button onclick="switchTab('iqamas')" id="nav-btn-iqamas" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('iqamas')" id="nav-btn-iqamas" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
                         <span>وثائق الإقامات</span>
                     </button>
-                    <button onclick="switchTab('contracts')" id="nav-btn-contracts" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('contracts')" id="nav-btn-contracts" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         <span>العقود الوظيفية</span>
                     </button>
-
-                    <div class="pt-3 pb-1 px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">التراخيص والامتثال</div>
-                    <button onclick="switchTab('licenses')" id="nav-btn-licenses" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('licenses')" id="nav-btn-licenses" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                         <span>التراخيص والشهادات</span>
                     </button>
-
-                    <div class="pt-3 pb-1 px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">البيانات والعمليات</div>
-                    <button onclick="switchTab('import')" id="nav-btn-import" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('import')" id="nav-btn-import" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                         <span>استيراد وتصدير Excel</span>
                     </button>
-
-                    <div class="pt-3 pb-1 px-2 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">الإدارة والأمان</div>
-                    <button onclick="switchTab('admin')" id="nav-btn-admin" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('admin')" id="nav-btn-admin" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                         <span>إدارة المنشأة والأعضاء</span>
                     </button>
-                    <button onclick="switchTab('settings')" id="nav-btn-settings" class="sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <button onclick="switchTab('settings')" id="nav-btn-settings" class="top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                         <span>التنبيهات والإعدادات</span>
                     </button>
                 </nav>
-
-                <!-- بطاقة المستخدم في أسفل القائمة الجانبية -->
-                <div class="p-3 border-t border-slate-200 dark:border-slate-800">
-                    <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800">
-                        <div class="flex items-center space-x-2 space-x-reverse overflow-hidden">
-                            <div id="user-avatar" class="w-8 h-8 rounded-lg bg-brand-600 text-white flex items-center justify-center font-bold text-xs shrink-0">
-                                م
-                            </div>
-                            <div class="truncate">
-                                <span id="user-name-display" class="text-xs font-bold text-slate-900 dark:text-white block truncate">مدير عام النظام</span>
-                                <span id="user-role-badge" class="text-[10px] text-slate-500 font-mono block truncate">Admin</span>
-                            </div>
-                        </div>
-                        <button onclick="logoutUser()" class="p-1.5 text-slate-400 hover:text-rose-500 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/30 transition shrink-0" title="تسجيل الخروج">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                        </button>
-                    </div>
-                </div>
-
             </div>
-        </aside>
+        </header>
 
-        <!-- منطقة العمل الرئيسية والشريط العلوي -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
-            
-            <!-- الشريط العلوي الحديث (Modern Top Navigation Bar) -->
-            <header class="sticky top-0 z-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-                
-                <!-- مسار التنقل ومؤشر المنشأة -->
-                <div class="flex items-center space-x-3 space-x-reverse">
-                    <div class="flex items-center space-x-1.5 space-x-reverse text-xs text-slate-500 dark:text-slate-400">
-                        <span>الرئيسية</span>
-                        <span>/</span>
-                        <span id="breadcrumb-org" class="font-semibold text-slate-900 dark:text-white">ترقيم</span>
-                        <span>/</span>
-                        <span id="breadcrumb-view" class="text-brand-600 font-medium">لوحة المؤشرات</span>
-                    </div>
-                </div>
-
-                <!-- أدوات التحكم السريعة في الشريط العلوي -->
-                <div class="flex items-center space-x-2 space-x-reverse">
-                    
-                    <!-- شارة حالة قاعدة البيانات السحابية (Supabase Cloud Status) -->
-                    <div id="cloud-status-pill" class="flex items-center space-x-1.5 space-x-reverse px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] font-medium border border-slate-200 dark:border-slate-700">
-                        <span id="cloud-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
-                        <span id="cloud-status-text" class="text-slate-600 dark:text-slate-400 font-mono text-[10px]">DB</span>
-                    </div>
-
-                    <!-- شارة حالة نظام البريد الإلكتروني (Email System Status) -->
-                    <div id="email-status-pill" onclick="switchTab('settings')" class="flex items-center space-x-1.5 space-x-reverse px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-[11px] font-medium border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-brand-500 transition" title="حالة نظام البريد الإلكتروني - انقر للانتقال للإعدادات">
-                        <span id="email-status-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span id="email-status-text" class="text-slate-600 dark:text-slate-400 font-mono text-[10px]">MAIL: ON</span>
-                    </div>
-
-                    <!-- زر فحص الاختبارات الآلية المباشر -->
-                    <button onclick="runBrowserTestSuite()" class="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold text-slate-700 dark:text-slate-200 transition shadow-sm flex items-center space-x-1.5 space-x-reverse" title="تشغيل حزمة الفحص الآلي">
-                        <span>⚡</span>
-                        <span class="hidden sm:inline">فحص النظام الآلي</span>
-                    </button>
-
-                    <!-- سوتش المظهر (Dark / Light Mode) -->
-                    <button onclick="toggleThemeMode()" id="theme-toggle-btn" class="p-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition" title="تبديل المظهر">
-                        <span id="theme-toggle-icon">🌙</span>
-                    </button>
-
-                    <!-- زر تبديل المنشأة المباشر -->
-                    <button onclick="openCompanySelectionScreen()" class="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition shadow-sm flex items-center space-x-1.5 space-x-reverse">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                        <span>تبديل المنشأة</span>
-                    </button>
-
-                </div>
-            </header>
-
-            <!-- محتوى الصفحات والموديولات (Pages Canvas) -->
-            <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+        <!-- محتوى الصفحات والموديولات (Pages Canvas) -->
+        <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
                 
                 <!-- إشعار Toast منبثق عند الحفظ أو الأخطاء -->
                 <div id="toast" class="hidden mb-4 p-4 rounded-xl border flex items-center justify-between shadow-lg transition-all duration-200">
@@ -448,89 +451,156 @@
                 <!-- ============================================================ -->
                 <div id="view-dashboard" class="space-y-6">
                     
-                    <!-- شريط العنوان والترحيب مع أزرار الإجراءات السريعة -->
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
-                        <div>
-                            <div class="flex items-center space-x-2.5 space-x-reverse">
-                                <h1 class="text-xl font-bold text-slate-900 dark:text-white">لوحة المتابعة والمؤشرات</h1>
-                                <span id="dash-brand-badge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300">ترقيم (TRQEM)</span>
+                    <!-- بطاقة الترويسة الرئيسية الموسعة والشعار البارز (Dashboard Hero Card) -->
+                    <div id="dashboard-hero-card" class="rounded-3xl p-6 sm:p-7 border-2 border-sky-500/30 bg-gradient-to-r from-sky-50/50 via-white to-sky-50/20 dark:from-sky-950/20 dark:via-slate-900 dark:to-slate-900/80 shadow-xl shadow-sky-500/5 transition-all duration-300">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            
+                            <!-- شعار الشركة المكبر ومعلومات المنشأة -->
+                            <div class="flex items-center space-x-4 space-x-reverse">
+                                <div id="dash-hero-logo" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-1 shadow-xl shadow-sky-500/25 flex items-center justify-center shrink-0">
+                                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="flex items-center space-x-2.5 space-x-reverse">
+                                        <h1 id="dash-hero-title" class="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">مؤسسة ترقيم</h1>
+                                        <span id="dash-brand-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold font-mono bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border border-sky-300 dark:border-sky-800">TRQEM MODE</span>
+                                    </div>
+                                    <p id="dash-hero-sub" class="text-xs sm:text-sm text-slate-500 dark:text-slate-400">سجل تجاري: 1010896541 • المركز الرئيسي الرياض • مؤشرات المتابعة اللحظية</p>
+                                    <div class="flex items-center space-x-3 space-x-reverse text-[11px] text-slate-400 pt-0.5">
+                                        <span class="inline-flex items-center"><span class="w-2 h-2 rounded-full bg-emerald-500 ml-1.5 animate-pulse"></span>النظام نشط ومحدث لحظياً</span>
+                                        <span>•</span>
+                                        <span id="dash-today-date" class="font-mono"></span>
+                                    </div>
+                                </div>
                             </div>
-                            <p class="text-xs text-slate-500 mt-1">المتابعة الفورية للوثائق وسريان الإقامات والعقود الوظيفية والتراخيص</p>
-                        </div>
-                        <div class="flex items-center space-x-2 space-x-reverse">
-                            <button onclick="switchTab('import')" class="px-3.5 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 space-x-reverse">
-                                <span>📥</span><span>استيراد ملف</span>
-                            </button>
-                            <button onclick="openSendEmailModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition shadow-sm flex items-center space-x-1.5 space-x-reverse" title="إرسال تقرير تنبيهات السجلات الحرجة إلى البريد الإلكتروني">
-                                <span>📧</span><span>إرسال تقرير بالبريد</span>
-                            </button>
-                            <button onclick="runAlertCheck(true)" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold transition shadow-sm flex items-center space-x-1.5 space-x-reverse">
-                                <span>⚡</span><span>فحص التنبيهات الفورية</span>
-                            </button>
+
+                            <!-- أزرار الإجراءات السريعة في الترويسة -->
+                            <div class="flex items-center space-x-2.5 space-x-reverse shrink-0">
+                                <button onclick="switchTab('import')" class="px-4 py-2.5 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 space-x-reverse shadow-sm">
+                                    <span>📥</span><span>استيراد ملف</span>
+                                </button>
+                                <button onclick="openSendEmailModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-md shadow-emerald-500/20 flex items-center space-x-1.5 space-x-reverse" title="إرسال تقرير تنبيهات السجلات الحرجة إلى البريد الإلكتروني">
+                                    <span>📧</span><span>إرسال تقرير</span>
+                                </button>
+                                <button onclick="runAlertCheck(true)" id="dash-alert-btn" class="px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition shadow-md shadow-sky-500/25 flex items-center space-x-1.5 space-x-reverse">
+                                    <span>⚡</span><span>فحص التنبيهات</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- بطاقات المؤشرات الرئيسية (4 Clean KPI Cards) -->
+                    <!-- شريط خيارات وفلاتر المؤشرات (KPI Control & Filter Bar) -->
+                    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                        
+                        <!-- فلترة النطاق الزمني للمؤشرات -->
+                        <div class="flex items-center space-x-1.5 space-x-reverse w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                            <span class="text-xs font-bold text-slate-500 ml-1 whitespace-nowrap">المدى الزمني:</span>
+                            <button onclick="setKpiTimeFilter('all')" id="kpi-filter-all" class="kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition bg-sky-500 text-white shadow-sm">الكل</button>
+                            <button onclick="setKpiTimeFilter(30)" id="kpi-filter-30" class="kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">خلال 30 يوم ⏱️</button>
+                            <button onclick="setKpiTimeFilter(60)" id="kpi-filter-60" class="kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">خلال 60 يوم ⏱️</button>
+                            <button onclick="setKpiTimeFilter(90)" id="kpi-filter-90" class="kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">خلال 90 يوم ⏱️</button>
+                            <button onclick="setKpiTimeFilter('expired')" id="kpi-filter-expired" class="kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700">المنتهية ⚠️</button>
+                        </div>
+
+                        <!-- خيارات القسم ونوع الرسم البياني -->
+                        <div class="flex items-center space-x-3 space-x-reverse w-full md:w-auto justify-between md:justify-end">
+                            <!-- فلتر القسم -->
+                            <div class="flex items-center space-x-1.5 space-x-reverse text-xs">
+                                <span class="text-slate-500 font-bold whitespace-nowrap">القسم:</span>
+                                <select id="kpi-module-filter" onchange="changeKpiModuleFilter(this.value)" class="bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-800 dark:text-slate-200 focus:outline-none cursor-pointer">
+                                    <option value="all">كافة الوثائق (شامل)</option>
+                                    <option value="iqamas">الإقامات الرسمية</option>
+                                    <option value="contracts">العقود الوظيفية</option>
+                                    <option value="licenses">التراخيص والشهادات</option>
+                                </select>
+                            </div>
+
+                            <!-- تبديل نوع الرسم البياني -->
+                            <div class="flex items-center p-1 bg-slate-100 dark:bg-slate-800/80 rounded-xl text-xs">
+                                <button onclick="toggleChartType('bar')" id="chart-btn-bar" class="px-2.5 py-1 rounded-lg font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition" title="رسم بياني أعمدة">📊 أعمدة</button>
+                                <button onclick="toggleChartType('doughnut')" id="chart-btn-doughnut" class="px-2.5 py-1 rounded-lg font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition" title="رسم بياني دائري">🍩 دائري</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- بطاقات المؤشرات التفاعلية الأربع (4 Dynamic Interactive KPI Cards) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         
                         <!-- إجمالي السجلات -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
+                        <div onclick="switchTab('iqamas')" id="kpi-card-total" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-sky-500 dark:hover:border-sky-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-slate-500">
-                                <span class="text-xs font-semibold">إجمالي السجلات المسجلة</span>
-                                <div class="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                                <span class="text-xs font-bold">إجمالي السجلات المسجلة</span>
+                                <div id="kpi-icon-total" class="w-9 h-9 rounded-xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/50 flex items-center justify-center text-sky-600 dark:text-sky-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
-                                <span id="kpi-total-records" class="text-2xl font-bold font-mono text-slate-900 dark:text-white">0</span>
+                                <span id="kpi-total-records" class="text-3xl font-black font-mono text-slate-900 dark:text-white">0</span>
                                 <span class="text-[11px] text-slate-400 font-medium">سجل نشط</span>
                             </div>
-                            <div class="text-[11px] text-slate-400">إقامات وعقود وتراخيص تابعة للمنشأة</div>
+                            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                                <span>إقامات، عقود، وتراخيص</span>
+                                <span class="text-sky-500 group-hover:underline text-[10px] font-bold">استعراض &larr;</span>
+                            </div>
                         </div>
 
                         <!-- السجلات السارية -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
+                        <div onclick="filterAndDrillDown('valid')" id="kpi-card-valid" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
-                                <span class="text-xs font-semibold">سجلات سارية ومستقرة</span>
-                                <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                <span class="text-xs font-bold">سجلات سارية ومستقرة</span>
+                                <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
-                                <span id="kpi-valid-records" class="text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400">0</span>
-                                <span class="text-[11px] text-emerald-600/80 font-medium">حالة ممتازة</span>
+                                <span id="kpi-valid-records" class="text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400">0</span>
+                                <span class="text-[11px] text-emerald-600/80 font-bold">حالة ممتازة</span>
                             </div>
-                            <div class="text-[11px] text-slate-400">لا تتطلب أي إجراء تجديد حالياً</div>
+                            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                                <span>لا تتطلب أي إجراء تجديد</span>
+                                <span class="text-emerald-500 group-hover:underline text-[10px] font-bold">فلترة &larr;</span>
+                            </div>
                         </div>
 
                         <!-- قريبة الانتهاء -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
+                        <div onclick="filterAndDrillDown('near')" id="kpi-card-near" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-amber-600 dark:text-amber-400">
-                                <span class="text-xs font-semibold">قريبة الانتهاء (تتطلب متابعة)</span>
-                                <div class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                <span class="text-xs font-bold">قريبة الانتهاء (تتطلب متابعة)</span>
+                                <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
-                                <span id="kpi-near-records" class="text-2xl font-bold font-mono text-amber-600 dark:text-amber-400">0</span>
-                                <span class="text-[11px] text-amber-600/80 font-medium">في النطاق الحرج</span>
+                                <span id="kpi-near-records" class="text-3xl font-black font-mono text-amber-600 dark:text-amber-400">0</span>
+                                <span class="text-[11px] text-amber-600/80 font-bold">في النطاق الحرج</span>
                             </div>
-                            <div class="text-[11px] text-slate-400">ضمن عتبة التنبيهات (45 أو 90 يوماً)</div>
+                            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                                <span>ضمن عتبة التنبيهات المحددة</span>
+                                <span class="text-amber-500 group-hover:underline text-[10px] font-bold">فلترة &larr;</span>
+                            </div>
                         </div>
 
                         <!-- منتهية الصلاحية -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-3">
+                        <div onclick="filterAndDrillDown('expired')" id="kpi-card-expired" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-rose-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-rose-600 dark:text-rose-400">
-                                <span class="text-xs font-semibold">سجلات منتهية الصلاحية</span>
-                                <div class="w-8 h-8 rounded-lg bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center text-rose-600 dark:text-rose-400">
+                                <span class="text-xs font-bold">سجلات منتهية الصلاحية</span>
+                                <div class="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/50 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
-                                <span id="kpi-expired-records" class="text-2xl font-bold font-mono text-rose-600 dark:text-rose-400">0</span>
-                                <span class="text-[11px] text-rose-600/80 font-medium">تتطلب تجديد فوري</span>
+                                <span id="kpi-expired-records" class="text-3xl font-black font-mono text-rose-600 dark:text-rose-400">0</span>
+                                <span class="text-[11px] text-rose-600/80 font-bold">تتطلب تجديد فوري</span>
                             </div>
-                            <div class="text-[11px] text-slate-400">انتهت صلاحيتها رسمياً وتخضع لغرامات</div>
+                            <div class="text-[11px] text-slate-400 flex items-center justify-between">
+                                <span>انتهت رسمياً وتخضع لغرامات</span>
+                                <span class="text-rose-500 group-hover:underline text-[10px] font-bold">فلترة &larr;</span>
+                            </div>
                         </div>
 
                     </div>
@@ -1140,8 +1210,6 @@
             </main>
         </div>
 
-    </div>
-
     <!-- ============================================================ -->
     <!-- 4. النوافذ المنبثقة للعمليات (Modals: Add/Edit Record) -->
     <!-- ============================================================ -->
@@ -1444,6 +1512,31 @@
             if (activeBtn) activeBtn.className = 'flex-1 py-2 rounded-lg font-semibold transition bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm';
         }
 
+        let selectedLoginOrg = 'tarqeem';
+
+        function selectLoginOrg(orgKey) {
+            selectedLoginOrg = orgKey;
+            const cardTrq = document.getElementById('login-card-tarqeem');
+            const cardTaf = document.getElementById('login-card-tafneen');
+            const checkTrq = document.getElementById('login-check-tarqeem');
+            const checkTaf = document.getElementById('login-check-tafneen');
+            const emailInput = document.getElementById('gate-login-email');
+
+            if (orgKey === 'tarqeem') {
+                if (cardTrq) cardTrq.className = 'p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-sky-500 bg-sky-50/80 dark:bg-sky-950/40 ring-2 ring-sky-500/20 shadow-sm cursor-pointer';
+                if (cardTaf) cardTaf.className = 'p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer';
+                if (checkTrq) checkTrq.classList.remove('hidden');
+                if (checkTaf) checkTaf.classList.add('hidden');
+                if (emailInput && emailInput.value.includes('tafneen')) emailInput.value = 'admin@tarqeem.com';
+            } else {
+                if (cardTrq) cardTrq.className = 'p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 hover:border-sky-500/50 cursor-pointer';
+                if (cardTaf) cardTaf.className = 'p-3.5 rounded-2xl border-2 transition text-right flex flex-col justify-between border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 ring-2 ring-emerald-500/20 shadow-sm cursor-pointer';
+                if (checkTrq) checkTrq.classList.add('hidden');
+                if (checkTaf) checkTaf.classList.remove('hidden');
+                if (emailInput && emailInput.value.includes('tarqeem')) emailInput.value = 'manager@tafneen.com';
+            }
+        }
+
         function togglePasswordVisibility(inputId, btn) {
             const inp = document.getElementById(inputId);
             if (!inp) return;
@@ -1486,7 +1579,7 @@
                     localStorage.setItem('tarqeem_current_user', JSON.stringify(currentUser));
                     recordAuditLog('LOGIN', 'auth', currentUser.id, { email, method: 'supabase_auth' });
                     showToast('تم تسجيل الدخول بنجاح عبر السحابة!');
-                    handlePostLoginRedirect();
+                    selectAndEnterCompany(selectedLoginOrg);
                     return;
                 } catch (e) {
                     console.error('Supabase login exception:', e);
@@ -1494,18 +1587,16 @@
             }
 
             // Fallback محلي للاختبار
-            let assignedOrgs = ['tarqeem'];
-            let userRole = 'user';
+            const isAdmin = email.includes('admin') || email.includes('executive');
+            const userRole = isAdmin ? 'admin' : (email.includes('manager') ? 'manager' : 'user');
 
-            if (email.includes('tafneen')) {
-                assignedOrgs = ['tafneen'];
-                userRole = email.includes('admin') ? 'admin' : (email.includes('manager') ? 'manager' : 'user');
-            } else if (email.includes('all') || email.includes('executive')) {
+            // إذا كان المستخدم أدمن: يملك حق الوصول لكلتا المنشأتين ويمكنه التبديل من داخل المنصة
+            // إذا كان مستخدماً عادياً أو جديداً: يرتبط حصرياً بالمنشأة المختارة في شاشة الدخول فقط
+            let assignedOrgs;
+            if (isAdmin) {
                 assignedOrgs = ['tarqeem', 'tafneen'];
-                userRole = 'admin';
             } else {
-                assignedOrgs = ['tarqeem'];
-                userRole = email.includes('admin') ? 'admin' : (email.includes('manager') ? 'manager' : 'user');
+                assignedOrgs = [selectedLoginOrg];
             }
 
             currentUser = {
@@ -1515,16 +1606,22 @@
                 role: userRole,
                 organizations: assignedOrgs,
                 memberships: {
-                    tarqeem: { role: userRole, status: 'active' },
-                    tafneen: { role: userRole, status: 'active' }
+                    [selectedLoginOrg]: { role: userRole, status: 'active' }
                 },
                 isDemo: false
             };
 
+            if (isAdmin) {
+                currentUser.memberships = {
+                    tarqeem: { role: 'admin', status: 'active' },
+                    tafneen: { role: 'admin', status: 'active' }
+                };
+            }
+
             localStorage.setItem('tarqeem_current_user', JSON.stringify(currentUser));
-            recordAuditLog('LOGIN', 'auth', currentUser.id, { email, method: 'local_fallback' });
+            recordAuditLog('LOGIN', 'auth', currentUser.id, { email, method: 'local_fallback', org: selectedLoginOrg });
             showToast(`تم تسجيل الدخول بنجاح كـ (${currentUser.name})`);
-            handlePostLoginRedirect();
+            selectAndEnterCompany(selectedLoginOrg);
         }
 
         function loginWithRole(presetKey) {
@@ -1534,10 +1631,14 @@
                     email: 'admin@tarqeem.com',
                     name: 'مدير عام ترقيم',
                     role: 'admin',
-                    organizations: ['tarqeem'],
-                    memberships: { tarqeem: { role: 'admin', status: 'active' } },
+                    organizations: ['tarqeem', 'tafneen'],
+                    memberships: {
+                        tarqeem: { role: 'admin', status: 'active' },
+                        tafneen: { role: 'admin', status: 'active' }
+                    },
                     isDemo: true
                 };
+                selectAndEnterCompany('tarqeem');
             } else if (presetKey === 'tafneen_manager') {
                 currentUser = {
                     id: 'usr-tafneen-manager',
@@ -1548,6 +1649,7 @@
                     memberships: { tafneen: { role: 'manager', status: 'active' } },
                     isDemo: true
                 };
+                selectAndEnterCompany('tafneen');
             } else if (presetKey === 'dual_executive') {
                 currentUser = {
                     id: 'usr-dual-exec',
@@ -1561,6 +1663,7 @@
                     },
                     isDemo: true
                 };
+                selectAndEnterCompany('tarqeem');
             } else {
                 currentUser = {
                     id: 'usr-tarqeem-viewer',
@@ -1571,12 +1674,12 @@
                     memberships: { tarqeem: { role: 'user', status: 'active' } },
                     isDemo: true
                 };
+                selectAndEnterCompany('tarqeem');
             }
 
             localStorage.setItem('tarqeem_current_user', JSON.stringify(currentUser));
             recordAuditLog('LOGIN', 'auth', currentUser.id, { email: currentUser.email, role: currentUser.role });
             showToast(`تم تسجيل الدخول بنجاح: ${currentUser.name}`);
-            handlePostLoginRedirect();
         }
 
         async function submitGatePasswordRecovery() {
@@ -1595,13 +1698,7 @@
 
         function handlePostLoginRedirect() {
             document.getElementById('auth-gate-screen').classList.add('hidden');
-            const orgs = currentUser.organizations || ['tarqeem'];
-
-            if (orgs.length === 1) {
-                selectAndEnterCompany(orgs[0]);
-            } else {
-                openCompanySelectionScreen();
-            }
+            selectAndEnterCompany(selectedLoginOrg || 'tarqeem');
         }
 
         // ============================================================
@@ -1609,6 +1706,12 @@
         // ============================================================
         function openCompanySelectionScreen() {
             if (!currentUser) return checkRouteGuard();
+            const role = getUserRoleInOrg(currentOrg);
+            const isAdmin = (role === 'admin') || (currentUser?.role === 'admin');
+            if (!isAdmin) {
+                showToast('تبديل المنشأة متاح لمدير النظام فقط', true);
+                return;
+            }
             
             const screen = document.getElementById('company-selection-screen');
             screen.classList.remove('hidden');
@@ -1624,17 +1727,17 @@
 
             if (hasTarqeem) {
                 cardTrq.classList.remove('opacity-50', 'grayscale-[50%]');
-                badgeTrq.className = 'text-[10px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
+                badgeTrq.className = 'text-[10px] px-2.5 py-1 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
                 badgeTrq.textContent = 'مصرح لك 🟢';
                 btnTrq.disabled = false;
-                btnTrq.className = 'mt-4 w-full py-2.5 px-4 bg-sky-600 hover:bg-sky-500 text-white font-semibold rounded-xl text-xs transition shadow-sm cursor-pointer flex items-center justify-center space-x-1.5 space-x-reverse';
+                btnTrq.className = 'mt-5 w-full py-3 px-4 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 active:from-sky-700 text-white font-bold rounded-2xl text-xs transition shadow-lg shadow-sky-500/25 flex items-center justify-center space-x-2 space-x-reverse cursor-pointer';
                 roleTrq.textContent = getUserRoleInOrg('tarqeem') === 'admin' ? 'مدير عام (Admin)' : (getUserRoleInOrg('tarqeem') === 'manager' ? 'مشرف (Manager)' : 'مستعرض (Viewer)');
             } else {
                 cardTrq.classList.add('opacity-50', 'grayscale-[50%]');
-                badgeTrq.className = 'text-[10px] px-2 py-0.5 rounded-full font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
+                badgeTrq.className = 'text-[10px] px-2.5 py-1 rounded-full font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
                 badgeTrq.textContent = 'غير مصرح لحسابك 🔒';
                 btnTrq.disabled = true;
-                btnTrq.className = 'mt-4 w-full py-2.5 px-4 bg-slate-300 dark:bg-slate-800 text-slate-500 rounded-xl text-xs font-semibold cursor-not-allowed';
+                btnTrq.className = 'mt-5 w-full py-3 px-4 bg-slate-300 dark:bg-slate-800 text-slate-500 rounded-2xl text-xs font-bold cursor-not-allowed';
                 roleTrq.textContent = 'غير مسند';
             }
 
@@ -1647,24 +1750,24 @@
 
             if (hasTafneen) {
                 cardTaf.classList.remove('opacity-50', 'grayscale-[50%]');
-                badgeTaf.className = 'text-[10px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
+                badgeTaf.className = 'text-[10px] px-2.5 py-1 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300';
                 badgeTaf.textContent = 'مصرح لك 🟢';
                 btnTaf.disabled = false;
-                btnTaf.className = 'mt-4 w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-xl text-xs transition shadow-sm cursor-pointer flex items-center justify-center space-x-1.5 space-x-reverse';
+                btnTaf.className = 'mt-5 w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 active:from-blue-700 text-white font-bold rounded-2xl text-xs transition shadow-lg shadow-emerald-500/25 flex items-center justify-center space-x-2 space-x-reverse cursor-pointer';
                 roleTaf.textContent = getUserRoleInOrg('tafneen') === 'admin' ? 'مدير عام (Admin)' : (getUserRoleInOrg('tafneen') === 'manager' ? 'مشرف (Manager)' : 'مستعرض (Viewer)');
             } else {
                 cardTaf.classList.add('opacity-50', 'grayscale-[50%]');
-                badgeTaf.className = 'text-[10px] px-2 py-0.5 rounded-full font-semibold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
+                badgeTaf.className = 'text-[10px] px-2.5 py-1 rounded-full font-bold bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300';
                 badgeTaf.textContent = 'غير مصرح لحسابك 🔒';
                 btnTaf.disabled = true;
-                btnTaf.className = 'mt-4 w-full py-2.5 px-4 bg-slate-300 dark:bg-slate-800 text-slate-500 rounded-xl text-xs font-semibold cursor-not-allowed';
+                btnTaf.className = 'mt-5 w-full py-3 px-4 bg-slate-300 dark:bg-slate-800 text-slate-500 rounded-2xl text-xs font-bold cursor-not-allowed';
                 roleTaf.textContent = 'غير مسند';
             }
         }
 
         function selectAndEnterCompany(orgKey) {
             if (!isOrgPermitted(orgKey)) {
-                return showToast(`وصول مرفوض: حسابك (${currentUser.email}) غير مصرح له بالوصول لبيانات ${orgKey === 'tarqeem' ? 'ترقيم' : 'تفنين'}`, true);
+                return showToast(`وصول مرفوض: حسابك (${currentUser?.email}) غير مصرح له بالوصول لبيانات ${orgKey === 'tarqeem' ? 'ترقيم' : 'تفنين'}`, true);
             }
 
             currentOrg = orgKey;
@@ -1672,6 +1775,7 @@
             localStorage.setItem('tarqeem_active_org_selected', 'true');
 
             document.getElementById('company-selection-screen').classList.add('hidden');
+            document.getElementById('auth-gate-screen').classList.add('hidden');
             recordAuditLog('SWITCH_COMPANY', 'organizations', orgKey, { company: orgKey });
 
             updateBrandUI();
@@ -1683,22 +1787,126 @@
             showToast(`أهلاً بك في مساحة عمل: ${orgKey === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)'}`);
         }
 
+        // مولد الشعارات المتجهة الرسمية الفاخرة (Vector SVG Generator)
+        function getOrgLogoSvg(orgKey, sizeClass = 'w-7 h-7') {
+            if (orgKey === 'tarqeem') {
+                return `
+                    <svg class="${sizeClass} text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                `;
+            } else {
+                return `
+                    <svg class="${sizeClass} text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                `;
+            }
+        }
+
         function updateBrandUI() {
             const isTarqeem = currentOrg === 'tarqeem';
             
-            // تحديث عناصر الهوية
-            const orgName = document.getElementById('sidebar-org-name');
-            const orgDot = document.getElementById('sidebar-org-indicator');
-            const dashBadge = document.getElementById('dash-brand-badge');
-            const breadcrumbOrg = document.getElementById('breadcrumb-org');
+            // 1. تحديث الشريط العلوي (Top Navbar Brand Elements)
+            const logoIcon = document.getElementById('topbar-logo-icon');
+            const orgName = document.getElementById('topbar-org-name');
+            const orgCode = document.getElementById('topbar-org-code');
+            const orgSub = document.getElementById('topbar-org-sub');
+            const switchBtn = document.getElementById('top-switch-company-btn');
 
-            if (orgName) orgName.textContent = isTarqeem ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)';
-            if (orgDot) orgDot.className = `w-2.5 h-2.5 rounded-full ${isTarqeem ? 'bg-sky-500' : 'bg-blue-600'}`;
-            if (dashBadge) {
-                dashBadge.textContent = isTarqeem ? 'ترقيم (TRQEM)' : 'تفنين (TAFNEEN)';
-                dashBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-semibold ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'}`;
+            if (logoIcon) {
+                if (isTarqeem) {
+                    logoIcon.className = 'w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-0.5 shadow-md shadow-sky-500/20 flex items-center justify-center shrink-0';
+                    logoIcon.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tarqeem', 'w-7 h-7')}</div>`;
+                } else {
+                    logoIcon.className = 'w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-0.5 shadow-md shadow-emerald-500/20 flex items-center justify-center shrink-0';
+                    logoIcon.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tafneen', 'w-7 h-7')}</div>`;
+                }
             }
-            if (breadcrumbOrg) breadcrumbOrg.textContent = isTarqeem ? 'ترقيم' : 'تفنين';
+
+            if (orgName) orgName.textContent = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
+            if (orgCode) {
+                orgCode.textContent = isTarqeem ? 'TRQEM' : 'TAFNEEN';
+                orgCode.className = `text-[10px] font-mono font-bold px-2 py-0.5 rounded-full ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'}`;
+            }
+            if (orgSub) orgSub.textContent = isTarqeem ? 'سجل تجاري: 1010896541 • المركز الرئيسي الرياض' : 'سجل تجاري: 2050991423 • المقر الرئيسي الدمام';
+
+            if (switchBtn) {
+                switchBtn.className = isTarqeem 
+                    ? 'px-3.5 py-2 bg-gradient-to-r from-sky-600 to-cyan-600 hover:from-sky-500 hover:to-cyan-500 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-sky-500/20 flex items-center space-x-1.5 space-x-reverse cursor-pointer'
+                    : 'px-3.5 py-2 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-sm shadow-emerald-500/20 flex items-center space-x-1.5 space-x-reverse cursor-pointer';
+            }
+
+            // 2. تحديث بطاقة الترويسة الرئيسية في لوحة المؤشرات (Dashboard Hero Card)
+            const heroCard = document.getElementById('dashboard-hero-card');
+            const heroLogo = document.getElementById('dash-hero-logo');
+            const heroTitle = document.getElementById('dash-hero-title');
+            const heroSub = document.getElementById('dash-hero-sub');
+            const dashBadge = document.getElementById('dash-brand-badge');
+            const alertBtn = document.getElementById('dash-alert-btn');
+            const todayDateEl = document.getElementById('dash-today-date');
+
+            if (todayDateEl) {
+                todayDateEl.textContent = new Date().toLocaleDateString('ar-SA', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
+            if (heroCard) {
+                if (isTarqeem) {
+                    heroCard.className = 'rounded-3xl p-6 sm:p-7 border-2 border-sky-500/30 bg-gradient-to-r from-sky-50/60 via-white to-sky-50/20 dark:from-sky-950/30 dark:via-slate-900 dark:to-slate-900/80 shadow-xl shadow-sky-500/5 transition-all duration-300';
+                } else {
+                    heroCard.className = 'rounded-3xl p-6 sm:p-7 border-2 border-emerald-500/30 bg-gradient-to-r from-emerald-50/60 via-white to-blue-50/20 dark:from-emerald-950/30 dark:via-slate-900 dark:to-slate-900/80 shadow-xl shadow-emerald-500/5 transition-all duration-300';
+                }
+            }
+
+            if (heroLogo) {
+                if (isTarqeem) {
+                    heroLogo.className = 'w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 p-1 shadow-xl shadow-sky-500/25 flex items-center justify-center shrink-0';
+                    heroLogo.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tarqeem', 'w-10 h-10 sm:w-12 sm:h-12')}</div>`;
+                } else {
+                    heroLogo.className = 'w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-emerald-500 p-1 shadow-xl shadow-emerald-500/25 flex items-center justify-center shrink-0';
+                    heroLogo.innerHTML = `<div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">${getOrgLogoSvg('tafneen', 'w-10 h-10 sm:w-12 sm:h-12')}</div>`;
+                }
+            }
+
+            if (heroTitle) heroTitle.textContent = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
+            if (heroSub) heroSub.textContent = isTarqeem ? 'سجل تجاري: 1010896541 • المركز الرئيسي الرياض • مؤشرات المتابعة اللحظية' : 'سجل تجاري: 2050991423 • المقر الرئيسي الدمام • مؤشرات المتابعة اللحظية';
+            if (dashBadge) {
+                dashBadge.textContent = isTarqeem ? 'TRQEM MODE' : 'TAFNEEN MODE';
+                dashBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-bold font-mono border ${isTarqeem ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300 border-sky-300 dark:border-sky-800' : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'}`;
+            }
+            if (alertBtn) {
+                alertBtn.className = `px-4 py-2.5 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center space-x-1.5 space-x-reverse ${isTarqeem ? 'bg-sky-600 hover:bg-sky-500 shadow-sky-500/25' : 'bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 shadow-emerald-500/25'}`;
+            }
+
+            // 3. تحديث ألوان كروت المؤشرات في الداشبورد
+            const kpiTotalCard = document.getElementById('kpi-card-total');
+            const kpiTotalIcon = document.getElementById('kpi-icon-total');
+            if (kpiTotalCard) {
+                kpiTotalCard.className = `bg-white dark:bg-slate-900 border-2 ${isTarqeem ? 'border-slate-200 dark:border-slate-800 hover:border-sky-500' : 'border-slate-200 dark:border-slate-800 hover:border-blue-500'} rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group`;
+            }
+            if (kpiTotalIcon) {
+                kpiTotalIcon.className = `w-9 h-9 rounded-xl border flex items-center justify-center group-hover:scale-110 transition-transform ${isTarqeem ? 'bg-sky-50 dark:bg-sky-950/40 border-sky-200 dark:border-sky-800/50 text-sky-600 dark:text-sky-400' : 'bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800/50 text-blue-600 dark:text-blue-400'}`;
+            }
+
+            // تحديث التبويب النشط في الشريط العلوي
+            updateActiveTopTab();
+        }
+
+        function updateActiveTopTab() {
+            const isTarqeem = currentOrg === 'tarqeem';
+            const tabs = ['dashboard', 'iqamas', 'contracts', 'licenses', 'import', 'admin', 'settings'];
+
+            tabs.forEach(t => {
+                const btn = document.getElementById(`nav-btn-${t}`);
+                if (!btn) return;
+                if (t === currentTab) {
+                    btn.className = isTarqeem 
+                        ? 'top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-bold transition bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-cyan-400 border border-sky-200 dark:border-sky-800/60 shadow-sm'
+                        : 'top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-bold transition bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 shadow-sm';
+                } else {
+                    btn.className = 'top-nav-item flex items-center space-x-2 space-x-reverse px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition hover:bg-slate-100 dark:hover:bg-slate-800';
+                }
+            });
         }
 
         function switchTab(tabKey) {
@@ -1707,33 +1915,13 @@
             
             tabs.forEach(t => {
                 const view = document.getElementById(`view-${t}`);
-                const btn = document.getElementById(`nav-btn-${t}`);
                 if (view) view.classList.add('hidden');
-                if (btn) {
-                    btn.className = 'sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition';
-                }
             });
 
             const activeView = document.getElementById(`view-${tabKey}`);
-            const activeBtn = document.getElementById(`nav-btn-${tabKey}`);
             if (activeView) activeView.classList.remove('hidden');
-            if (activeBtn) {
-                activeBtn.className = 'sidebar-item w-full flex items-center space-x-2.5 space-x-reverse px-3 py-2 rounded-xl text-xs font-medium transition bg-brand-50 text-brand-700 dark:bg-brand-950/60 dark:text-brand-300 font-semibold';
-            }
 
-            // تحديث مسار التنقل
-            const breadcrumbView = document.getElementById('breadcrumb-view');
-            const viewNames = {
-                dashboard: 'لوحة المؤشرات',
-                iqamas: 'وثائق الإقامات',
-                contracts: 'العقود الوظيفية',
-                licenses: 'التراخيص والشهادات',
-                import: 'استيراد وتصدير Excel',
-                admin: 'إدارة المنشأة والأعضاء',
-                settings: 'التنبيهات والإعدادات'
-            };
-            if (breadcrumbView) breadcrumbView.textContent = viewNames[tabKey] || 'الرئيسية';
-
+            updateActiveTopTab();
             refreshActiveView();
         }
 
@@ -1766,8 +1954,61 @@
         }
 
         // ============================================================
-        // 6. عرض لوحة المؤشرات (Dashboard Rendering & Chart)
+        // 6. خيارات وعرض لوحة المؤشرات (Dashboard KPIs & Filters)
         // ============================================================
+        let activeKpiTimeFilter = 'all';
+        let activeKpiModuleFilter = 'all';
+        let activeChartType = 'bar';
+
+        function setKpiTimeFilter(filterVal) {
+            activeKpiTimeFilter = filterVal;
+            const filters = ['all', 30, 60, 90, 'expired'];
+            const isTarqeem = currentOrg === 'tarqeem';
+            const activeColorClass = isTarqeem ? 'bg-sky-500 text-white shadow-sm' : 'bg-emerald-600 text-white shadow-sm';
+
+            filters.forEach(f => {
+                const btn = document.getElementById(`kpi-filter-${f}`);
+                if (!btn) return;
+                if (String(f) === String(filterVal)) {
+                    btn.className = `kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold transition ${activeColorClass}`;
+                } else {
+                    btn.className = 'kpi-filter-btn px-3 py-1.5 rounded-xl text-xs font-semibold transition bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700';
+                }
+            });
+
+            renderDashboardView();
+        }
+
+        function changeKpiModuleFilter(val) {
+            activeKpiModuleFilter = val;
+            renderDashboardView();
+        }
+
+        function toggleChartType(type) {
+            activeChartType = type;
+            const btnBar = document.getElementById('chart-btn-bar');
+            const btnDonut = document.getElementById('chart-btn-doughnut');
+
+            if (type === 'bar') {
+                if (btnBar) btnBar.className = 'px-2.5 py-1 rounded-lg font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+                if (btnDonut) btnDonut.className = 'px-2.5 py-1 rounded-lg font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition';
+            } else {
+                if (btnBar) btnBar.className = 'px-2.5 py-1 rounded-lg font-bold text-slate-500 hover:text-slate-900 dark:hover:text-white transition';
+                if (btnDonut) btnDonut.className = 'px-2.5 py-1 rounded-lg font-bold bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm transition';
+            }
+
+            renderDashboardView();
+        }
+
+        function filterAndDrillDown(statusType) {
+            switchTab('iqamas');
+            const filterSelect = document.getElementById('filter-status-iqamas');
+            if (filterSelect) {
+                filterSelect.value = statusType;
+                renderModuleTable('iqamas');
+            }
+        }
+
         function renderDashboardView() {
             const db = getDb();
             const orgData = db[currentOrg] || { iqamas: [], contracts: [], licenses: [] };
@@ -1776,66 +2017,94 @@
             let total = 0, valid = 0, near = 0, expired = 0;
             const criticalItems = [];
 
-            // 1. الإقامات
-            (orgData.iqamas || []).forEach(r => {
+            // تحديد السجلات بحسب فلتر القسم
+            let targetItems = [];
+
+            if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'iqamas') {
+                (orgData.iqamas || []).forEach(r => {
+                    const days = calculateDaysRemaining(r.expiry_date);
+                    const info = getStatusInfo(days, settings.iqama_days || 45);
+                    targetItems.push({ type: 'إقامة', name: r.name, days, date: r.expiry_date, info });
+                });
+            }
+
+            if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'contracts') {
+                (orgData.contracts || []).forEach(r => {
+                    const days = calculateDaysRemaining(r.contract_end_date);
+                    const info = getStatusInfo(days, settings.contract_days || 90);
+                    targetItems.push({ type: 'عقد', name: r.name, days, date: r.contract_end_date, info });
+                });
+            }
+
+            if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'licenses') {
+                (orgData.licenses || []).forEach(r => {
+                    const days = calculateDaysRemaining(r.expiry_date);
+                    const info = getStatusInfo(days, settings.iqama_days || 45);
+                    targetItems.push({ type: 'ترخيص', name: r.document_name, days, date: r.expiry_date, info });
+                });
+            }
+
+            // تطبيق فلتر المدى الزمني
+            if (activeKpiTimeFilter !== 'all') {
+                if (activeKpiTimeFilter === 'expired') {
+                    targetItems = targetItems.filter(item => item.days < 0);
+                } else {
+                    const maxDays = Number(activeKpiTimeFilter);
+                    targetItems = targetItems.filter(item => item.days <= maxDays);
+                }
+            }
+
+            // احتساب الإحصائيات
+            targetItems.forEach(item => {
                 total++;
-                const days = calculateDaysRemaining(r.expiry_date);
-                const info = getStatusInfo(days, settings.iqama_days || 45);
-                if (info.isExpired) { expired++; criticalItems.push({ type: 'إقامة', name: r.name, days, date: r.expiry_date }); }
-                else if (info.isNear) { near++; criticalItems.push({ type: 'إقامة', name: r.name, days, date: r.expiry_date }); }
-                else valid++;
+                if (item.info.isExpired) {
+                    expired++;
+                    criticalItems.push(item);
+                } else if (item.info.isNear) {
+                    near++;
+                    criticalItems.push(item);
+                } else {
+                    valid++;
+                }
             });
 
-            // 2. العقود
-            (orgData.contracts || []).forEach(r => {
-                total++;
-                const days = calculateDaysRemaining(r.contract_end_date);
-                const info = getStatusInfo(days, settings.contract_days || 90);
-                if (info.isExpired) { expired++; criticalItems.push({ type: 'عقد', name: r.name, days, date: r.contract_end_date }); }
-                else if (info.isNear) { near++; criticalItems.push({ type: 'عقد', name: r.name, days, date: r.contract_end_date }); }
-                else valid++;
-            });
+            // تحديث كروت المؤشرات
+            const totalEl = document.getElementById('kpi-total-records');
+            const validEl = document.getElementById('kpi-valid-records');
+            const nearEl = document.getElementById('kpi-near-records');
+            const expiredEl = document.getElementById('kpi-expired-records');
 
-            // 3. التراخيص
-            (orgData.licenses || []).forEach(r => {
-                total++;
-                const days = calculateDaysRemaining(r.expiry_date);
-                const info = getStatusInfo(days, settings.iqama_days || 45);
-                if (info.isExpired) { expired++; criticalItems.push({ type: 'ترخيص', name: r.document_name, days, date: r.expiry_date }); }
-                else if (info.isNear) { near++; criticalItems.push({ type: 'ترخيص', name: r.document_name, days, date: r.expiry_date }); }
-                else valid++;
-            });
-
-            // تحديث الـ KPI cards
-            document.getElementById('kpi-total-records').textContent = total;
-            document.getElementById('kpi-valid-records').textContent = valid;
-            document.getElementById('kpi-near-records').textContent = near;
-            document.getElementById('kpi-expired-records').textContent = expired;
+            if (totalEl) totalEl.textContent = total;
+            if (validEl) validEl.textContent = valid;
+            if (nearEl) nearEl.textContent = near;
+            if (expiredEl) expiredEl.textContent = expired;
 
             // تحديث قائمة البنود العاجلة
             const critBox = document.getElementById('dashboard-critical-list');
-            criticalItems.sort((a, b) => a.days - b.days);
+            if (critBox) {
+                criticalItems.sort((a, b) => a.days - b.days);
 
-            if (criticalItems.length === 0) {
-                critBox.innerHTML = `
-                    <div class="text-center py-6 text-slate-400 space-y-1">
-                        <span class="text-xl">🎉</span>
-                        <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">كافة السجلات والوثائق سارية ومستقرة</p>
-                    </div>
-                `;
-            } else {
-                critBox.innerHTML = criticalItems.slice(0, 5).map(item => `
-                    <div class="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 flex items-center justify-between">
-                        <div class="flex items-center space-x-2 space-x-reverse truncate">
-                            <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${item.type === 'إقامة' ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : (item.type === 'عقد' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300' : 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300')}">${item.type}</span>
-                            <span class="text-xs font-bold text-slate-900 dark:text-white truncate">${item.name}</span>
+                if (criticalItems.length === 0) {
+                    critBox.innerHTML = `
+                        <div class="text-center py-6 text-slate-400 space-y-1">
+                            <span class="text-xl">🎉</span>
+                            <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">كافة السجلات المحددة سارية ومستقرة تماماً</p>
                         </div>
-                        <span class="text-[11px] font-mono font-bold ${item.days < 0 ? 'text-rose-600' : 'text-amber-600'} shrink-0">${item.days < 0 ? `منتهي (${Math.abs(item.days)} يوم)` : `${item.days} يوم متبقي`}</span>
-                    </div>
-                `).join('');
+                    `;
+                } else {
+                    critBox.innerHTML = criticalItems.slice(0, 5).map(item => `
+                        <div class="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40 flex items-center justify-between">
+                            <div class="flex items-center space-x-2 space-x-reverse truncate">
+                                <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${item.type === 'إقامة' ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : (item.type === 'عقد' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300' : 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300')}">${item.type}</span>
+                                <span class="text-xs font-bold text-slate-900 dark:text-white truncate">${item.name}</span>
+                            </div>
+                            <span class="text-[11px] font-mono font-bold ${item.days < 0 ? 'text-rose-600' : 'text-amber-600'} shrink-0">${item.days < 0 ? `منتهي (${Math.abs(item.days)} يوم)` : `${item.days} يوم متبقي`}</span>
+                        </div>
+                    `).join('');
+                }
             }
 
-            // رسم بياني بنظام لونين احترافيين
+            // رسم بياني بنظام لونين احترافيين يتكيف مع هوية المنشأة ونوع الرسم
             renderChart(valid, near + expired);
         }
 
@@ -1847,48 +2116,76 @@
 
             const isTarqeem = currentOrg === 'tarqeem';
             const primaryColor = isTarqeem ? '#0ea5e9' : '#2563eb';
-            const alertColor = '#f43f5e';
+            const alertColor = isTarqeem ? '#f43f5e' : '#10b981';
 
-            chartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['سارية ومستقرة', 'تتطلب إجراء (قريب + منتهي)'],
-                    datasets: [{
-                        label: 'عدد السجلات',
-                        data: [validCount, attentionCount],
-                        backgroundColor: [primaryColor, alertColor],
-                        borderRadius: 10,
-                        borderSkipped: false,
-                        barThickness: 45
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            rtl: true,
-                            backgroundColor: '#0f172a',
-                            titleFont: { family: 'IBM Plex Sans Arabic' },
-                            bodyFont: { family: 'IBM Plex Sans Arabic' },
-                            cornerRadius: 8,
-                            padding: 10
-                        }
+            if (activeChartType === 'doughnut') {
+                chartInstance = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['سارية ومستقرة', 'تتطلب إجراء ومتابعة'],
+                        datasets: [{
+                            data: [validCount, attentionCount],
+                            backgroundColor: [primaryColor, '#f43f5e'],
+                            borderWidth: 2,
+                            borderColor: isTarqeem ? '#0f172a' : '#090d16'
+                        }]
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { precision: 0, font: { family: 'JetBrains Mono', size: 10 } },
-                            grid: { color: 'rgba(148, 163, 184, 0.1)' }
-                        },
-                        x: {
-                            ticks: { font: { family: 'IBM Plex Sans Arabic', size: 11 } },
-                            grid: { display: false }
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#94a3b8',
+                                    font: { family: 'IBM Plex Sans Arabic', size: 11 }
+                                }
+                            }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                chartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['سارية ومستقرة', 'تتطلب إجراء ومتابعة'],
+                        datasets: [{
+                            label: 'عدد السجلات',
+                            data: [validCount, attentionCount],
+                            backgroundColor: [primaryColor, '#f43f5e'],
+                            borderRadius: 10,
+                            borderSkipped: false,
+                            barThickness: 45
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                rtl: true,
+                                backgroundColor: '#0f172a',
+                                titleFont: { family: 'IBM Plex Sans Arabic' },
+                                bodyFont: { family: 'IBM Plex Sans Arabic' },
+                                cornerRadius: 8,
+                                padding: 10
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { precision: 0, font: { family: 'JetBrains Mono', size: 10 } },
+                                grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                            },
+                            x: {
+                                ticks: { font: { family: 'IBM Plex Sans Arabic', size: 11 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         // ============================================================
@@ -3150,9 +3447,19 @@
 
         function enforceRBAC() {
             const role = getUserRoleInOrg(currentOrg);
+            const isAdmin = (role === 'admin') || (currentUser?.role === 'admin');
+
+            // 1. زر تبديل المنشأة في الشريط العلوي (متاح للأدمن فقط)
+            const switchBtn = document.getElementById('top-switch-company-btn');
+            if (switchBtn) {
+                if (isAdmin) switchBtn.classList.remove('hidden');
+                else switchBtn.classList.add('hidden');
+            }
+
+            // 2. تبويب إدارة الأعضاء في الشريط العلوي (متاح للأدمن فقط)
             const adminNav = document.getElementById('nav-btn-admin');
             if (adminNav) {
-                if (role === 'admin') adminNav.classList.remove('hidden');
+                if (isAdmin) adminNav.classList.remove('hidden');
                 else adminNav.classList.add('hidden');
             }
         }
