@@ -535,26 +535,6 @@
                 <!-- ============================================================ -->
                 <div id="view-dashboard" class="space-y-6">
 
-                    <!-- شريط الإجراءات السريعة والاستبيان الموحد وفحص النظام الشامل -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 bg-gradient-to-r from-sky-500/10 via-brand-500/10 to-indigo-500/10 border border-sky-200 dark:border-sky-800/60 rounded-2xl p-4">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <div class="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center font-bold text-lg shadow-sm shrink-0">
-                                🪪
-                            </div>
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">الاستبيان الموحد الشامل للموظف</h3>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400">إدخال وحفظ وثائق الإقامة والعقد الوظيفي وتسجيل المستخدم في نموذج واحد متكامل</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-2 space-x-reverse w-full sm:w-auto">
-                            <button onclick="runBrowserTestSuite()" class="flex-1 sm:flex-initial px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-sky-500 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 space-x-reverse shadow-sm">
-                                <span>⚡</span><span>فحص واختبار المنصة الشامل</span>
-                            </button>
-                            <button onclick="openAddModal('employee_unified')" class="flex-1 sm:flex-initial px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 space-x-reverse shadow-md shadow-sky-500/20">
-                                <span>+</span><span>إضافة موظف بالاستبيان الموحد</span>
-                            </button>
-                        </div>
-                    </div>
                     
                     <!-- شريط خيارات وفلاتر المؤشرات (KPI Control & Filter Bar) -->
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
@@ -612,46 +592,46 @@
                             </div>
                         </div>
 
-                        <!-- السجلات السارية -->
+                        <!-- السجلات السارية (المؤشر الأخضر) -->
                         <div onclick="filterAndDrillDown('valid')" id="kpi-card-valid" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-emerald-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400">
-                                <span class="text-xs font-bold">سجلات سارية ومستقرة</span>
+                                <span class="text-xs font-bold flex items-center space-x-1.5 space-x-reverse"><span>🟢</span><span>سجلات سارية ومستقرة</span></span>
                                 <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
                                 <span id="kpi-valid-records" class="text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400">0</span>
-                                <span class="text-[11px] text-emerald-600/80 font-bold">حالة ممتازة</span>
+                                <span class="text-[11px] text-emerald-600/80 font-bold">&gt; 3 أشهر (حالة ممتازة)</span>
                             </div>
                             <div class="text-[11px] text-slate-400 flex items-center justify-between">
-                                <span>لا تتطلب أي إجراء تجديد</span>
+                                <span>مستقرة ولا تتطلب أي إجراء تجديد</span>
                                 <span class="text-emerald-500 group-hover:underline text-[10px] font-bold">فلترة &larr;</span>
                             </div>
                         </div>
 
-                        <!-- قريبة الانتهاء -->
+                        <!-- قريبة الانتهاء (المؤشر الأصفر: باقي 3 أشهر فأقل) -->
                         <div onclick="filterAndDrillDown('near')" id="kpi-card-near" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-amber-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-amber-600 dark:text-amber-400">
-                                <span class="text-xs font-bold">قريبة الانتهاء (تتطلب متابعة)</span>
+                                <span class="text-xs font-bold flex items-center space-x-1.5 space-x-reverse"><span>🟡</span><span>قريبة الانتهاء (3 أشهر فأقل)</span></span>
                                 <div class="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 flex items-center justify-center text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                 </div>
                             </div>
                             <div class="flex items-baseline space-x-2 space-x-reverse">
                                 <span id="kpi-near-records" class="text-3xl font-black font-mono text-amber-600 dark:text-amber-400">0</span>
-                                <span class="text-[11px] text-amber-600/80 font-bold">في النطاق الحرج</span>
+                                <span class="text-[11px] text-amber-600/80 font-bold">&le; 90 يوماً للتجديد</span>
                             </div>
                             <div class="text-[11px] text-slate-400 flex items-center justify-between">
-                                <span>ضمن عتبة التنبيهات المحددة</span>
+                                <span>ضمن عتبة الإنذار المسبق (3 أشهر)</span>
                                 <span class="text-amber-500 group-hover:underline text-[10px] font-bold">فلترة &larr;</span>
                             </div>
                         </div>
 
-                        <!-- منتهية الصلاحية -->
+                        <!-- منتهية الصلاحية (المؤشر الأحمر) -->
                         <div onclick="filterAndDrillDown('expired')" id="kpi-card-expired" class="bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 hover:border-rose-500 rounded-2xl p-5 shadow-sm space-y-3 cursor-pointer transition-all duration-200 hover:scale-[1.02] group">
                             <div class="flex items-center justify-between text-rose-600 dark:text-rose-400">
-                                <span class="text-xs font-bold">سجلات منتهية الصلاحية</span>
+                                <span class="text-xs font-bold flex items-center space-x-1.5 space-x-reverse"><span>🔴</span><span>سجلات منتهية الصلاحية</span></span>
                                 <div class="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/50 flex items-center justify-center text-rose-600 dark:text-rose-400 group-hover:scale-110 transition-transform">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                 </div>
@@ -675,17 +655,21 @@
                         <div class="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
                             <div class="flex items-center justify-between">
                                 <div>
-                                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">توزيع حالات الوثائق والعقود</h3>
-                                    <p class="text-[11px] text-slate-400">مقارنة السجلات السارية مقابل تلك التي تتطلب إجراء تجديد</p>
+                                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">مؤشر الحالات (أخضر • أصفر • أحمر)</h3>
+                                    <p class="text-[11px] text-slate-400">توزيع السجلات حسب جاهزية التجديد: سارية (&gt; 3 أشهر)، قريبة الانتهاء (&le; 3 أشهر)، ومنتهية</p>
                                 </div>
                                 <div class="flex items-center space-x-3 space-x-reverse text-xs">
                                     <div class="flex items-center space-x-1.5 space-x-reverse">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>
-                                        <span class="text-slate-500 text-[11px]">سارية</span>
+                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                        <span class="text-slate-500 text-[11px]">سارية (&gt; 3 أشهر)</span>
+                                    </div>
+                                    <div class="flex items-center space-x-1.5 space-x-reverse">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                        <span class="text-slate-500 text-[11px]">قريبة الانتهاء (&le; 3 أشهر)</span>
                                     </div>
                                     <div class="flex items-center space-x-1.5 space-x-reverse">
                                         <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
-                                        <span class="text-slate-500 text-[11px]">تحتاج إجراء</span>
+                                        <span class="text-slate-500 text-[11px]">منتهية الصلاحية</span>
                                     </div>
                                 </div>
                             </div>
@@ -744,9 +728,9 @@
                         </div>
                         <select id="filter-status-iqamas" onchange="filterModuleTable('iqamas')" class="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <option value="all">كافة الحالات</option>
-                            <option value="valid">ساري</option>
-                            <option value="near">قريب الانتهاء (&le; 45 يوم)</option>
-                            <option value="expired">منتهي</option>
+                            <option value="valid">🟢 ساري (&gt; 3 أشهر)</option>
+                            <option value="near">🟡 قريب الانتهاء (&le; 3 أشهر)</option>
+                            <option value="expired">🔴 منتهي</option>
                         </select>
                     </div>
 
@@ -805,9 +789,9 @@
                         </div>
                         <select id="filter-status-contracts" onchange="filterModuleTable('contracts')" class="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <option value="all">كافة الحالات</option>
-                            <option value="valid">ساري</option>
-                            <option value="near">قريب الانتهاء (&le; 90 يوم)</option>
-                            <option value="expired">منتهي</option>
+                            <option value="valid">🟢 ساري (&gt; 3 أشهر)</option>
+                            <option value="near">🟡 قريب الانتهاء (&le; 3 أشهر)</option>
+                            <option value="expired">🔴 منتهي</option>
                         </select>
                     </div>
 
@@ -867,9 +851,9 @@
                         </div>
                         <select id="filter-status-licenses" onchange="filterModuleTable('licenses')" class="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <option value="all">كافة الحالات</option>
-                            <option value="valid">ساري</option>
-                            <option value="near">قريب الانتهاء (&le; 45 يوم)</option>
-                            <option value="expired">منتهي</option>
+                            <option value="valid">🟢 ساري (&gt; 3 أشهر)</option>
+                            <option value="near">🟡 قريب الانتهاء (&le; 3 أشهر)</option>
+                            <option value="expired">🔴 منتهي</option>
                         </select>
                     </div>
 
@@ -1232,20 +1216,20 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                                     <div>
                                         <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">عتبة الإقامات (أيام)</label>
-                                        <input type="number" id="setting-iqama-days" value="45" min="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
-                                        <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 45 يوماً للتجديد ونقل الكفالة</span>
+                                        <input type="number" id="setting-iqama-days" value="90" min="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
+                                        <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 90 يوماً (3 أشهر) للمؤشر الأصفر</span>
                                     </div>
                                     <div>
                                         <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">عتبة العقود (أيام)</label>
                                         <input type="number" id="setting-contract-days" value="90" min="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
-                                        <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 90 يوماً حسب معايير نظام العمل</span>
+                                        <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 90 يوماً (3 أشهر) للمؤشر الأصفر</span>
                                     </div>
                                 </div>
 
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">عتبة التراخيص والشهادات (أيام)</label>
-                                    <input type="number" id="setting-license-days" value="60" min="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
-                                    <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 60 يوماً لتجديد التراخيص البلدية والسجلات التجارية</span>
+                                    <input type="number" id="setting-license-days" value="90" min="1" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
+                                    <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 90 يوماً (3 أشهر) للمؤشر الأصفر</span>
                                 </div>
                             </div>
 
@@ -1463,7 +1447,7 @@
                     { id: 2, document_name: "السجل التجاري الرئيسي", document_type: "تجاري", document_number: "CR-1010896", branch: "المقر الرئيسي مكة", issue_date: "2022-05-15", expiry_date: "2027-05-15", notes: "مجدد لخمس سنوات" },
                     { id: 3, document_name: "شهادة الدفاع المدني", document_type: "سلامة", document_number: "CD-45120", branch: "فرع جدة", issue_date: "2024-02-01", expiry_date: "2026-10-30", notes: "قريب الانتهاء" }
                 ],
-                settings: { iqama_days: 45, contract_days: 90, license_days: 60, emails: "hr@tarqeem.sa, info@trqem.sa", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
+                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "hr@tarqeem.sa, info@trqem.sa", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
                 members: [
                     { id: 'm1', email: 'admin@tarqeem.com', name: 'مدير عام ترقيم', role: 'admin', status: 'active', created_at: '2026-01-15' },
                     { id: 'm2', email: 'viewer@tarqeem.com', name: 'مستعرض ترقيم', role: 'user', status: 'active', created_at: '2026-03-10' }
@@ -1483,7 +1467,7 @@
                     { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "المقر الرئيسي جدة", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
                     { id: 102, document_name: "سجل تجاري شركة تفنين", document_type: "تجاري", document_number: "CR-2050991", branch: "المركز الرئيسي جدة", issue_date: "2023-01-15", expiry_date: "2028-01-15", notes: "ساري" }
                 ],
-                settings: { iqama_days: 45, contract_days: 90, license_days: 60, emails: "hr@tafneen.com, management@tafneen.com", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
+                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "hr@tafneen.com, management@tafneen.com", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
                 members: [
                     { id: 'm101', email: 'manager@tafneen.com', name: 'مشرف تفنين', role: 'manager', status: 'active', created_at: '2026-02-01' }
                 ],
@@ -1497,7 +1481,18 @@
                 localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(defaultData));
                 return defaultData;
             }
-            try { return JSON.parse(raw); } catch (e) { return defaultData; }
+            try { 
+                const parsed = JSON.parse(raw); 
+                // ترقية عتبات التنبيه إلى 90 يوماً (3 أشهر) للمؤشر الأصفر
+                ['tarqeem', 'tafneen'].forEach(org => {
+                    if (parsed[org] && parsed[org].settings) {
+                        if (parsed[org].settings.iqama_days === 45 || !parsed[org].settings.iqama_days) parsed[org].settings.iqama_days = 90;
+                        if (parsed[org].settings.license_days === 60 || !parsed[org].settings.license_days) parsed[org].settings.license_days = 90;
+                        if (!parsed[org].settings.contract_days) parsed[org].settings.contract_days = 90;
+                    }
+                });
+                return parsed;
+            } catch (e) { return defaultData; }
         }
 
         function saveDb(db) {
@@ -2078,10 +2073,41 @@
             return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         }
 
-        function getStatusInfo(days, threshold) {
-            if (days < 0) return { label: 'منتهي', colorClass: 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-900', dotColor: 'bg-rose-500', isExpired: true };
-            if (days <= threshold) return { label: 'قريب الانتهاء', colorClass: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-900', dotColor: 'bg-amber-500', isNear: true };
-            return { label: 'ساري', colorClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900', dotColor: 'bg-emerald-500', isValid: true };
+        function getStatusInfo(days, threshold = 90) {
+            // المؤشر الأحمر: السجلات المنتهية الصلاحية (0 أيام أو أقل)
+            if (days <= 0) {
+                return { 
+                    label: 'منتهي', 
+                    status: 'expired',
+                    symbol: '🔴',
+                    colorClass: 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-900', 
+                    dotColor: 'bg-rose-500', 
+                    hexColor: '#ef4444',
+                    isExpired: true 
+                };
+            }
+            // المؤشر الأصفر: باقي ثلاثة شهور أو أقل (عتبة 90 يوماً)
+            if (days <= threshold) {
+                return { 
+                    label: 'قريب الانتهاء (≤ 3 أشهر)', 
+                    status: 'near',
+                    symbol: '🟡',
+                    colorClass: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-900', 
+                    dotColor: 'bg-amber-500', 
+                    hexColor: '#f59e0b',
+                    isNear: true 
+                };
+            }
+            // المؤشر الأخضر: السجلات السارية والمستقرة (أكثر من 3 شهور)
+            return { 
+                label: 'ساري', 
+                status: 'valid',
+                symbol: '🟢',
+                colorClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900', 
+                dotColor: 'bg-emerald-500', 
+                hexColor: '#10b981',
+                isValid: true 
+            };
         }
 
         // ============================================================
@@ -2143,18 +2169,21 @@
         function renderDashboardView() {
             const db = getDb();
             const orgData = db[currentOrg] || { iqamas: [], contracts: [], licenses: [] };
-            const settings = orgData.settings || { iqama_days: 45, contract_days: 90 };
+            const settings = orgData.settings || { iqama_days: 90, contract_days: 90, license_days: 90 };
+            const iqThreshold = settings.iqama_days || 90;
+            const conThreshold = settings.contract_days || 90;
+            const licThreshold = settings.license_days || 90;
 
             let total = 0, valid = 0, near = 0, expired = 0;
             const criticalItems = [];
 
-            // تحديد السجلات بحسب فلتر القسم
+            // تحديد السجلات بحسب فلتر القسم مع عتبة الـ 90 يوماً (3 أشهر) للمؤشر الأصفر
             let targetItems = [];
 
             if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'iqamas') {
                 (orgData.iqamas || []).forEach(r => {
                     const days = calculateDaysRemaining(r.expiry_date);
-                    const info = getStatusInfo(days, settings.iqama_days || 45);
+                    const info = getStatusInfo(days, iqThreshold);
                     targetItems.push({ type: 'إقامة', name: r.name, days, date: r.expiry_date, info });
                 });
             }
@@ -2162,7 +2191,7 @@
             if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'contracts') {
                 (orgData.contracts || []).forEach(r => {
                     const days = calculateDaysRemaining(r.contract_end_date);
-                    const info = getStatusInfo(days, settings.contract_days || 90);
+                    const info = getStatusInfo(days, conThreshold);
                     targetItems.push({ type: 'عقد', name: r.name, days, date: r.contract_end_date, info });
                 });
             }
@@ -2170,7 +2199,7 @@
             if (activeKpiModuleFilter === 'all' || activeKpiModuleFilter === 'licenses') {
                 (orgData.licenses || []).forEach(r => {
                     const days = calculateDaysRemaining(r.expiry_date);
-                    const info = getStatusInfo(days, settings.iqama_days || 45);
+                    const info = getStatusInfo(days, licThreshold);
                     targetItems.push({ type: 'ترخيص', name: r.document_name, days, date: r.expiry_date, info });
                 });
             }
@@ -2178,14 +2207,14 @@
             // تطبيق فلتر المدى الزمني
             if (activeKpiTimeFilter !== 'all') {
                 if (activeKpiTimeFilter === 'expired') {
-                    targetItems = targetItems.filter(item => item.days < 0);
+                    targetItems = targetItems.filter(item => item.days <= 0);
                 } else {
                     const maxDays = Number(activeKpiTimeFilter);
                     targetItems = targetItems.filter(item => item.days <= maxDays);
                 }
             }
 
-            // احتساب الإحصائيات
+            // احتساب الإحصائيات للألوان الثلاثة
             targetItems.forEach(item => {
                 total++;
                 if (item.info.isExpired) {
@@ -2219,7 +2248,7 @@
                     critBox.innerHTML = `
                         <div class="text-center py-6 text-slate-400 space-y-1">
                             <span class="text-xl">🎉</span>
-                            <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">كافة السجلات المحددة سارية ومستقرة تماماً</p>
+                            <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">كافة السجلات المحددة سارية ومستقرة تماماً (🟢)</p>
                         </div>
                     `;
                 } else {
@@ -2229,36 +2258,39 @@
                                 <span class="text-[10px] px-1.5 py-0.5 rounded font-mono font-bold ${item.type === 'إقامة' ? 'bg-sky-100 text-sky-800 dark:bg-sky-950 dark:text-sky-300' : (item.type === 'عقد' ? 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300' : 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300')}">${item.type}</span>
                                 <span class="text-xs font-bold text-slate-900 dark:text-white truncate">${item.name}</span>
                             </div>
-                            <span class="text-[11px] font-mono font-bold ${item.days < 0 ? 'text-rose-600' : 'text-amber-600'} shrink-0">${item.days < 0 ? `منتهي (${Math.abs(item.days)} يوم)` : `${item.days} يوم متبقي`}</span>
+                            <span class="text-[11px] font-mono font-bold ${item.days <= 0 ? 'text-rose-600 dark:text-rose-400' : 'text-amber-600 dark:text-amber-400'} shrink-0 flex items-center space-x-1 space-x-reverse">
+                                <span>${item.days <= 0 ? '🔴' : '🟡'}</span>
+                                <span>${item.days <= 0 ? `منتهي (${Math.abs(item.days)} يوم)` : `${item.days} يوم متبقي`}</span>
+                            </span>
                         </div>
                     `).join('');
                 }
             }
 
-            // رسم بياني بنظام لونين احترافيين يتكيف مع هوية المنشأة ونوع الرسم
-            renderChart(valid, near + expired);
+            // رسم بياني ثلاثي الألوان: أخضر • أصفر • أحمر
+            renderChart(valid, near, expired);
         }
 
-        function renderChart(validCount, attentionCount) {
+        function renderChart(validCount, nearCount, expiredCount) {
             const ctx = document.getElementById('dashboardChart');
             if (!ctx) return;
 
             if (chartInstance) chartInstance.destroy();
 
-            const isTarqeem = currentOrg === 'tarqeem';
-            const primaryColor = isTarqeem ? '#0ea5e9' : '#2563eb';
-            const alertColor = isTarqeem ? '#f43f5e' : '#10b981';
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#475569';
+            const bgBorder = isDark ? '#0f172a' : '#ffffff';
 
             if (activeChartType === 'doughnut') {
                 chartInstance = new Chart(ctx, {
                     type: 'doughnut',
                     data: {
-                        labels: ['سارية ومستقرة', 'تتطلب إجراء ومتابعة'],
+                        labels: ['🟢 سارية (> 3 أشهر)', '🟡 قريبة الانتهاء (≤ 3 أشهر)', '🔴 منتهية الصلاحية'],
                         datasets: [{
-                            data: [validCount, attentionCount],
-                            backgroundColor: [primaryColor, '#f43f5e'],
+                            data: [validCount, nearCount, expiredCount],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
                             borderWidth: 2,
-                            borderColor: isTarqeem ? '#0f172a' : '#090d16'
+                            borderColor: bgBorder
                         }]
                     },
                     options: {
@@ -2268,9 +2300,15 @@
                             legend: {
                                 position: 'bottom',
                                 labels: {
-                                    color: '#94a3b8',
-                                    font: { family: 'IBM Plex Sans Arabic', size: 11 }
+                                    color: textColor,
+                                    font: { family: 'IBM Plex Sans Arabic', size: 11, weight: 'bold' },
+                                    padding: 14
                                 }
+                            },
+                            tooltip: {
+                                rtl: true,
+                                titleFont: { family: 'IBM Plex Sans Arabic' },
+                                bodyFont: { family: 'IBM Plex Sans Arabic' }
                             }
                         }
                     }
@@ -2279,11 +2317,11 @@
                 chartInstance = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ['سارية ومستقرة', 'تتطلب إجراء ومتابعة'],
+                        labels: ['🟢 سارية (> 3 أشهر)', '🟡 قريبة الانتهاء (≤ 3 أشهر)', '🔴 منتهية'],
                         datasets: [{
                             label: 'عدد السجلات',
-                            data: [validCount, attentionCount],
-                            backgroundColor: [primaryColor, '#f43f5e'],
+                            data: [validCount, nearCount, expiredCount],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
                             borderRadius: 10,
                             borderSkipped: false,
                             barThickness: 45
@@ -2306,11 +2344,11 @@
                         scales: {
                             y: {
                                 beginAtZero: true,
-                                ticks: { precision: 0, font: { family: 'JetBrains Mono', size: 10 } },
-                                grid: { color: 'rgba(148, 163, 184, 0.1)' }
+                                ticks: { precision: 0, font: { family: 'JetBrains Mono', size: 10 }, color: textColor },
+                                grid: { color: isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.05)' }
                             },
                             x: {
-                                ticks: { font: { family: 'IBM Plex Sans Arabic', size: 11 } },
+                                ticks: { font: { family: 'IBM Plex Sans Arabic', size: 11, weight: 'bold' }, color: textColor },
                                 grid: { display: false }
                             }
                         }
@@ -2326,7 +2364,7 @@
             const db = getDb();
             const list = db[currentOrg]?.[moduleKey] || [];
             const tbody = document.getElementById(`table-body-${moduleKey}`);
-            const threshold = moduleKey === 'contracts' ? 90 : 45;
+            const threshold = (db[currentOrg]?.settings?.[moduleKey === 'licenses' ? 'license_days' : (moduleKey === 'contracts' ? 'contract_days' : 'iqama_days')]) || 90;
 
             if (!tbody) return;
 
@@ -2357,11 +2395,14 @@
                         <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || r.department || r.document_type || '-'}</td>
                         <td class="py-3 px-4 text-slate-500">${r.branch || r.department || '-'}</td>
                         <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${dateVal || '-'}</td>
-                        <td class="py-3 px-4 font-mono font-bold ${days < 0 ? 'text-rose-600' : (days <= threshold ? 'text-amber-600' : 'text-emerald-600')}">
-                            ${days < 0 ? `منتهي (${Math.abs(days)})` : `${days} يوم`}
+                        <td class="py-3 px-4 font-mono font-bold ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                            <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                            </span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2 py-0.5 rounded-full font-semibold ${info.colorClass}">
+                            <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
                                 <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
                                 <span>${info.label}</span>
                             </span>
@@ -2384,7 +2425,7 @@
         function filterModuleTable(moduleKey) {
             const query = (document.getElementById(`search-${moduleKey}`)?.value || '').trim().toLowerCase();
             const statusFilter = document.getElementById(`filter-status-${moduleKey}`)?.value || 'all';
-            const threshold = moduleKey === 'contracts' ? 90 : 45;
+            const threshold = (db[currentOrg]?.settings?.[moduleKey === 'licenses' ? 'license_days' : (moduleKey === 'contracts' ? 'contract_days' : 'iqama_days')]) || 90;
 
             const db = getDb();
             const list = db[currentOrg]?.[moduleKey] || [];
@@ -2426,11 +2467,14 @@
                         <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || r.department || r.document_type || '-'}</td>
                         <td class="py-3 px-4 text-slate-500">${r.branch || r.department || '-'}</td>
                         <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${dateVal || '-'}</td>
-                        <td class="py-3 px-4 font-mono font-bold ${days < 0 ? 'text-rose-600' : (days <= threshold ? 'text-amber-600' : 'text-emerald-600')}">
-                            ${days < 0 ? `منتهي (${Math.abs(days)})` : `${days} يوم`}
+                        <td class="py-3 px-4 font-mono font-bold ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                            <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                            </span>
                         </td>
                         <td class="py-3 px-4">
-                            <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2 py-0.5 rounded-full font-semibold ${info.colorClass}">
+                            <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
                                 <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
                                 <span>${info.label}</span>
                             </span>
@@ -3167,10 +3211,10 @@
         function getCriticalRecords(orgKey = currentOrg) {
             const db = getDb();
             const orgData = db[orgKey] || {};
-            const settings = orgData.settings || { iqama_days: 45, contract_days: 90, license_days: 60 };
-            const iqThreshold = settings.iqama_days || 45;
+            const settings = orgData.settings || { iqama_days: 90, contract_days: 90, license_days: 90 };
+            const iqThreshold = settings.iqama_days || 90;
             const conThreshold = settings.contract_days || 90;
-            const licThreshold = settings.license_days || 60;
+            const licThreshold = settings.license_days || 90;
 
             const items = [];
             let expiredCount = 0;
@@ -3313,8 +3357,9 @@
             const db = getDb();
             const settings = db[currentOrg]?.settings || {
                 iqama_days: 45,
+                iqama_days: 90,
                 contract_days: 90,
-                license_days: 60,
+                license_days: 90,
                 emails: '',
                 email_enabled: true,
                 email_provider: 'mailto',
@@ -3328,9 +3373,9 @@
             };
 
             const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
-            setVal('setting-iqama-days', settings.iqama_days || 45);
+            setVal('setting-iqama-days', settings.iqama_days || 90);
             setVal('setting-contract-days', settings.contract_days || 90);
-            setVal('setting-license-days', settings.license_days || 60);
+            setVal('setting-license-days', settings.license_days || 90);
             setVal('setting-emails', settings.emails || '');
             setVal('setting-email-provider', settings.email_provider || 'mailto');
             setVal('setting-sender-name', settings.sender_name || 'نظام تنبيهات ترقيم وتفنين');
@@ -3349,9 +3394,9 @@
         }
 
         function saveNotificationSettings() {
-            const iqDays = Math.max(1, Number(document.getElementById('setting-iqama-days')?.value) || 45);
+            const iqDays = Math.max(1, Number(document.getElementById('setting-iqama-days')?.value) || 90);
             const conDays = Math.max(1, Number(document.getElementById('setting-contract-days')?.value) || 90);
-            const licDays = Math.max(1, Number(document.getElementById('setting-license-days')?.value) || 60);
+            const licDays = Math.max(1, Number(document.getElementById('setting-license-days')?.value) || 90);
             const emails = (document.getElementById('setting-emails')?.value || '').trim();
             const emailEnabled = document.getElementById('setting-email-enabled')?.checked ?? true;
             const emailProvider = document.getElementById('setting-email-provider')?.value || 'mailto';
