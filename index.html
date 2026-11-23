@@ -1200,7 +1200,7 @@
 
                                 <div>
                                     <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">عناوين البريد الإلكتروني للمستلمين (مفصولة بفواصل) *</label>
-                                    <textarea id="setting-emails" rows="2" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono" placeholder="hr@company.com, alerts@company.com">hr@tarqeem.sa, alerts@trqem.com</textarea>
+                                    <textarea id="setting-emails" rows="2" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono" placeholder="اكتب البريد الإلكتروني هنا، مثال: hr@company.com"></textarea>
                                     <span class="text-[11px] text-slate-400 mt-0.5 block">يتم توجيه التنبيهات الدورية والتقارير الفورية إلى هذه العناوين.</span>
                                 </div>
 
@@ -1585,43 +1585,35 @@
         let supabaseClient = null;
         let isCloudConnected = false;
 
-        // قاعدة البيانات الافتراضية المحلية (معزولة ومستقلة تماماً)
+        // قاعدة البيانات الرسمية المعتمدة (بيانات الموظفين الحقيقية فقط بدون أي سجلات وهمية)
         const defaultData = {
             tarqeem: {
                 iqamas: [
-                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل", id_pdf: "default" }
+                    { id: 'iq-1', name: "محمد سيف الإسلام عبدالله محمود", iqama_number: "2329478172", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-20", notes: "", transfer_renewal_notes: "", id_pdf: "default" },
+                    { id: 'iq-2', name: "عمر عبدالله عمر القثمي", iqama_number: "2320504133", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-01-20", notes: "", transfer_renewal_notes: "", id_pdf: "default" },
+                    { id: 'iq-3', name: "MOSTAFA FARAJI SHAHER ALI", iqama_number: "2219944242", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "", id_pdf: "default" },
+                    { id: 'iq-4', name: "بشار علي سعيد العمودي", iqama_number: "2615391485", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "", id_pdf: "default" },
+                    { id: 'iq-5', name: "عبدالمجيد صالح سعيد العمودي", iqama_number: "2601050236", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-13", notes: "", transfer_renewal_notes: "", id_pdf: "default" }
                 ],
                 contracts: [
-                    { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي", contract_pdf: "default", id_pdf: "default" },
-                    { id: 2, name: "عمر سالم الخالد", national_id: "2456789012", profession: "محاسب عام", skill_classification: "متوسط", department: "المالية", contract_start_date: "2023-11-01", contract_end_date: "2026-11-15", renewals_count: 1, notes: "إشعار بالتجديد", contract_pdf: "default", id_pdf: "default" },
-                    { id: 3, name: "طارق زياد منصور", national_id: "2567890123", profession: "فني شبكات", skill_classification: "ماهر", department: "الدعم الفني", contract_start_date: "2024-03-01", contract_end_date: "2027-02-28", renewals_count: 0, notes: "عقد أول", contract_pdf: "default", id_pdf: "default" }
+                    { id: 'co-1', name: "محمد سيف الإسلام عبدالله محمود", national_id: "2329478172", profession: "موظف", skill_classification: "محترف", department: "المركز الرئيسي", contract_start_date: "2024-01-01", contract_end_date: "2027-02-20", renewals_count: 1, notes: "", contract_pdf: "default", id_pdf: "default" },
+                    { id: 'co-2', name: "عمر عبدالله عمر القثمي", national_id: "2320504133", profession: "موظف", skill_classification: "محترف", department: "المركز الرئيسي", contract_start_date: "2024-01-01", contract_end_date: "2027-01-20", renewals_count: 1, notes: "", contract_pdf: "default", id_pdf: "default" },
+                    { id: 'co-3', name: "MOSTAFA FARAJI SHAHER ALI", national_id: "2219944242", profession: "موظف", skill_classification: "محترف", department: "المركز الرئيسي", contract_start_date: "2024-01-01", contract_end_date: "2027-02-22", renewals_count: 0, notes: "", contract_pdf: "default", id_pdf: "default" },
+                    { id: 'co-4', name: "بشار علي سعيد العمودي", national_id: "2615391485", profession: "موظف", skill_classification: "محترف", department: "المركز الرئيسي", contract_start_date: "2024-01-01", contract_end_date: "2027-02-22", renewals_count: 0, notes: "", contract_pdf: "default", id_pdf: "default" },
+                    { id: 'co-5', name: "عبدالمجيد صالح سعيد العمودي", national_id: "2601050236", profession: "موظف", skill_classification: "محترف", department: "المركز الرئيسي", contract_start_date: "2024-01-01", contract_end_date: "2027-02-13", renewals_count: 0, notes: "", contract_pdf: "default", id_pdf: "default" }
                 ],
-                licenses: [
-                    { id: 1, document_name: "رخصة البلدية المركزية", document_type: "بلدي", document_number: "BLD-78945", branch: "فرع مكة المكرمة", issue_date: "2023-01-10", expiry_date: "2026-11-25", notes: "ساري" },
-                    { id: 2, document_name: "السجل التجاري الرئيسي", document_type: "تجاري", document_number: "CR-1010896", branch: "المقر الرئيسي مكة", issue_date: "2022-05-15", expiry_date: "2027-05-15", notes: "مجدد لخمس سنوات" },
-                    { id: 3, document_name: "شهادة الدفاع المدني", document_type: "سلامة", document_number: "CD-45120", branch: "فرع جدة", issue_date: "2024-02-01", expiry_date: "2026-10-30", notes: "قريب الانتهاء" }
-                ],
-                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "hr@tarqeem.sa, info@trqem.sa", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
+                licenses: [],
+                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
                 members: [
-                    { id: 'm1', email: 'admin@tarqeem.com', name: 'مدير عام ترقيم', role: 'admin', status: 'active', created_at: '2026-01-15' },
-                    { id: 'm2', email: 'viewer@tarqeem.com', name: 'مستعرض ترقيم', role: 'user', status: 'active', created_at: '2026-03-10' }
+                    { id: 'm1', email: 'admin@tarqeem.com', name: 'مدير عام ترقيم', role: 'admin', status: 'active', created_at: '2026-01-15' }
                 ],
                 audit_logs: []
             },
             tafneen: {
-                iqamas: [
-                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي جدة", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح", id_pdf: "default" },
-                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع مكة المكرمة", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية", id_pdf: "default" }
-                ],
-                contracts: [
-                    { id: 101, name: "سعيد عبد الرحمن", national_id: "2789012345", profession: "مدير تسويق", skill_classification: "خبير", department: "التسويق", contract_start_date: "2024-01-01", contract_end_date: "2026-12-15", renewals_count: 1, notes: "مكافأة تجديد", contract_pdf: "default", id_pdf: "default" },
-                    { id: 102, name: "باسم فيصل الحربي", national_id: "2890123456", profession: "مصمم جرافيك", skill_classification: "محترف", department: "الإعلام الرقمي", contract_start_date: "2024-06-01", contract_end_date: "2027-05-31", renewals_count: 0, notes: "ساري", contract_pdf: "default", id_pdf: "default" }
-                ],
-                licenses: [
-                    { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "المقر الرئيسي جدة", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
-                    { id: 102, document_name: "سجل تجاري شركة تفنين", document_type: "تجاري", document_number: "CR-2050991", branch: "المركز الرئيسي جدة", issue_date: "2023-01-15", expiry_date: "2028-01-15", notes: "ساري" }
-                ],
-                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "hr@tafneen.com, management@tafneen.com", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
+                iqamas: [],
+                contracts: [],
+                licenses: [],
+                settings: { iqama_days: 90, contract_days: 90, license_days: 90, emails: "", email_enabled: true, email_provider: "mailto", sender_name: "نظام تنبيهات ترقيم وتفنين", sender_email: "alerts@tarqeem-tafneen.com", emailjs_service_id: "", emailjs_template_id: "", emailjs_public_key: "", resend_api_key: "", webhook_url: "" },
                 members: [
                     { id: 'm101', email: 'manager@tafneen.com', name: 'مشرف تفنين', role: 'manager', status: 'active', created_at: '2026-02-01' }
                 ],
@@ -1631,22 +1623,59 @@
 
         function getDb() {
             const raw = localStorage.getItem('tarqeem_tafneen_db_v1');
+            let db;
             if (!raw) {
-                localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(defaultData));
-                return defaultData;
+                db = defaultData;
+            } else {
+                try {
+                    db = JSON.parse(raw);
+                } catch (e) {
+                    db = defaultData;
+                }
             }
-            try { 
-                const parsed = JSON.parse(raw); 
-                // ترقية عتبات التنبيه إلى 90 يوماً (3 أشهر) للمؤشر الأصفر
-                ['tarqeem', 'tafneen'].forEach(org => {
-                    if (parsed[org] && parsed[org].settings) {
-                        if (parsed[org].settings.iqama_days === 45 || !parsed[org].settings.iqama_days) parsed[org].settings.iqama_days = 90;
-                        if (parsed[org].settings.license_days === 60 || !parsed[org].settings.license_days) parsed[org].settings.license_days = 90;
-                        if (!parsed[org].settings.contract_days) parsed[org].settings.contract_days = 90;
+
+            // حذف وتطهير كافة البيانات الوهمية القديمة نهائياً
+            const fakeIqamaNumbers = ['2345678901', '2456789012', '2567890123', '2678901234', '2789012345', '2890123456'];
+            const fakeNames = ['محمد أحمد علي', 'عمر سالم الخالد', 'طارق زياد منصور', 'خالد بن عبد الله', 'سعيد عبد الرحمن', 'باسم فيصل الحربي'];
+            const fakeEmails = ['hr@tarqeem.sa, info@trqem.sa', 'hr@tarqeem.sa, alerts@trqem.com', 'hr@tafneen.com, management@tafneen.com'];
+
+            ['tarqeem', 'tafneen'].forEach(org => {
+                if (db[org]) {
+                    if (Array.isArray(db[org].iqamas)) {
+                        db[org].iqamas = db[org].iqamas.filter(r => 
+                            !fakeIqamaNumbers.includes(String(r.iqama_number)) &&
+                            !fakeNames.includes(r.name)
+                        );
                     }
-                });
-                return parsed;
-            } catch (e) { return defaultData; }
+                    if (Array.isArray(db[org].contracts)) {
+                        db[org].contracts = db[org].contracts.filter(r => 
+                            !fakeIqamaNumbers.includes(String(r.national_id)) &&
+                            !fakeNames.includes(r.name)
+                        );
+                    }
+                    if (Array.isArray(db[org].licenses)) {
+                        db[org].licenses = db[org].licenses.filter(r => 
+                            !['BLD-78945', 'CR-1010896', 'CD-45120', 'TF-8890', 'CR-2050991'].includes(r.document_number)
+                        );
+                    }
+                    if (db[org].settings && fakeEmails.includes(db[org].settings.emails)) {
+                        db[org].settings.emails = '';
+                    }
+                    // ضمان تثبيت بيانات إقامات وعقود الموظفين الخمسة الحقيقيين فقط
+                    if (org === 'tarqeem' && (!db[org].iqamas || db[org].iqamas.length === 0)) {
+                        db[org].iqamas = JSON.parse(JSON.stringify(defaultData.tarqeem.iqamas));
+                        db[org].contracts = JSON.parse(JSON.stringify(defaultData.tarqeem.contracts));
+                    }
+                    if (db[org].settings) {
+                        if (db[org].settings.iqama_days === 45 || !db[org].settings.iqama_days) db[org].settings.iqama_days = 90;
+                        if (db[org].settings.license_days === 60 || !db[org].settings.license_days) db[org].settings.license_days = 90;
+                        if (!db[org].settings.contract_days) db[org].settings.contract_days = 90;
+                    }
+                }
+            });
+
+            saveDb(db);
+            return db;
         }
 
         function saveDb(db) {
@@ -3901,8 +3930,8 @@
             const isTarqeem = currentOrg === 'tarqeem';
             const companyName = isTarqeem ? 'مؤسسة ترقيم المتميزة لتقنية المعلومات' : 'شركة تفنين لتقنية المعلومات وحلول الأعمال';
             const companyCr = isTarqeem ? '1010896421' : '4030291882';
-            const nationalId = r.national_id || r.iqama_number || '2345678901';
-            const empName = r.name || 'محمد أحمد علي';
+            const nationalId = r.national_id || r.iqama_number || '-';
+            const empName = r.name || 'موظف';
             const profession = r.profession || 'موظف';
             const dept = r.department || (isTarqeem ? 'تقنية المعلومات' : 'الإدارة العامة');
             const startDate = r.contract_start_date || '2024-01-01';
@@ -3998,8 +4027,8 @@
         function generateOfficialIdCardPdfHtml(r) {
             const isTarqeem = currentOrg === 'tarqeem';
             const companyName = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
-            const idNum = r.iqama_number || r.national_id || '2345678901';
-            const empName = r.name || 'محمد أحمد علي';
+            const idNum = r.iqama_number || r.national_id || '-';
+            const empName = r.name || 'موظف';
             const profession = r.profession || 'موظف';
             const branch = r.branch || (isTarqeem ? 'المقر الرئيسي مكة' : 'المقر الرئيسي جدة');
             const expiry = r.expiry_date || r.contract_end_date || '2026-11-20';
