@@ -218,6 +218,8 @@
         </div>
     </div>
 
+
+
     <!-- ============================================================ -->
     <!-- 2. شاشة اختيار المنشأة المخصصة (Dedicated Company Selection Screen) -->
     <!-- ============================================================ -->
@@ -342,6 +344,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- ============================================================ -->
     <!-- 3. مساحة عمل التطبيق الرئيسي (App Workspace - مخفية عند تسجيل الخروج) -->
@@ -712,6 +716,9 @@
                             <button onclick="downloadExcelTemplate('iqamas')" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse shadow-sm" title="تحميل قالب الإقامات المعتمد (Excel Template)">
                                 <span>📥</span><span>قالب الإقامات (Template)</span>
                             </button>
+                            <button onclick="document.getElementById('excel-file-input').click()" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse shadow-sm" title="رفع واستيراد ملف قالب الإقامات">
+                                <span>📤</span><span>استيراد قالب الإقامات</span>
+                            </button>
                             <button onclick="exportToExcel('iqamas')" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse shadow-sm">
                                 <span>📊</span><span>تصدير Excel</span>
                             </button>
@@ -841,13 +848,14 @@
                                     <tr>
                                         <th class="py-3 px-4">اسم الموظف</th>
                                         <th class="py-3 px-4">رقم الهوية / الإقامة</th>
+                                        <th class="py-3 px-4 text-center">وثيقة العقد (PDF)</th>
                                         <th class="py-3 px-4">الإدارة</th>
                                         <th class="py-3 px-4">المهنة</th>
                                         <th class="py-3 px-4">بداية العقد</th>
                                         <th class="py-3 px-4">نهاية العقد</th>
                                         <th class="py-3 px-4">الأيام المتبقية</th>
-                                        <th class="py-3 px-4">الحالة</th>
-                                        <th class="py-3 px-4">الإجراءات</th>
+                                        <th class="py-3 px-4 text-center">الحالة</th>
+                                        <th class="py-3 px-4 text-center">الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-body-contracts" class="divide-y divide-slate-100 dark:divide-slate-800/60">
@@ -1313,6 +1321,47 @@
         </div>
     </div>
 
+    <!-- ============================================================ -->
+    <!-- نافذة منبثقة لمعاينة وثائق PDF (PDF Document Viewer Modal) -->
+    <!-- ============================================================ -->
+    <div id="pdf-viewer-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-3 sm:p-5 overflow-y-auto">
+        <div class="w-full max-w-3xl max-h-[92vh] flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40">
+                <div class="flex items-center space-x-3 space-x-reverse">
+                    <span id="pdf-modal-icon" class="text-2xl">📄</span>
+                    <div>
+                        <h3 id="pdf-modal-title" class="text-sm font-bold text-slate-900 dark:text-white">معاينة وثيقة PDF</h3>
+                        <p id="pdf-modal-subtitle" class="text-[11px] text-slate-400 font-mono">وثيقة رسمية معتمدة</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button onclick="printOrDownloadActivePdf()" class="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 space-x-reverse cursor-pointer">
+                        <span>🖨️</span><span>طباعة / حفظ PDF</span>
+                    </button>
+                    <button onclick="closePdfViewerModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 flex items-center justify-center text-slate-500 font-bold text-sm transition cursor-pointer">&times;</button>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div id="pdf-modal-body" class="p-6 overflow-y-auto flex-1 bg-slate-100/60 dark:bg-slate-950 flex flex-col items-center justify-center min-h-[420px]">
+                <!-- Embedded PDF or styled visual document -->
+            </div>
+
+            <!-- Footer: Quick replacement / upload button -->
+            <div class="px-6 py-3.5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                <div class="flex items-center space-x-2 space-x-reverse text-slate-500">
+                    <span>💡 إرفاق أو استبدال بملف PDF من جهازك:</span>
+                    <label class="cursor-pointer text-brand-600 dark:text-sky-400 hover:underline font-bold">
+                        <span>[+ رفع ملف PDF مخصص]</span>
+                        <input type="file" id="pdf-modal-file-replace" accept="application/pdf,image/*" onchange="handlePdfModalReplace(event)" class="hidden">
+                    </label>
+                </div>
+                <button onclick="closePdfViewerModal()" class="px-4 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
     <!-- نافذة نتائج الفحص الآلي المباشر -->
     <div id="test-results-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4 overflow-y-auto">
         <div class="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl p-6 space-y-4">
@@ -1337,6 +1386,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!-- ============================================================ -->
     <!-- نافذة منبثقة لمعاينة وإرسال البريد الإلكتروني (Email Dispatch Modal) -->
@@ -1422,6 +1473,8 @@
         </div>
     </div>
 
+
+
     <!-- ============================================================ -->
     <!-- كود الجافاسكربت الشامل والكامل لكافة الوظائف والعمليات -->
     <!-- ============================================================ -->
@@ -1439,12 +1492,12 @@
         const defaultData = {
             tarqeem: {
                 iqamas: [
-                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" }
+                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل", id_pdf: "default" }
                 ],
                 contracts: [
-                    { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي" },
-                    { id: 2, name: "عمر سالم الخالد", national_id: "2456789012", profession: "محاسب عام", skill_classification: "متوسط", department: "المالية", contract_start_date: "2023-11-01", contract_end_date: "2026-11-15", renewals_count: 1, notes: "إشعار بالتجديد" },
-                    { id: 3, name: "طارق زياد منصور", national_id: "2567890123", profession: "فني شبكات", skill_classification: "ماهر", department: "الدعم الفني", contract_start_date: "2024-03-01", contract_end_date: "2027-02-28", renewals_count: 0, notes: "عقد أول" }
+                    { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي", contract_pdf: "default", id_pdf: "default" },
+                    { id: 2, name: "عمر سالم الخالد", national_id: "2456789012", profession: "محاسب عام", skill_classification: "متوسط", department: "المالية", contract_start_date: "2023-11-01", contract_end_date: "2026-11-15", renewals_count: 1, notes: "إشعار بالتجديد", contract_pdf: "default", id_pdf: "default" },
+                    { id: 3, name: "طارق زياد منصور", national_id: "2567890123", profession: "فني شبكات", skill_classification: "ماهر", department: "الدعم الفني", contract_start_date: "2024-03-01", contract_end_date: "2027-02-28", renewals_count: 0, notes: "عقد أول", contract_pdf: "default", id_pdf: "default" }
                 ],
                 licenses: [
                     { id: 1, document_name: "رخصة البلدية المركزية", document_type: "بلدي", document_number: "BLD-78945", branch: "فرع مكة المكرمة", issue_date: "2023-01-10", expiry_date: "2026-11-25", notes: "ساري" },
@@ -1460,12 +1513,12 @@
             },
             tafneen: {
                 iqamas: [
-                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي جدة", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح" },
-                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع مكة المكرمة", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية" }
+                    { id: 101, name: "سعيد عبد الرحمن", iqama_number: "2789012345", profession: "مدير تسويق", branch: "المقر الرئيسي جدة", expiry_date: "2026-11-12", notes: "تفنين", transfer_renewal_notes: "تم نقل الكفالة بنجاح", id_pdf: "default" },
+                    { id: 102, name: "باسم فيصل الحربي", iqama_number: "2890123456", profession: "مصمم جرافيك", branch: "فرع مكة المكرمة", expiry_date: "2027-01-20", notes: "ساري", transfer_renewal_notes: "كفالة داخلية", id_pdf: "default" }
                 ],
                 contracts: [
-                    { id: 101, name: "سعيد عبد الرحمن", national_id: "2789012345", profession: "مدير تسويق", skill_classification: "خبير", department: "التسويق", contract_start_date: "2024-01-01", contract_end_date: "2026-12-15", renewals_count: 1, notes: "مكافأة تجديد" },
-                    { id: 102, name: "باسم فيصل الحربي", national_id: "2890123456", profession: "مصمم جرافيك", skill_classification: "محترف", department: "الإعلام الرقمي", contract_start_date: "2024-06-01", contract_end_date: "2027-05-31", renewals_count: 0, notes: "ساري" }
+                    { id: 101, name: "سعيد عبد الرحمن", national_id: "2789012345", profession: "مدير تسويق", skill_classification: "خبير", department: "التسويق", contract_start_date: "2024-01-01", contract_end_date: "2026-12-15", renewals_count: 1, notes: "مكافأة تجديد", contract_pdf: "default", id_pdf: "default" },
+                    { id: 102, name: "باسم فيصل الحربي", national_id: "2890123456", profession: "مصمم جرافيك", skill_classification: "محترف", department: "الإعلام الرقمي", contract_start_date: "2024-06-01", contract_end_date: "2027-05-31", renewals_count: 0, notes: "ساري", contract_pdf: "default", id_pdf: "default" }
                 ],
                 licenses: [
                     { id: 101, document_name: "رخصة بلدية تفنين", document_type: "بلدي", document_number: "TF-8890", branch: "المقر الرئيسي جدة", issue_date: "2023-08-01", expiry_date: "2027-08-01", notes: "ساري" },
@@ -1495,20 +1548,6 @@
                         if (!parsed[org].settings.contract_days) parsed[org].settings.contract_days = 90;
                     }
                 });
-
-                // تنظيف فوري للبيانات المؤقتة والوهمية وحفظ النتيجة في التخزين المحلي
-                let dbNeedsSaving = false;
-                ['tarqeem', 'tafneen'].forEach(org => {
-                    if (parsed[org] && Array.isArray(parsed[org].iqamas)) {
-                        const dummyNumbers = ['2329478172', '2320504133', '2219944242', '2615391485', '2601050236'];
-                        const beforeLen = parsed[org].iqamas.length;
-                        parsed[org].iqamas = parsed[org].iqamas.filter(item => !dummyNumbers.includes(String(item.iqama_number)));
-                        if (parsed[org].iqamas.length !== beforeLen) dbNeedsSaving = true;
-                    }
-                });
-                if (dbNeedsSaving) {
-                    localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(parsed));
-                }
                 return parsed;
             } catch (e) { return defaultData; }
         }
@@ -2425,7 +2464,7 @@
                 return;
             }
 
-            // عرض جدول وثائق الإقامات بتنسيق القالب المعتمد (11 عمود كامل)
+            // عرض جدول وثائق الإقامات بتنسيق القالب المعتمد (11 عمود كامل مع زر الهوية PDF)
             if (moduleKey === 'iqamas') {
                 tbody.innerHTML = list.map((r, idx) => {
                     const days = calculateDaysRemaining(r.expiry_date);
@@ -2436,7 +2475,14 @@
                         <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                             <td class="py-3 px-3 text-center font-mono text-slate-400 font-bold">${idx + 1}</td>
                             <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
-                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.iqama_number || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <span>${r.iqama_number || '-'}</span>
+                                    <button onclick="previewPdfDocument('id', '${r.id}', 'iqamas')" class="inline-flex items-center space-x-1 space-x-reverse px-2 py-0.5 rounded-lg bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900 transition text-[11px] font-sans font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة الهوية / الإقامة PDF">
+                                        <span>🪪</span><span>PDF</span>
+                                    </button>
+                                </div>
+                            </td>
                             <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
                             <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
                             <td class="py-3 px-4 font-mono font-bold whitespace-nowrap ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
@@ -2470,18 +2516,72 @@
                 return;
             }
 
-            // عرض بقية الجداول (العقود والتراخيص)
+            // عرض جدول العقود الوظيفية (مع وثيقة العقد PDF وصورة الهوية PDF)
+            if (moduleKey === 'contracts') {
+                tbody.innerHTML = list.map(r => {
+                    const days = calculateDaysRemaining(r.contract_end_date);
+                    const info = getStatusInfo(days, threshold);
+
+                    return `
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                            <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <span>${r.national_id || '-'}</span>
+                                    <button onclick="previewPdfDocument('id', '${r.id}', 'contracts')" class="inline-flex items-center space-x-1 space-x-reverse px-2 py-0.5 rounded-lg bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900 transition text-[11px] font-sans font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة الهوية / الإقامة PDF">
+                                        <span>🪪</span><span>PDF</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <button onclick="previewPdfDocument('contract', '${r.id}', 'contracts')" class="inline-flex items-center space-x-1.5 space-x-reverse px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900 transition text-xs font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة العقد الوظيفي PDF">
+                                    <span>📄</span><span>عقد PDF</span>
+                                </button>
+                            </td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.department || '-'}</td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
+                            <td class="py-3 px-4 font-mono text-slate-500">${r.contract_start_date || '-'}</td>
+                            <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${r.contract_end_date || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-bold whitespace-nowrap ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                    <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                    <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
+                                    <span>${info.label}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <button onclick="openEditModal('contracts', '${r.id}')" class="text-slate-400 hover:text-brand-600 transition" title="تعديل">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    </button>
+                                    <button onclick="deleteRecord('contracts', '${r.id}')" class="text-slate-400 hover:text-rose-600 transition" title="حذف">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                return;
+            }
+
+            // عرض بقية الجداول (التراخيص)
             tbody.innerHTML = list.map(r => {
-                const dateVal = moduleKey === 'contracts' ? r.contract_end_date : r.expiry_date;
+                const dateVal = r.expiry_date;
                 const days = calculateDaysRemaining(dateVal);
                 const info = getStatusInfo(days, threshold);
 
                 return `
                     <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
-                        <td class="py-3 px-4 font-bold text-slate-900 dark:text-white">${r.name || r.document_name}</td>
-                        <td class="py-3 px-4 font-mono text-slate-500">${r.iqama_number || r.national_id || r.document_number}</td>
-                        <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || r.department || r.document_type || '-'}</td>
-                        <td class="py-3 px-4 text-slate-500">${r.branch || r.department || '-'}</td>
+                        <td class="py-3 px-4 font-bold text-slate-900 dark:text-white">${r.document_name}</td>
+                        <td class="py-3 px-4 font-mono text-slate-500">${r.document_number}</td>
+                        <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.document_type || '-'}</td>
+                        <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
                         <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${dateVal || '-'}</td>
                         <td class="py-3 px-4 font-mono font-bold ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
                             <span class="inline-flex items-center space-x-1.5 space-x-reverse">
@@ -2558,12 +2658,12 @@
             }
 
             if (filtered.length === 0) {
-                const colSpan = moduleKey === 'iqamas' ? 11 : 8;
+                const colSpan = moduleKey === 'iqamas' ? 11 : (moduleKey === 'contracts' ? 10 : 8);
                 tbody.innerHTML = `<tr><td colspan="${colSpan}" class="text-center py-8 text-slate-400 text-xs">لا توجد نتائج مطابقة لمعايير البحث</td></tr>`;
                 return;
             }
 
-            // عرض نتائج جدول الإقامات
+            // عرض نتائج جدول الإقامات (مع زر الهوية PDF)
             if (moduleKey === 'iqamas') {
                 tbody.innerHTML = filtered.map((r, idx) => {
                     const days = calculateDaysRemaining(r.expiry_date);
@@ -2574,7 +2674,14 @@
                         <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
                             <td class="py-3 px-3 text-center font-mono text-slate-400 font-bold">${idx + 1}</td>
                             <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
-                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.iqama_number || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <span>${r.iqama_number || '-'}</span>
+                                    <button onclick="previewPdfDocument('id', '${r.id}', 'iqamas')" class="inline-flex items-center space-x-1 space-x-reverse px-2 py-0.5 rounded-lg bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900 transition text-[11px] font-sans font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة الهوية / الإقامة PDF">
+                                        <span>🪪</span><span>PDF</span>
+                                    </button>
+                                </div>
+                            </td>
                             <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
                             <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
                             <td class="py-3 px-4 font-mono font-bold whitespace-nowrap ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
@@ -2608,17 +2715,72 @@
                 return;
             }
 
+            // عرض نتائج جدول العقود الوظيفية (مع وثيقة العقد PDF وصورة الهوية PDF)
+            if (moduleKey === 'contracts') {
+                tbody.innerHTML = filtered.map(r => {
+                    const days = calculateDaysRemaining(r.contract_end_date);
+                    const info = getStatusInfo(days, threshold);
+
+                    return `
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                            <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <span>${r.national_id || '-'}</span>
+                                    <button onclick="previewPdfDocument('id', '${r.id}', 'contracts')" class="inline-flex items-center space-x-1 space-x-reverse px-2 py-0.5 rounded-lg bg-sky-50 dark:bg-sky-950/60 border border-sky-200 dark:border-sky-800 text-sky-700 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-900 transition text-[11px] font-sans font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة الهوية / الإقامة PDF">
+                                        <span>🪪</span><span>PDF</span>
+                                    </button>
+                                </div>
+                            </td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <button onclick="previewPdfDocument('contract', '${r.id}', 'contracts')" class="inline-flex items-center space-x-1.5 space-x-reverse px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900 transition text-xs font-bold shadow-xs cursor-pointer" title="معاينة وطباعة وثيقة العقد الوظيفي PDF">
+                                    <span>📄</span><span>عقد PDF</span>
+                                </button>
+                            </td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.department || '-'}</td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
+                            <td class="py-3 px-4 font-mono text-slate-500">${r.contract_start_date || '-'}</td>
+                            <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${r.contract_end_date || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-bold ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                    <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                    <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
+                                    <span>${info.label}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <button onclick="openEditModal('contracts', '${r.id}')" class="text-slate-400 hover:text-brand-600 transition" title="تعديل">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    </button>
+                                    <button onclick="deleteRecord('contracts', '${r.id}')" class="text-slate-400 hover:text-rose-600 transition" title="حذف">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                return;
+            }
+
+            // عرض بقية نتائج الجداول (التراخيص)
             tbody.innerHTML = filtered.map(r => {
-                const dateVal = moduleKey === 'contracts' ? r.contract_end_date : r.expiry_date;
+                const dateVal = r.expiry_date;
                 const days = calculateDaysRemaining(dateVal);
                 const info = getStatusInfo(days, threshold);
 
                 return `
                     <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
-                        <td class="py-3 px-4 font-bold text-slate-900 dark:text-white">${r.name || r.document_name}</td>
-                        <td class="py-3 px-4 font-mono text-slate-500">${r.iqama_number || r.national_id || r.document_number}</td>
-                        <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || r.department || r.document_type || '-'}</td>
-                        <td class="py-3 px-4 text-slate-500">${r.branch || r.department || '-'}</td>
+                        <td class="py-3 px-4 font-bold text-slate-900 dark:text-white">${r.document_name}</td>
+                        <td class="py-3 px-4 font-mono text-slate-500">${r.document_number}</td>
+                        <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.document_type || '-'}</td>
+                        <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
                         <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300">${dateVal || '-'}</td>
                         <td class="py-3 px-4 font-mono font-bold ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
                             <span class="inline-flex items-center space-x-1.5 space-x-reverse">
@@ -2760,6 +2922,14 @@
                         <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">ملاحظات النقل والتجديد</label>
                         <input type="text" id="m-transfer-notes" value="${data.transfer_renewal_notes || ''}" placeholder="ملاحظات نقل الكفالة، إجراءات التجديد..." class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-brand-500">
                     </div>
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">صورة / وثيقة الهوية (PDF أو صورة)</label>
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <input type="file" id="m-id-pdf" accept="application/pdf,image/*" onchange="handleModalPdfUpload(event, 'm-id-pdf-data', 'm-id-pdf-status')" class="text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer">
+                            <input type="hidden" id="m-id-pdf-data" value="${data.id_pdf || ''}">
+                            <span id="m-id-pdf-status" class="text-[11px] font-bold text-sky-600 dark:text-sky-400">${data.id_pdf && data.id_pdf.startsWith('data:') ? '✓ تم إرفاق ملف الهوية' : (data.id_pdf ? '✓ مستند معتمد' : '')}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- 4. العقد الوظيفي الرسمي -->
@@ -2790,6 +2960,14 @@
                     <div>
                         <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">ملاحظات وشروط العقد والتجديد</label>
                         <input type="text" id="m-contract-notes" value="${data.contract_notes || 'تجديد سنوي تلقائي'}" placeholder="مثال: تجديد سنوي تلقائي مع مكافأة أداء" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-brand-500">
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">صورة / ملف العقد (PDF أو صورة وثيقة رسمية)</label>
+                        <div class="flex items-center space-x-2 space-x-reverse">
+                            <input type="file" id="m-contract-pdf" accept="application/pdf,image/*" onchange="handleModalPdfUpload(event, 'm-contract-pdf-data', 'm-contract-pdf-status')" class="text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer">
+                            <input type="hidden" id="m-contract-pdf-data" value="${data.contract_pdf || ''}">
+                            <span id="m-contract-pdf-status" class="text-[11px] font-bold text-purple-600 dark:text-purple-400">${data.contract_pdf && data.contract_pdf.startsWith('data:') ? '✓ تم إرفاق ملف العقد' : (data.contract_pdf ? '✓ مستند معتمد' : '')}</span>
+                        </div>
                     </div>
                 </div>
             `;
@@ -2913,7 +3091,9 @@
                     contract_start_date: matchedContract?.contract_start_date || '',
                     contract_end_date: matchedContract?.contract_end_date || '',
                     skill_classification: matchedContract?.skill_classification || 'محترف',
-                    contract_notes: matchedContract?.notes || ''
+                    contract_notes: matchedContract?.notes || '',
+                    id_pdf: matchedIqama?.id_pdf || matchedContract?.id_pdf || '',
+                    contract_pdf: matchedContract?.contract_pdf || ''
                 };
 
                 if (fBox) fBox.innerHTML = renderUnifiedEmployeeForm(empData);
@@ -2985,6 +3165,8 @@
                 const end = document.getElementById('m-end')?.value || expiry;
                 const skill = document.getElementById('m-skill')?.value || 'محترف';
                 const contractNotes = document.getElementById('m-contract-notes')?.value.trim() || 'عقد سنوي';
+                const idPdf = document.getElementById('m-id-pdf-data')?.value || '';
+                const contractPdf = document.getElementById('m-contract-pdf-data')?.value || '';
 
                 if (!name || !num) {
                     return showToast('يرجى ملء اسم الموظف ورقم الإقامة/الهوية الوطنية (*)', true);
@@ -3000,11 +3182,16 @@
                     expiry_date: expiry,
                     notes: iqamaNotes,
                     transfer_renewal_notes: transferNotes,
+                    id_pdf: idPdf,
                     organization_code: currentOrg
                 };
                 const iqamaIdx = iqamasList.findIndex(r => String(r.iqama_number) === String(num) || (activeRecordId && String(r.id) === String(activeRecordId)));
                 if (iqamaIdx >= 0) {
-                    iqamasList[iqamaIdx] = { ...iqamasList[iqamaIdx], ...iqamaData };
+                    iqamasList[iqamaIdx] = { 
+                        ...iqamasList[iqamaIdx], 
+                        ...iqamaData,
+                        id_pdf: idPdf || iqamasList[iqamaIdx].id_pdf || ''
+                    };
                 } else {
                     iqamasList.push({ id: Date.now(), ...iqamaData });
                 }
@@ -3021,11 +3208,18 @@
                     contract_start_date: start,
                     contract_end_date: end,
                     notes: contractNotes,
+                    id_pdf: idPdf,
+                    contract_pdf: contractPdf,
                     organization_code: currentOrg
                 };
                 const contractIdx = contractsList.findIndex(r => String(r.national_id) === String(num) || (activeRecordId && String(r.id) === String(activeRecordId)));
                 if (contractIdx >= 0) {
-                    contractsList[contractIdx] = { ...contractsList[contractIdx], ...contractData };
+                    contractsList[contractIdx] = { 
+                        ...contractsList[contractIdx], 
+                        ...contractData,
+                        id_pdf: idPdf || contractsList[contractIdx].id_pdf || '',
+                        contract_pdf: contractPdf || contractsList[contractIdx].contract_pdf || ''
+                    };
                 } else {
                     contractsList.push({ id: Date.now() + 1, ...contractData });
                 }
@@ -3089,17 +3283,52 @@
         // ============================================================
         // 9. استيراد وتصدير إكسل (Excel Import/Export & Date Fixing)
         // ============================================================
+        function normalizeAr(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/[إأآا]/g, 'ا')
+                .replace(/ة/g, 'ه')
+                .replace(/ى/g, 'ي')
+                .replace(/[\u064B-\u065F]/g, '')
+                .trim()
+                .toLowerCase();
+        }
+
         function parseExcelDate(val) {
             if (!val) return '';
+            if (val instanceof Date) {
+                const y = val.getFullYear();
+                const m = String(val.getMonth() + 1).padStart(2, '0');
+                const d = String(val.getDate()).padStart(2, '0');
+                return `${y}-${m}-${d}`;
+            }
             if (typeof val === 'number') {
-                const date = new Date((val - (25567 + 2)) * 86400 * 1000);
-                return date.toISOString().substring(0, 10);
+                const utc_days = Math.floor(val - 25569);
+                const utc_value = utc_days * 86400;
+                const date_info = new Date(utc_value * 1000);
+                const y = date_info.getUTCFullYear();
+                const m = String(date_info.getUTCMonth() + 1).padStart(2, '0');
+                const d = String(date_info.getUTCDate()).padStart(2, '0');
+                return `${y}-${m}-${d}`;
             }
             if (typeof val === 'string') {
                 val = val.trim();
                 if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
+                if (/^\d{4}\/\d{2}\/\d{2}$/.test(val)) return val.replace(/\//g, '-');
+                const dmy = val.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
+                if (dmy) {
+                    const day = dmy[1].padStart(2, '0');
+                    const month = dmy[2].padStart(2, '0');
+                    const year = dmy[3];
+                    return `${year}-${month}-${day}`;
+                }
                 const d = new Date(val);
-                if (!isNaN(d.getTime())) return d.toISOString().substring(0, 10);
+                if (!isNaN(d.getTime())) {
+                    const y = d.getFullYear();
+                    const m = String(d.getMonth() + 1).padStart(2, '0');
+                    const day = String(d.getDate()).padStart(2, '0');
+                    return `${y}-${m}-${day}`;
+                }
             }
             return '';
         }
@@ -3113,10 +3342,29 @@
                 try {
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
-                    const sheetName = workbook.SheetNames[0];
-                    const sheet = workbook.Sheets[sheetName];
-                    // استخراج الصفوف بصيغة مصفوفة مصفوفات للتعرف الذكي على مكان ترويسة الجدول
-                    const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+                    if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+                        return showToast('الملف المرفوع لا يحتوي على أي صفحات', true);
+                    }
+
+                    // البحث عن أفضل صفحة تحتوي على بيانات الإقامات أو الوثائق
+                    let sheetName = workbook.SheetNames[0];
+                    let sheet = workbook.Sheets[sheetName];
+                    let rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+                    for (const sName of workbook.SheetNames) {
+                        const s = workbook.Sheets[sName];
+                        const sRows = XLSX.utils.sheet_to_json(s, { header: 1 });
+                        if (sRows && sRows.some(row => Array.isArray(row) && row.some(cell => {
+                            const n = normalizeAr(cell);
+                            return n.includes('اقام') || n.includes('هوي') || n.includes('عقد') || n.includes('ترخيص');
+                        }))) {
+                            sheetName = sName;
+                            sheet = s;
+                            rawRows = sRows;
+                            break;
+                        }
+                    }
+
                     if (!rawRows || rawRows.length === 0) return showToast('الملف المرفوع فارغ', true);
 
                     let headerRowIdx = -1;
@@ -3126,16 +3374,16 @@
                     for (let i = 0; i < rawRows.length; i++) {
                         const r = rawRows[i];
                         if (!Array.isArray(r)) continue;
-                        const rowStr = r.map(c => String(c || '').trim()).join(' ');
-                        if (rowStr.includes('رقم الإقامة') || (rowStr.includes('الاسم') && (rowStr.includes('الحالة') || rowStr.includes('المهنة') || rowStr.includes('المتبقية')))) {
+                        const rowNorm = r.map(c => normalizeAr(c)).join(' ');
+                        if (rowNorm.includes('رقم الاقامه') || (rowNorm.includes('الاسم') && (rowNorm.includes('الحاله') || rowNorm.includes('المهنه') || rowNorm.includes('المتبقيه') || rowNorm.includes('الانتهاء')))) {
                             headerRowIdx = i;
                             detectedModule = 'iqamas';
                             break;
-                        } else if (rowStr.includes('رقم الهوية') || rowStr.includes('بداية العقد') || rowStr.includes('نهاية العقد')) {
+                        } else if (rowNorm.includes('رقم الهويه') || rowNorm.includes('بدايه العقد') || rowNorm.includes('نهايه العقد')) {
                             headerRowIdx = i;
                             detectedModule = 'contracts';
                             break;
-                        } else if (rowStr.includes('اسم الوثيقة') || rowStr.includes('رقم الترخيص') || rowStr.includes('رقم الوثيقة')) {
+                        } else if (rowNorm.includes('اسم الوثيقه') || rowNorm.includes('رقم الترخيص') || rowNorm.includes('رقم الوثيقه')) {
                             headerRowIdx = i;
                             detectedModule = 'licenses';
                             break;
@@ -3144,15 +3392,16 @@
 
                     let rows = [];
                     if (headerRowIdx >= 0) {
-                        const headers = rawRows[headerRowIdx].map(h => String(h || '').trim());
+                        const rawHeaders = rawRows[headerRowIdx];
                         for (let j = headerRowIdx + 1; j < rawRows.length; j++) {
                             const dataRow = rawRows[j];
                             if (!Array.isArray(dataRow) || dataRow.length === 0) continue;
                             const obj = {};
                             let hasData = false;
-                            headers.forEach((h, colIdx) => {
-                                if (h && dataRow[colIdx] !== undefined && dataRow[colIdx] !== null && String(dataRow[colIdx]).trim() !== '') {
-                                    obj[h] = dataRow[colIdx];
+                            rawHeaders.forEach((h, colIdx) => {
+                                const hStr = String(h || '').trim();
+                                if (hStr && dataRow[colIdx] !== undefined && dataRow[colIdx] !== null && String(dataRow[colIdx]).trim() !== '') {
+                                    obj[hStr] = dataRow[colIdx];
                                     hasData = true;
                                 }
                             });
@@ -3161,9 +3410,9 @@
                     } else {
                         rows = XLSX.utils.sheet_to_json(sheet);
                         if (rows.length > 0) {
-                            const sample = rows[0];
-                            if ('رقم الهوية' in sample || 'بداية العقد' in sample || 'نهاية العقد' in sample) detectedModule = 'contracts';
-                            else if ('اسم الوثيقة' in sample || 'رقم الترخيص' in sample) detectedModule = 'licenses';
+                            const sampleStr = Object.keys(rows[0]).map(k => normalizeAr(k)).join(' ');
+                            if (sampleStr.includes('هوي') || sampleStr.includes('عقد')) detectedModule = 'contracts';
+                            else if (sampleStr.includes('ترخيص') || sampleStr.includes('وثيق')) detectedModule = 'licenses';
                         }
                     }
 
@@ -3175,65 +3424,117 @@
                     let added = 0, updated = 0;
                     const list = db[currentOrg][detectedModule] || [];
 
+                    const getVal = (row, ...keywords) => {
+                        for (const kw of keywords) {
+                            if (row[kw] !== undefined && row[kw] !== null && String(row[kw]).trim() !== '') {
+                                return row[kw];
+                            }
+                        }
+                        const normKwList = keywords.map(k => normalizeAr(k));
+                        for (const key of Object.keys(row)) {
+                            const nKey = normalizeAr(key);
+                            for (const nkw of normKwList) {
+                                if (nKey === nkw || nKey.includes(nkw) || nkw.includes(nKey)) {
+                                    if (row[key] !== undefined && row[key] !== null && String(row[key]).trim() !== '') {
+                                        return row[key];
+                                    }
+                                }
+                            }
+                        }
+                        return '';
+                    };
+
                     rows.forEach(r => {
                         if (detectedModule === 'iqamas') {
-                            const num = String(r['رقم الإقامة'] || r['الرقم'] || r.iqama_number || '').trim();
-                            const name = r['الاسم'] || r['الاسم الكامل'] || r.name;
-                            const exp = parseExcelDate(r['تاريخ الانتهاء'] || r.expiry_date);
-                            const notes = r['ملاحظات'] || r.notes || '';
-                            const trNotes = r['ملاحظات النقل والتجديد'] || r.transfer_renewal_notes || '';
+                            const rawNum = getVal(r, 'رقم الإقامة', 'رقم الاقامة', 'رقم الاقامه', 'رقم الهوية', 'الرقم', 'iqama_number', 'iqama');
+                            const num = String(rawNum || '').replace(/\.0$/, '').trim();
+                            const name = String(getVal(r, 'الاسم', 'اسم الموظف', 'الاسم الكامل', 'اسم العامل', 'name') || '').trim();
+                            const rawExp = getVal(r, 'تاريخ الانتهاء', 'تاريخ انتهاء الإقامة', 'انتهاء الإقامة', 'expiry_date', 'expiry');
+                            const exp = parseExcelDate(rawExp);
+                            const prof = String(getVal(r, 'المهنة', 'المهنه', 'الوظيفة', 'الوظيفه', 'الدور الوظيفي', 'profession') || '').trim();
+                            const branch = String(getVal(r, 'الفرع', 'الموقع', 'الإدارة', 'الاداره', 'branch') || '').trim();
+                            const notes = String(getVal(r, 'ملاحظات', 'الملاحظات', 'notes') || '').trim();
+                            const trNotes = String(getVal(r, 'ملاحظات النقل والتجديد', 'حالات النقل والتجديد', 'حالات النقل', 'ملاحظات النقل', 'transfer_renewal_notes') || '').trim();
+
                             if (num && name) {
-                                const idx = list.findIndex(item => String(item.iqama_number) === num);
+                                const idx = list.findIndex(item => String(item.iqama_number).trim() === num);
                                 if (idx >= 0) {
                                     list[idx] = { 
                                         ...list[idx], 
                                         name, 
-                                        profession: r['المهنة'] || list[idx].profession, 
-                                        branch: r['الفرع'] || list[idx].branch, 
+                                        profession: prof || list[idx].profession || 'موظف', 
+                                        branch: branch || list[idx].branch || (currentOrg === 'tarqeem' ? 'المركز الرئيسي' : 'المقر الرئيسي جدة'), 
                                         expiry_date: exp || list[idx].expiry_date,
-                                        notes: notes || list[idx].notes,
-                                        transfer_renewal_notes: trNotes || list[idx].transfer_renewal_notes
+                                        notes: notes || list[idx].notes || '',
+                                        transfer_renewal_notes: trNotes || list[idx].transfer_renewal_notes || ''
                                     };
                                     updated++;
                                 } else {
                                     list.push({ 
-                                        id: Date.now() + Math.random(), 
+                                        id: Date.now() + Math.floor(Math.random() * 100000), 
                                         name, 
                                         iqama_number: num, 
-                                        profession: r['المهنة'] || '', 
-                                        branch: r['الفرع'] || '', 
-                                        expiry_date: exp,
+                                        profession: prof || 'موظف', 
+                                        branch: branch || (currentOrg === 'tarqeem' ? 'المركز الرئيسي' : 'المقر الرئيسي جدة'), 
+                                        expiry_date: exp || '',
                                         notes,
-                                        transfer_renewal_notes: trNotes
+                                        transfer_renewal_notes: trNotes,
+                                        organization_code: currentOrg
                                     });
                                     added++;
                                 }
                             }
                         } else if (detectedModule === 'contracts') {
-                            const num = String(r['رقم الهوية'] || r['رقم الإقامة'] || r.national_id || '').trim();
-                            const name = r['اسم الموظف'] || r['الاسم'] || r.name;
-                            const end = parseExcelDate(r['نهاية العقد'] || r.contract_end_date);
+                            const rawNum = getVal(r, 'رقم الهوية', 'رقم الإقامة', 'رقم الاقامة', 'الرقم', 'national_id', 'iqama_number');
+                            const num = String(rawNum || '').replace(/\.0$/, '').trim();
+                            const name = String(getVal(r, 'اسم الموظف', 'الاسم', 'الاسم الكامل', 'name') || '').trim();
+                            const end = parseExcelDate(getVal(r, 'نهاية العقد', 'تاريخ انتهاء العقد', 'انتهاء العقد', 'contract_end_date'));
+                            const start = parseExcelDate(getVal(r, 'بداية العقد', 'تاريخ بداية العقد', 'contract_start_date'));
+                            const dept = String(getVal(r, 'الإدارة', 'الادارة', 'الاداره', 'القسم', 'department') || '').trim();
+                            const prof = String(getVal(r, 'المهنة', 'المهنه', 'الوظيفة', 'الوظيفه', 'profession') || '').trim();
+                            const notes = String(getVal(r, 'ملاحظات', 'notes') || '').trim();
                             if (num && name) {
-                                const idx = list.findIndex(item => String(item.national_id) === num);
+                                const idx = list.findIndex(item => String(item.national_id).trim() === num);
                                 if (idx >= 0) {
-                                    list[idx] = { ...list[idx], name, department: r['الإدارة'] || list[idx].department, contract_end_date: end || list[idx].contract_end_date };
+                                    list[idx] = { 
+                                        ...list[idx], 
+                                        name, 
+                                        department: dept || list[idx].department, 
+                                        profession: prof || list[idx].profession, 
+                                        contract_start_date: start || list[idx].contract_start_date,
+                                        contract_end_date: end || list[idx].contract_end_date,
+                                        notes: notes || list[idx].notes
+                                    };
                                     updated++;
                                 } else {
-                                    list.push({ id: Date.now() + Math.random(), name, national_id: num, department: r['الإدارة'] || '', profession: r['المهنة'] || '', contract_end_date: end });
+                                    list.push({ 
+                                        id: Date.now() + Math.floor(Math.random() * 100000), 
+                                        name, 
+                                        national_id: num, 
+                                        department: dept || 'العامة', 
+                                        profession: prof || 'موظف', 
+                                        contract_start_date: start || '',
+                                        contract_end_date: end || '',
+                                        notes,
+                                        organization_code: currentOrg
+                                    });
                                     added++;
                                 }
                             }
                         } else {
-                            const num = String(r['رقم الوثيقة'] || r['رقم الترخيص'] || r.document_number || '').trim();
-                            const name = r['اسم الوثيقة'] || r.document_name;
-                            const exp = parseExcelDate(r['تاريخ الانتهاء'] || r.expiry_date);
+                            const rawNum = getVal(r, 'رقم الوثيقة', 'رقم الوثيقه', 'رقم الترخيص', 'رقم السجل', 'document_number');
+                            const num = String(rawNum || '').replace(/\.0$/, '').trim();
+                            const name = String(getVal(r, 'اسم الوثيقة', 'اسم الوثيقه', 'اسم الترخيص', 'الوثيقة', 'document_name') || '').trim();
+                            const exp = parseExcelDate(getVal(r, 'تاريخ الانتهاء', 'انتهاء الترخيص', 'expiry_date'));
+                            const type = String(getVal(r, 'النوع', 'نوع الوثيقة', 'document_type') || 'عام').trim();
+                            const branch = String(getVal(r, 'الفرع', 'الموقع', 'branch') || '').trim();
                             if (num && name) {
-                                const idx = list.findIndex(item => String(item.document_number) === num);
+                                const idx = list.findIndex(item => String(item.document_number).trim() === num);
                                 if (idx >= 0) {
-                                    list[idx] = { ...list[idx], document_name: name, expiry_date: exp || list[idx].expiry_date };
+                                    list[idx] = { ...list[idx], document_name: name, document_type: type || list[idx].document_type, branch: branch || list[idx].branch, expiry_date: exp || list[idx].expiry_date };
                                     updated++;
                                 } else {
-                                    list.push({ id: Date.now() + Math.random(), document_name: name, document_number: num, document_type: r['النوع'] || 'عام', expiry_date: exp });
+                                    list.push({ id: Date.now() + Math.floor(Math.random() * 100000), document_name: name, document_number: num, document_type: type, branch, expiry_date: exp, organization_code: currentOrg });
                                     added++;
                                 }
                             }
@@ -3244,20 +3545,26 @@
                     saveDb(db);
                     recordAuditLog('IMPORT_EXCEL', detectedModule, 'batch', { added, updated, total: rows.length });
 
-                    document.getElementById('import-summary-report').innerHTML = `
-                        <div class="space-y-1 text-slate-800 dark:text-slate-200">
-                            <span class="font-bold text-emerald-600 block">✓ تم استيراد الملف بنجاح!</span>
-                            <div>الموديول المستهدف: <span class="font-bold">${detectedModule}</span></div>
-                            <div>تم إدراج: <span class="font-bold font-mono text-emerald-600">${added}</span> سجل جديد</div>
-                            <div>تم تحديث: <span class="font-bold font-mono text-amber-600">${updated}</span> سجل قائم</div>
-                        </div>
-                    `;
+                    const moduleLabel = detectedModule === 'iqamas' ? 'وثائق الإقامات' : (detectedModule === 'contracts' ? 'العقود الوظيفية' : 'التراخيص والشهادات');
+                    const summaryEl = document.getElementById('import-summary-report');
+                    if (summaryEl) {
+                        summaryEl.innerHTML = `
+                            <div class="space-y-1 text-slate-800 dark:text-slate-200">
+                                <span class="font-bold text-emerald-600 block">✓ تم استيراد الملف وحفظ السجلات بنجاح!</span>
+                                <div>القسم المستهدف: <span class="font-bold">${moduleLabel}</span></div>
+                                <div>تم إدراج: <span class="font-bold font-mono text-emerald-600">${added}</span> سجل جديد</div>
+                                <div>تم تحديث: <span class="font-bold font-mono text-amber-600">${updated}</span> سجل قائم</div>
+                            </div>
+                        `;
+                    }
 
-                    showToast(`تمت معالجة ${added + updated} سجلاً بنجاح!`);
-                    refreshActiveView();
+                    showToast(`✓ تمت قراءة وتسجيل ${added + updated} سجلاً بنجاح في ${moduleLabel}! 🎉`);
+                    switchTab(detectedModule);
                 } catch (err) {
                     console.error('Excel upload error:', err);
                     showToast('حدث خطأ أثناء قراءة ملف الإكسل', true);
+                } finally {
+                    event.target.value = '';
                 }
             };
             reader.readAsArrayBuffer(file);
