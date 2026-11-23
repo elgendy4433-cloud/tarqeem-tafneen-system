@@ -706,15 +706,50 @@
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
                         <div>
                             <h2 class="text-lg font-bold text-slate-900 dark:text-white">وثائق الإقامات الرسمية</h2>
-                            <p class="text-xs text-slate-500">متابعة إقامات الموظفين واحتساب تواريخ الانتهاء تلقائياً</p>
+                            <p class="text-xs text-slate-500">متابعة إقامات الموظفين واحتساب تواريخ الانتهاء والأيام المتبقية تلقائياً</p>
                         </div>
                         <div class="flex items-center space-x-2 space-x-reverse">
-                            <button onclick="exportToExcel('iqamas')" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse">
+                            <button onclick="downloadExcelTemplate('iqamas')" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse shadow-sm" title="تحميل قالب الإقامات المعتمد (Excel Template)">
+                                <span>📥</span><span>قالب الإقامات (Template)</span>
+                            </button>
+                            <button onclick="exportToExcel('iqamas')" class="px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold rounded-xl transition flex items-center space-x-1.5 space-x-reverse shadow-sm">
                                 <span>📊</span><span>تصدير Excel</span>
                             </button>
                             <button onclick="openAddModal('employee_unified')" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 space-x-reverse">
                                 <span>+</span><span>إضافة موظف (الاستبيان الموحد)</span>
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- ملخص تصنيف الإقامات المعتمد (Row Labels / Count of النوع) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-slate-400 font-mono font-bold block">Grand Total</span>
+                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">إجمالي السجلات</span>
+                            </div>
+                            <span id="iqama-stat-total" class="font-mono font-black text-slate-900 dark:text-white text-base">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">Valid 🟢</span>
+                                <span class="text-xs font-bold text-emerald-700 dark:text-emerald-300">سارية (&gt; 3 أشهر)</span>
+                            </div>
+                            <span id="iqama-stat-valid" class="font-mono font-black text-emerald-600 dark:text-emerald-400 text-base">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-amber-600 dark:text-amber-400 font-mono font-bold block">Neer to Expire 🟡</span>
+                                <span class="text-xs font-bold text-amber-700 dark:text-amber-300">قريبة الانتهاء (&le; 3 أشهر)</span>
+                            </div>
+                            <span id="iqama-stat-near" class="font-mono font-black text-amber-600 dark:text-amber-400 text-base">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-rose-600 dark:text-rose-400 font-mono font-bold block">Experied 🔴</span>
+                                <span class="text-xs font-bold text-rose-700 dark:text-rose-300">منتهية الصلاحية</span>
+                            </div>
+                            <span id="iqama-stat-expired" class="font-mono font-black text-rose-600 dark:text-rose-400 text-base">0</span>
                         </div>
                     </div>
 
@@ -728,26 +763,29 @@
                         </div>
                         <select id="filter-status-iqamas" onchange="filterModuleTable('iqamas')" class="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500">
                             <option value="all">كافة الحالات</option>
-                            <option value="valid">🟢 ساري (&gt; 3 أشهر)</option>
-                            <option value="near">🟡 قريب الانتهاء (&le; 3 أشهر)</option>
-                            <option value="expired">🔴 منتهي</option>
+                            <option value="valid">🟢 Valid (ساري &gt; 3 أشهر)</option>
+                            <option value="near">🟡 Neer to Expire (قريب الانتهاء &le; 3 أشهر)</option>
+                            <option value="expired">🔴 Experied (منتهي)</option>
                         </select>
                     </div>
 
-                    <!-- جدول الإقامات الحديث -->
+                    <!-- جدول الإقامات الحديث بتنسيق القالب المعتمد -->
                     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
                         <div class="overflow-x-auto">
                             <table class="w-full text-right text-xs">
                                 <thead class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-semibold">
                                     <tr>
-                                        <th class="py-3 px-4">الاسم الكامل</th>
+                                        <th class="py-3 px-3 text-center w-12 font-mono">م</th>
+                                        <th class="py-3 px-4">الاسم</th>
                                         <th class="py-3 px-4">رقم الإقامة</th>
                                         <th class="py-3 px-4">المهنة</th>
                                         <th class="py-3 px-4">الفرع</th>
+                                        <th class="py-3 px-4 whitespace-nowrap">الأيام المتبقية على الانتهاء</th>
                                         <th class="py-3 px-4">تاريخ الانتهاء</th>
-                                        <th class="py-3 px-4">الأيام المتبقية</th>
-                                        <th class="py-3 px-4">الحالة</th>
-                                        <th class="py-3 px-4">الإجراءات</th>
+                                        <th class="py-3 px-4 text-center">الحالة</th>
+                                        <th class="py-3 px-4">ملاحظات</th>
+                                        <th class="py-3 px-4">ملاحظات النقل والتجديد</th>
+                                        <th class="py-3 px-4 text-center">الإجراءات</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table-body-iqamas" class="divide-y divide-slate-100 dark:divide-slate-800/60">
@@ -1432,10 +1470,12 @@
         const defaultData = {
             tarqeem: {
                 iqamas: [
-                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" },
-                    { id: 2, name: "عمر سالم الخالد", iqama_number: "2456789012", profession: "محاسب عام", branch: "فرع جدة", expiry_date: "2026-11-05", notes: "تجديد سنوي", transfer_renewal_notes: "بانتظار سداد الرسوم" },
-                    { id: 3, name: "طارق زياد منصور", iqama_number: "2567890123", profession: "فني شبكات", branch: "فرع الطائف", expiry_date: "2026-10-15", notes: "منتهي قريباً", transfer_renewal_notes: "تم التقديم على التجديد" },
-                    { id: 4, name: "خالد بن عبد الله", iqama_number: "2678901234", profession: "مسؤول موارد بشرية", branch: "فرع مكة المكرمة", expiry_date: "2027-04-10", notes: "ساري", transfer_renewal_notes: "" }
+                    { id: 10, name: "محمد سيف الإسلام عبدالله محمود", iqama_number: "2329478172", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-20", notes: "", transfer_renewal_notes: "" },
+                    { id: 20, name: "عمر عبدالله عمر القثمي", iqama_number: "2320504133", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-01-20", notes: "", transfer_renewal_notes: "" },
+                    { id: 30, name: "MOSTAFA FARAJI SHAHER ALI", iqama_number: "2219944242", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
+                    { id: 40, name: "بشار علي سعيد العمودي", iqama_number: "2615391485", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
+                    { id: 50, name: "عبدالمجيد صالح سعيد العمودي", iqama_number: "2601050236", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-13", notes: "", transfer_renewal_notes: "" },
+                    { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" }
                 ],
                 contracts: [
                     { id: 1, name: "محمد أحمد علي", national_id: "2345678901", profession: "مهندس برمجيات", skill_classification: "محترف", department: "تقنية المعلومات", contract_start_date: "2024-01-01", contract_end_date: "2026-12-30", renewals_count: 2, notes: "تجديد تلقائي" },
@@ -1491,6 +1531,22 @@
                         if (!parsed[org].settings.contract_days) parsed[org].settings.contract_days = 90;
                     }
                 });
+
+                // تأكيد وجود سجلات قالب الإقامات الرسمية للمستخدم
+                if (parsed.tarqeem && Array.isArray(parsed.tarqeem.iqamas)) {
+                    const sampleIqamas = [
+                        { id: 10, name: "محمد سيف الإسلام عبدالله محمود", iqama_number: "2329478172", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-20", notes: "", transfer_renewal_notes: "" },
+                        { id: 20, name: "عمر عبدالله عمر القثمي", iqama_number: "2320504133", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-01-20", notes: "", transfer_renewal_notes: "" },
+                        { id: 30, name: "MOSTAFA FARAJI SHAHER ALI", iqama_number: "2219944242", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
+                        { id: 40, name: "بشار علي سعيد العمودي", iqama_number: "2615391485", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
+                        { id: 50, name: "عبدالمجيد صالح سعيد العمودي", iqama_number: "2601050236", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-13", notes: "", transfer_renewal_notes: "" }
+                    ];
+                    sampleIqamas.forEach(item => {
+                        if (!parsed.tarqeem.iqamas.some(existing => String(existing.iqama_number) === String(item.iqama_number))) {
+                            parsed.tarqeem.iqamas.unshift(item);
+                        }
+                    });
+                }
                 return parsed;
             } catch (e) { return defaultData; }
         }
@@ -2078,6 +2134,7 @@
             if (days <= 0) {
                 return { 
                     label: 'منتهي', 
+                    statusTextEn: 'Experied',
                     status: 'expired',
                     symbol: '🔴',
                     colorClass: 'bg-rose-50 text-rose-700 dark:bg-rose-950/50 dark:text-rose-400 border border-rose-200 dark:border-rose-900', 
@@ -2090,6 +2147,7 @@
             if (days <= threshold) {
                 return { 
                     label: 'قريب الانتهاء (≤ 3 أشهر)', 
+                    statusTextEn: 'Neer to Expire',
                     status: 'near',
                     symbol: '🟡',
                     colorClass: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-900', 
@@ -2101,6 +2159,7 @@
             // المؤشر الأخضر: السجلات السارية والمستقرة (أكثر من 3 شهور)
             return { 
                 label: 'ساري', 
+                statusTextEn: 'Valid',
                 status: 'valid',
                 symbol: '🟢',
                 colorClass: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-900', 
@@ -2368,10 +2427,31 @@
 
             if (!tbody) return;
 
+            // تحديث بطاقات إحصائيات الإقامات (Row Labels / Count of النوع)
+            if (moduleKey === 'iqamas') {
+                let totalIq = list.length, validIq = 0, nearIq = 0, expiredIq = 0;
+                list.forEach(r => {
+                    const d = calculateDaysRemaining(r.expiry_date);
+                    if (d <= 0) expiredIq++;
+                    else if (d <= threshold) nearIq++;
+                    else validIq++;
+                });
+
+                const elTot = document.getElementById('iqama-stat-total');
+                const elVal = document.getElementById('iqama-stat-valid');
+                const elNear = document.getElementById('iqama-stat-near');
+                const elExp = document.getElementById('iqama-stat-expired');
+                if (elTot) elTot.textContent = totalIq;
+                if (elVal) elVal.textContent = validIq;
+                if (elNear) elNear.textContent = nearIq;
+                if (elExp) elExp.textContent = expiredIq;
+            }
+
             if (list.length === 0) {
+                const colSpan = moduleKey === 'iqamas' ? 11 : 8;
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="8" class="text-center py-12 text-slate-400">
+                        <td colspan="${colSpan}" class="text-center py-12 text-slate-400">
                             <div class="space-y-2">
                                 <span class="text-2xl block">📂</span>
                                 <span class="text-xs font-semibold block">لا توجد سجلات مسجلة في هذا القسم</span>
@@ -2383,6 +2463,52 @@
                 return;
             }
 
+            // عرض جدول وثائق الإقامات بتنسيق القالب المعتمد (11 عمود كامل)
+            if (moduleKey === 'iqamas') {
+                tbody.innerHTML = list.map((r, idx) => {
+                    const days = calculateDaysRemaining(r.expiry_date);
+                    const info = getStatusInfo(days, threshold);
+                    const statusText = info.statusTextEn || (days <= 0 ? 'Experied' : (days <= threshold ? 'Neer to Expire' : 'Valid'));
+
+                    return `
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                            <td class="py-3 px-3 text-center font-mono text-slate-400 font-bold">${idx + 1}</td>
+                            <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.iqama_number || '-'}</td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
+                            <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-bold whitespace-nowrap ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                    <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                    <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.expiry_date || '-'}</td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
+                                    <span>${statusText}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-slate-500 text-xs">${r.notes || '-'}</td>
+                            <td class="py-3 px-4 text-slate-500 text-xs">${r.transfer_renewal_notes || '-'}</td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <button onclick="openEditModal('iqamas', '${r.id}')" class="text-slate-400 hover:text-brand-600 transition" title="تعديل">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    </button>
+                                    <button onclick="deleteRecord('iqamas', '${r.id}')" class="text-slate-400 hover:text-rose-600 transition" title="حذف">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+                return;
+            }
+
+            // عرض بقية الجداول (العقود والتراخيص)
             tbody.innerHTML = list.map(r => {
                 const dateVal = moduleKey === 'contracts' ? r.contract_end_date : r.expiry_date;
                 const days = calculateDaysRemaining(dateVal);
@@ -2450,8 +2576,74 @@
             const tbody = document.getElementById(`table-body-${moduleKey}`);
             if (!tbody) return;
 
+            // تحديث بطاقات إحصائيات الإقامات حسب نتائج البحث
+            if (moduleKey === 'iqamas') {
+                let totalIq = filtered.length, validIq = 0, nearIq = 0, expiredIq = 0;
+                filtered.forEach(r => {
+                    const d = calculateDaysRemaining(r.expiry_date);
+                    if (d <= 0) expiredIq++;
+                    else if (d <= threshold) nearIq++;
+                    else validIq++;
+                });
+
+                const elTot = document.getElementById('iqama-stat-total');
+                const elVal = document.getElementById('iqama-stat-valid');
+                const elNear = document.getElementById('iqama-stat-near');
+                const elExp = document.getElementById('iqama-stat-expired');
+                if (elTot) elTot.textContent = totalIq;
+                if (elVal) elVal.textContent = validIq;
+                if (elNear) elNear.textContent = nearIq;
+                if (elExp) elExp.textContent = expiredIq;
+            }
+
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-400 text-xs">لا توجد نتائج مطابقة لمعايير البحث</td></tr>`;
+                const colSpan = moduleKey === 'iqamas' ? 11 : 8;
+                tbody.innerHTML = `<tr><td colspan="${colSpan}" class="text-center py-8 text-slate-400 text-xs">لا توجد نتائج مطابقة لمعايير البحث</td></tr>`;
+                return;
+            }
+
+            // عرض نتائج جدول الإقامات
+            if (moduleKey === 'iqamas') {
+                tbody.innerHTML = filtered.map((r, idx) => {
+                    const days = calculateDaysRemaining(r.expiry_date);
+                    const info = getStatusInfo(days, threshold);
+                    const statusText = info.statusTextEn || (days <= 0 ? 'Experied' : (days <= threshold ? 'Neer to Expire' : 'Valid'));
+
+                    return `
+                        <tr class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                            <td class="py-3 px-3 text-center font-mono text-slate-400 font-bold">${idx + 1}</td>
+                            <td class="py-3 px-4 font-bold text-slate-900 dark:text-white whitespace-nowrap">${r.name || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.iqama_number || '-'}</td>
+                            <td class="py-3 px-4 text-slate-600 dark:text-slate-300">${r.profession || '-'}</td>
+                            <td class="py-3 px-4 text-slate-500">${r.branch || '-'}</td>
+                            <td class="py-3 px-4 font-mono font-bold whitespace-nowrap ${days <= 0 ? 'text-rose-600 dark:text-rose-400' : (days <= threshold ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400')}">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse">
+                                    <span>${days <= 0 ? '🔴' : (days <= threshold ? '🟡' : '🟢')}</span>
+                                    <span>${days <= 0 ? (days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي (${Math.abs(days)})`) : `${days} يوم`}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 font-mono text-slate-700 dark:text-slate-300 whitespace-nowrap">${r.expiry_date || '-'}</td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <span class="inline-flex items-center space-x-1.5 space-x-reverse text-[10px] px-2.5 py-0.5 rounded-full font-bold ${info.colorClass}">
+                                    <span class="w-1.5 h-1.5 rounded-full ${info.dotColor}"></span>
+                                    <span>${statusText}</span>
+                                </span>
+                            </td>
+                            <td class="py-3 px-4 text-slate-500 text-xs">${r.notes || '-'}</td>
+                            <td class="py-3 px-4 text-slate-500 text-xs">${r.transfer_renewal_notes || '-'}</td>
+                            <td class="py-3 px-4 text-center whitespace-nowrap">
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <button onclick="openEditModal('iqamas', '${r.id}')" class="text-slate-400 hover:text-brand-600 transition" title="تعديل">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                    </button>
+                                    <button onclick="deleteRecord('iqamas', '${r.id}')" class="text-slate-400 hover:text-rose-600 transition" title="حذف">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
                 return;
             }
 
@@ -2599,9 +2791,13 @@
                             <input type="date" id="m-expiry" value="${data.expiry_date || ''}" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono focus:ring-2 focus:ring-brand-500">
                         </div>
                         <div>
-                            <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">ملاحظات الإقامة ونقل الكفالة والتجديد</label>
-                            <input type="text" id="m-iqama-notes" value="${data.notes || data.transfer_renewal_notes || 'ساري ومجدد'}" placeholder="مثال: ساري، أو بانتظار سداد رسوم التجديد" class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-brand-500">
+                            <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">ملاحظات الإقامة</label>
+                            <input type="text" id="m-iqama-notes" value="${data.notes || ''}" placeholder="ملاحظات عامة حول الإقامة..." class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-brand-500">
                         </div>
+                    </div>
+                    <div>
+                        <label class="block font-semibold mb-1 text-slate-700 dark:text-slate-300">ملاحظات النقل والتجديد</label>
+                        <input type="text" id="m-transfer-notes" value="${data.transfer_renewal_notes || ''}" placeholder="ملاحظات نقل الكفالة، إجراءات التجديد..." class="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-brand-500">
                     </div>
                 </div>
 
@@ -2752,6 +2948,7 @@
                     role: matchedMember?.role || 'user',
                     expiry_date: matchedIqama?.expiry_date || '',
                     notes: matchedIqama?.notes || '',
+                    transfer_renewal_notes: matchedIqama?.transfer_renewal_notes || '',
                     contract_start_date: matchedContract?.contract_start_date || '',
                     contract_end_date: matchedContract?.contract_end_date || '',
                     skill_classification: matchedContract?.skill_classification || 'محترف',
@@ -2821,7 +3018,8 @@
                 const dept = document.getElementById('m-dept')?.value.trim() || 'الإدارة العامة';
                 const sysrole = document.getElementById('m-sysrole')?.value || 'user';
                 const expiry = document.getElementById('m-expiry')?.value || '';
-                const iqamaNotes = document.getElementById('m-iqama-notes')?.value.trim() || 'ساري';
+                const iqamaNotes = document.getElementById('m-iqama-notes')?.value.trim() || '';
+                const transferNotes = document.getElementById('m-transfer-notes')?.value.trim() || '';
                 const start = document.getElementById('m-start')?.value || '2024-01-01';
                 const end = document.getElementById('m-end')?.value || expiry;
                 const skill = document.getElementById('m-skill')?.value || 'محترف';
@@ -2840,6 +3038,7 @@
                     branch,
                     expiry_date: expiry,
                     notes: iqamaNotes,
+                    transfer_renewal_notes: transferNotes,
                     organization_code: currentOrg
                 };
                 const iqamaIdx = iqamasList.findIndex(r => String(r.iqama_number) === String(num) || (activeRecordId && String(r.id) === String(activeRecordId)));
@@ -2977,15 +3176,34 @@
                     rows.forEach(r => {
                         if (detectedModule === 'iqamas') {
                             const num = String(r['رقم الإقامة'] || r['الرقم'] || r.iqama_number || '').trim();
-                            const name = r['الاسم الكامل'] || r['الاسم'] || r.name;
+                            const name = r['الاسم'] || r['الاسم الكامل'] || r.name;
                             const exp = parseExcelDate(r['تاريخ الانتهاء'] || r.expiry_date);
+                            const notes = r['ملاحظات'] || r.notes || '';
+                            const trNotes = r['ملاحظات النقل والتجديد'] || r.transfer_renewal_notes || '';
                             if (num && name) {
                                 const idx = list.findIndex(item => String(item.iqama_number) === num);
                                 if (idx >= 0) {
-                                    list[idx] = { ...list[idx], name, profession: r['المهنة'] || list[idx].profession, branch: r['الفرع'] || list[idx].branch, expiry_date: exp || list[idx].expiry_date };
+                                    list[idx] = { 
+                                        ...list[idx], 
+                                        name, 
+                                        profession: r['المهنة'] || list[idx].profession, 
+                                        branch: r['الفرع'] || list[idx].branch, 
+                                        expiry_date: exp || list[idx].expiry_date,
+                                        notes: notes || list[idx].notes,
+                                        transfer_renewal_notes: trNotes || list[idx].transfer_renewal_notes
+                                    };
                                     updated++;
                                 } else {
-                                    list.push({ id: Date.now() + Math.random(), name, iqama_number: num, profession: r['المهنة'] || '', branch: r['الفرع'] || '', expiry_date: exp });
+                                    list.push({ 
+                                        id: Date.now() + Math.random(), 
+                                        name, 
+                                        iqama_number: num, 
+                                        profession: r['المهنة'] || '', 
+                                        branch: r['الفرع'] || '', 
+                                        expiry_date: exp,
+                                        notes,
+                                        transfer_renewal_notes: trNotes
+                                    });
                                     added++;
                                 }
                             }
@@ -3048,9 +3266,53 @@
             const list = db[currentOrg]?.[moduleKey] || [];
             if (list.length === 0) return showToast('لا توجد سجلات لتصديرها', true);
 
-            const ws = XLSX.utils.json_to_sheet(list);
+            const threshold = (db[currentOrg]?.settings?.[moduleKey === 'licenses' ? 'license_days' : (moduleKey === 'contracts' ? 'contract_days' : 'iqama_days')]) || 90;
             const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, moduleKey);
+
+            if (moduleKey === 'iqamas') {
+                // إحصائيات التلخيص (Row Labels & Count of النوع)
+                let expCount = 0, nearCount = 0, valCount = 0;
+                list.forEach(r => {
+                    const d = calculateDaysRemaining(r.expiry_date);
+                    if (d <= 0) expCount++;
+                    else if (d <= threshold) nearCount++;
+                    else valCount++;
+                });
+
+                const summaryData = [
+                    { 'Row Labels': 'Experied', 'Count of النوع': expCount },
+                    { 'Row Labels': 'Neer to Expire', 'Count of النوع': nearCount },
+                    { 'Row Labels': 'Valid', 'Count of النوع': valCount },
+                    { 'Row Labels': 'Grand Total', 'Count of النوع': list.length }
+                ];
+                const wsSummary = XLSX.utils.json_to_sheet(summaryData);
+                XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+                // بيانات الإقامات المصدرة بنفس ترتيب وأعمدة القالب المعتمد تماماً
+                const exportRows = list.map((r, i) => {
+                    const days = calculateDaysRemaining(r.expiry_date);
+                    const info = getStatusInfo(days, threshold);
+                    const statusText = info.statusTextEn || (days <= 0 ? 'Experied' : (days <= threshold ? 'Neer to Expire' : 'Valid'));
+                    return {
+                        'م': i + 1,
+                        'الاسم': r.name || '',
+                        'رقم الإقامة': r.iqama_number || '',
+                        'المهنة': r.profession || '',
+                        'الفرع': r.branch || '',
+                        'الأيام المتبقية على الانتهاء': days <= 0 ? 0 : days,
+                        'تاريخ الانتهاء': r.expiry_date || '',
+                        'الحالة': statusText,
+                        'ملاحظات': r.notes || '',
+                        'ملاحظات النقل والتجديد': r.transfer_renewal_notes || ''
+                    };
+                });
+                const wsData = XLSX.utils.json_to_sheet(exportRows);
+                XLSX.utils.book_append_sheet(wb, wsData, 'Iqamas');
+            } else {
+                const ws = XLSX.utils.json_to_sheet(list);
+                XLSX.utils.book_append_sheet(wb, ws, moduleKey);
+            }
+
             XLSX.writeFile(wb, `${currentOrg}_${moduleKey}_export.xlsx`);
             recordAuditLog('EXPORT_EXCEL', moduleKey, 'all', { count: list.length });
             showToast('تم تصدير ملف الإكسل بنجاح!');
@@ -3058,18 +3320,41 @@
 
         function downloadExcelTemplate(moduleKey) {
             let sample = [];
+            const wb = XLSX.utils.book_new();
+
             if (moduleKey === 'iqamas') {
-                sample = [{ 'الاسم الكامل': 'محمد أحمد', 'رقم الإقامة': '2345678901', 'المهنة': 'مهندس', 'الفرع': 'الرياض', 'تاريخ الانتهاء': '2026-12-31' }];
+                // ملخص القالب المعتمد كما أرسله المستخدم
+                const summaryData = [
+                    { 'Row Labels': 'Experied', 'Count of النوع': 0 },
+                    { 'Row Labels': 'Neer to Expire', 'Count of النوع': 3 },
+                    { 'Row Labels': 'Valid', 'Count of النوع': 2 },
+                    { 'Row Labels': 'Grand Total', 'Count of النوع': 5 }
+                ];
+                const wsSummary = XLSX.utils.json_to_sheet(summaryData);
+                XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
+
+                // سجلات القالب المعتمدة والمطابقة تماماً لطلب المستخدم
+                sample = [
+                    { 'م': 1, 'الاسم': 'محمد سيف الإسلام عبدالله محمود', 'رقم الإقامة': '2329478172', 'المهنة': '', 'الفرع': '', 'الأيام المتبقية على الانتهاء': 89, 'تاريخ الانتهاء': '2027-02-20', 'الحالة': 'Neer to Expire', 'ملاحظات': '', 'ملاحظات النقل والتجديد': '' },
+                    { 'م': 2, 'الاسم': 'عمر عبدالله عمر القثمي', 'رقم الإقامة': '2320504133', 'المهنة': '', 'الفرع': '', 'الأيام المتبقية على الانتهاء': 58, 'تاريخ الانتهاء': '2027-01-20', 'الحالة': 'Neer to Expire', 'ملاحظات': '', 'ملاحظات النقل والتجديد': '' },
+                    { 'م': 3, 'الاسم': 'MOSTAFA FARAJI SHAHER ALI', 'رقم الإقامة': '2219944242', 'المهنة': '', 'الفرع': '', 'الأيام المتبقية على الانتهاء': 91, 'تاريخ الانتهاء': '2027-02-22', 'الحالة': 'Valid', 'ملاحظات': '', 'ملاحظات النقل والتجديد': '' },
+                    { 'م': 4, 'الاسم': 'بشار علي سعيد العمودي', 'رقم الإقامة': '2615391485', 'المهنة': '', 'الفرع': '', 'الأيام المتبقية على الانتهاء': 91, 'تاريخ الانتهاء': '2027-02-22', 'الحالة': 'Valid', 'ملاحظات': '', 'ملاحظات النقل والتجديد': '' },
+                    { 'م': 5, 'الاسم': 'عبدالمجيد صالح سعيد العمودي', 'رقم الإقامة': '2601050236', 'المهنة': '', 'الفرع': '', 'الأيام المتبقية على الانتهاء': 82, 'تاريخ الانتهاء': '2027-02-13', 'الحالة': 'Neer to Expire', 'ملاحظات': '', 'ملاحظات النقل والتجديد': '' }
+                ];
+                const wsSample = XLSX.utils.json_to_sheet(sample);
+                XLSX.utils.book_append_sheet(wb, wsSample, 'Iqamas');
             } else if (moduleKey === 'contracts') {
-                sample = [{ 'اسم الموظف': 'سالم علي', 'رقم الهوية': '1023456789', 'الإدارة': 'المالية', 'المهنة': 'محاسب', 'بداية العقد': '2024-01-01', 'نهاية العقد': '2026-12-31' }];
+                sample = [{ 'م': 1, 'اسم الموظف': 'سالم علي', 'رقم الهوية': '1023456789', 'الإدارة': 'المالية', 'المهنة': 'محاسب', 'بداية العقد': '2024-01-01', 'نهاية العقد': '2026-12-31', 'ملاحظات': '' }];
+                const ws = XLSX.utils.json_to_sheet(sample);
+                XLSX.utils.book_append_sheet(wb, ws, 'Template');
             } else {
-                sample = [{ 'اسم الوثيقة': 'رخصة البلدية', 'النوع': 'بلدي', 'رقم الوثيقة': 'BLD-123', 'الفرع': 'جدة', 'تاريخ الانتهاء': '2027-05-15' }];
+                sample = [{ 'م': 1, 'اسم الوثيقة': 'رخصة البلدية', 'النوع': 'بلدي', 'رقم الوثيقة': 'BLD-123', 'الفرع': 'جدة', 'تاريخ الانتهاء': '2027-05-15', 'ملاحظات': '' }];
+                const ws = XLSX.utils.json_to_sheet(sample);
+                XLSX.utils.book_append_sheet(wb, ws, 'Template');
             }
 
-            const ws = XLSX.utils.json_to_sheet(sample);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, 'Template');
             XLSX.writeFile(wb, `template_${moduleKey}.xlsx`);
+            showToast('تم تحميل قالب الإكسل المعتمد بنجاح!');
         }
 
         // ============================================================
