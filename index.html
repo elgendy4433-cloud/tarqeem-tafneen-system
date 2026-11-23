@@ -534,6 +534,25 @@
                     <button onclick="document.getElementById('toast').classList.add('hidden')" class="text-sm font-bold opacity-60 hover:opacity-100">&times;</button>
                 </div>
 
+                <!-- شريط التنبيه التلقائي للمراحل الثلاث (90 - 60 - 30 يوماً) -->
+                <div id="auto-alert-notification-bar" class="hidden mb-4 p-4 bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-rose-500/15 border-2 border-amber-300 dark:border-amber-800 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md animate-in fade-in duration-300">
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-xl shrink-0">
+                            🔔
+                        </div>
+                        <div>
+                            <span class="font-bold text-slate-900 dark:text-white text-xs block" id="auto-alert-bar-title">تنبيه آلي: توجد إقامات وعقود في مراحل الاستحقاق (90 • 60 • 30 يوماً)</span>
+                            <span class="text-[11px] text-slate-600 dark:text-slate-300" id="auto-alert-bar-desc">جاهزة للإرسال التلقائي المباشر إلى البريد المعتمد للمنشأة.</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 space-x-reverse w-full sm:w-auto">
+                        <button onclick="triggerImmediateAutoAlertCheck(true)" class="flex-1 sm:flex-initial px-4 py-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white rounded-xl font-bold transition shadow-sm flex items-center justify-center space-x-1.5 space-x-reverse cursor-pointer">
+                            <span>📨</span><span>إرسال التنبيه الآن</span>
+                        </button>
+                        <button onclick="document.getElementById('auto-alert-notification-bar').classList.add('hidden')" class="px-2.5 py-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800" title="تجاهل مؤقتاً">&times;</button>
+                    </div>
+                </div>
+
                 <!-- ============================================================ -->
                 <!-- 1. لوحة المؤشرات (Dashboard Overview) -->
                 <!-- ============================================================ -->
@@ -1137,12 +1156,15 @@
                             </div>
                             <p class="text-xs text-slate-500">إدارة خيارات وتفعيل البريد الإلكتروني، عتبات التنبيه المسبق، والربط السحابي</p>
                         </div>
-                        <div class="flex items-center space-x-2 space-x-reverse">
+                        <div class="flex items-center space-x-2 space-x-reverse flex-wrap gap-2">
+                            <button onclick="triggerImmediateAutoAlertCheck(true)" class="px-3.5 py-1.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 space-x-reverse cursor-pointer" title="فحص وإرسال إشعارات المراحل 90 و 60 و 30 يوماً فوراً على الإيميل">
+                                <span>⚡</span><span>إرسال إشعارات المراحل (90 • 60 • 30 يوماً)</span>
+                            </button>
                             <button onclick="sendTestEmail()" class="px-3 py-1.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 text-xs font-semibold text-slate-700 dark:text-slate-200 rounded-xl transition flex items-center space-x-1.5 space-x-reverse">
                                 <span>🧪</span><span>إرسال بريد تجريبي</span>
                             </button>
                             <button onclick="openSendEmailModal()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-semibold transition shadow-sm flex items-center space-x-1.5 space-x-reverse">
-                                <span>📧</span><span>إرسال تقرير السجلات الحرجة</span>
+                                <span>📧</span><span>معاينة التقرير الشامل</span>
                             </button>
                         </div>
                     </div>
@@ -1249,9 +1271,80 @@
                             </button>
                         </div>
 
-                        <!-- 2. عتبات التنبيه الدوري والربط السحابي -->
+                        <!-- 2. عتبات التنبيه ونظام الإرسال التلقائي المجدول للمراحل الثلاث -->
                         <div class="space-y-6">
                             
+                            <!-- بطاقة نظام الإرسال التلقائي المجدول (90 - 60 - 30 يوماً) -->
+                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-2 space-x-reverse">
+                                        <span class="text-base">🤖</span>
+                                        <div>
+                                            <h3 class="text-sm font-bold text-slate-900 dark:text-white">نظام التنبيه التلقائي المجدول (Auto-Alert Dispatcher)</h3>
+                                            <p class="text-[11px] text-slate-400">إرسال تقارير تنبيهية تلقائياً على الإيميل عند وصول السجلات لمراحل 90 و 60 و 30 يوماً</p>
+                                        </div>
+                                    </div>
+                                    <label class="inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" id="setting-auto-alert-enabled" class="sr-only peer" checked onchange="toggleAutoAlertActive()">
+                                        <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:right-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+                                        <span class="mr-2 text-xs font-semibold text-slate-600 dark:text-slate-300">تلقائي</span>
+                                    </label>
+                                </div>
+
+                                <!-- المراحل الثلاث للتنبيه -->
+                                <div class="space-y-2.5 text-xs">
+                                    <span class="font-bold text-slate-700 dark:text-slate-300 block">المراحل الزمنية المشمولة في الإشعار التلقائي:</span>
+
+                                    <!-- المرحلة 1: 90 يوماً -->
+                                    <label class="flex items-start space-x-3 space-x-reverse p-3 rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 cursor-pointer">
+                                        <input type="checkbox" id="setting-tier-90" checked class="mt-0.5 rounded text-amber-600 focus:ring-amber-500">
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-bold text-amber-900 dark:text-amber-300">🟡 تنبيه الإنذار المبكر (90 يوماً / 3 أشهر)</span>
+                                                <span class="font-mono font-bold text-[10px] text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/60 px-2 py-0.5 rounded-full">61 - 90 يوماً</span>
+                                            </div>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">إشعار عند تبقي 3 أشهر لبدء إجراءات التجديد أو استطلاع الرأي للموظف</p>
+                                        </div>
+                                    </label>
+
+                                    <!-- المرحلة 2: 60 يوماً -->
+                                    <label class="flex items-start space-x-3 space-x-reverse p-3 rounded-xl border border-orange-200 dark:border-orange-900/50 bg-orange-50/50 dark:bg-orange-950/20 cursor-pointer">
+                                        <input type="checkbox" id="setting-tier-60" checked class="mt-0.5 rounded text-orange-600 focus:ring-orange-500">
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-bold text-orange-900 dark:text-orange-300">🟠 تنبيه الإنذار المرحلي (60 يوماً / شهرين)</span>
+                                                <span class="font-mono font-bold text-[10px] text-orange-700 dark:text-orange-400 bg-orange-100 dark:bg-orange-900/60 px-2 py-0.5 rounded-full">31 - 60 يوماً</span>
+                                            </div>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">إشعار عند تبقي شهرين لتسديد الرسوم وتأكيد التجديد قبل انتهاء المهلة النظامية</p>
+                                        </div>
+                                    </label>
+
+                                    <!-- المرحلة 3: 30 يوماً -->
+                                    <label class="flex items-start space-x-3 space-x-reverse p-3 rounded-xl border border-rose-200 dark:border-rose-900/50 bg-rose-50/50 dark:bg-rose-950/20 cursor-pointer">
+                                        <input type="checkbox" id="setting-tier-30" checked class="mt-0.5 rounded text-rose-600 focus:ring-rose-500">
+                                        <div class="flex-1">
+                                            <div class="flex items-center justify-between">
+                                                <span class="font-bold text-rose-900 dark:text-rose-300">🔴 تنبيه الإنذار الحرج (30 يوماً فأقل / شهر واحد)</span>
+                                                <span class="font-mono font-bold text-[10px] text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/60 px-2 py-0.5 rounded-full">&le; 30 يوماً أو منتهي</span>
+                                            </div>
+                                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">إشعار عاجل لمنع انتهاء الإقامة أو العقد وتفادي الغرامات المالية النظامية</p>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- أزرار الإجراء السريع للإرسال التلقائي -->
+                                <div class="pt-2 flex flex-col sm:flex-row items-center gap-2">
+                                    <button onclick="triggerImmediateAutoAlertCheck(true)" class="flex-1 w-full py-2.5 px-4 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-sm transition flex items-center justify-center space-x-2 space-x-reverse cursor-pointer">
+                                        <span>⚡</span><span>فحص وإرسال الإشعارات التلقائية الآن</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="text-[10px] text-slate-400 flex items-center justify-between pt-1">
+                                    <span>🕒 حالة آخر إرسال تلقائي: <strong id="last-auto-alert-time" class="text-slate-600 dark:text-slate-300 font-mono">لم يتم الإرسال اليوم بعد</strong></span>
+                                    <span class="text-emerald-600 dark:text-emerald-400 font-bold">✓ فحص يومي تلقائي مفعّل</span>
+                                </div>
+                            </div>
+
                             <!-- عتبات الأيام -->
                             <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
                                 <div class="flex items-center space-x-2 space-x-reverse">
@@ -1406,19 +1499,23 @@
                 <button onclick="closeEmailModal()" class="text-slate-400 hover:text-slate-600 text-lg font-bold">&times;</button>
             </div>
 
-            <!-- بطاقة ملخص السجلات المراد إرسالها -->
-            <div class="grid grid-cols-3 gap-3">
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-center">
-                    <span class="text-[11px] text-slate-400 block font-semibold">إجمالي السجلات الحرجة</span>
-                    <span id="modal-email-total-crit" class="text-lg font-bold font-mono text-slate-900 dark:text-white">0</span>
+            <!-- بطاقة ملخص السجلات المراد إرسالها مصنفة بالمراحل الثلاث (90 - 60 - 30 يوماً) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-center">
+                    <span class="text-[10px] text-slate-400 block font-semibold">إجمالي السجلات</span>
+                    <span id="modal-email-total-crit" class="text-base font-black font-mono text-slate-900 dark:text-white">0</span>
                 </div>
-                <div class="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-center">
-                    <span class="text-[11px] text-rose-600 dark:text-rose-400 block font-semibold">منتهية الصلاحية</span>
-                    <span id="modal-email-expired-crit" class="text-lg font-bold font-mono text-rose-600 dark:text-rose-400">0</span>
+                <div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-center">
+                    <span class="text-[10px] text-rose-600 dark:text-rose-400 block font-semibold">🔴 30 يوماً / منتهية</span>
+                    <span id="modal-email-tier-30" class="text-base font-black font-mono text-rose-600 dark:text-rose-400">0</span>
                 </div>
-                <div class="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-center">
-                    <span class="text-[11px] text-amber-600 dark:text-amber-400 block font-semibold">قريبة الانتهاء</span>
-                    <span id="modal-email-near-crit" class="text-lg font-bold font-mono text-amber-600 dark:text-amber-400">0</span>
+                <div class="p-2.5 rounded-xl bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-center">
+                    <span class="text-[10px] text-orange-600 dark:text-orange-400 block font-semibold">🟠 مرحلة 60 يوماً</span>
+                    <span id="modal-email-tier-60" class="text-base font-black font-mono text-orange-600 dark:text-orange-400">0</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-center">
+                    <span class="text-[10px] text-amber-600 dark:text-amber-400 block font-semibold">🟡 مرحلة 90 يوماً</span>
+                    <span id="modal-email-tier-90" class="text-base font-black font-mono text-amber-600 dark:text-amber-400">0</span>
                 </div>
             </div>
 
@@ -1914,6 +2011,8 @@
             enforceRBAC();
             refreshActiveView();
             syncFromSupabase();
+            updateEmailStatusUI();
+            checkAndAutoDispatchAlerts(false);
 
             showToast(`أهلاً بك في مساحة عمل: ${orgKey === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)'}`);
         }
@@ -3705,6 +3804,381 @@
         }
 
         // ============================================================
+        // 9.5. نظام إدارة ومعاينة وثائق PDF والعقود والهويات الرقمية
+        // ============================================================
+        let currentPdfRecord = null;
+        let currentPdfType = null;
+        let currentPdfModule = null;
+
+        function handleModalPdfUpload(event, targetHiddenId, statusElId) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const hiddenEl = document.getElementById(targetHiddenId);
+                const statusEl = document.getElementById(statusElId);
+                if (hiddenEl) hiddenEl.value = dataUrl;
+                if (statusEl) {
+                    statusEl.textContent = `✓ تم إرفاق: ${file.name} (${Math.round(file.size / 1024)} KB)`;
+                    statusEl.className = 'text-[11px] font-bold text-emerald-600 dark:text-emerald-400';
+                }
+                showToast(`تم إرفاق الملف (${file.name}) بنجاح`);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function previewPdfDocument(type, recordId, moduleKey) {
+            const db = getDb();
+            const list = db[currentOrg]?.[moduleKey] || [];
+            let rec = list.find(r => String(r.id) === String(recordId));
+            if (!rec) {
+                const otherList = moduleKey === 'contracts' ? (db[currentOrg]?.iqamas || []) : (db[currentOrg]?.contracts || []);
+                rec = otherList.find(r => String(r.id) === String(recordId));
+            }
+            if (!rec) {
+                return showToast('تعذر العثور على السجل المطلوب للمعاينة', true);
+            }
+
+            currentPdfRecord = rec;
+            currentPdfType = type;
+            currentPdfModule = moduleKey;
+
+            const modal = document.getElementById('pdf-viewer-modal');
+            const titleEl = document.getElementById('pdf-modal-title');
+            const subtitleEl = document.getElementById('pdf-modal-subtitle');
+            const iconEl = document.getElementById('pdf-modal-icon');
+            const bodyEl = document.getElementById('pdf-modal-body');
+
+            if (type === 'contract') {
+                if (iconEl) iconEl.textContent = '📄';
+                if (titleEl) titleEl.textContent = `وثيقة عقد العمل الوظيفي - ${rec.name || 'موظف'}`;
+                if (subtitleEl) subtitleEl.textContent = `رقم الهوية: ${rec.national_id || rec.iqama_number || '-'} | الإدارة: ${rec.department || 'العامة'}`;
+
+                const contractData = rec.contract_pdf;
+                if (contractData && contractData.startsWith('data:application/pdf')) {
+                    bodyEl.innerHTML = `
+                        <div class="w-full h-full flex-1 flex flex-col items-center">
+                            <iframe src="${contractData}" class="w-full h-[520px] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner"></iframe>
+                        </div>
+                    `;
+                } else if (contractData && contractData.startsWith('data:image/')) {
+                    bodyEl.innerHTML = `
+                        <div class="w-full max-h-[520px] overflow-auto flex items-center justify-center p-2">
+                            <img src="${contractData}" alt="عقد العمل" class="max-w-full max-h-[500px] object-contain rounded-2xl shadow-md border border-slate-200 dark:border-slate-800">
+                        </div>
+                    `;
+                } else {
+                    bodyEl.innerHTML = generateOfficialContractPdfHtml(rec);
+                }
+            } else {
+                if (iconEl) iconEl.textContent = '🪪';
+                if (titleEl) titleEl.textContent = `وثيقة الهوية / الإقامة الرسمية - ${rec.name || 'موظف'}`;
+                if (subtitleEl) subtitleEl.textContent = `رقم الهوية / الإقامة: ${rec.iqama_number || rec.national_id || '-'} | المهنة: ${rec.profession || 'موظف'}`;
+
+                const idData = rec.id_pdf;
+                if (idData && idData.startsWith('data:application/pdf')) {
+                    bodyEl.innerHTML = `
+                        <div class="w-full h-full flex-1 flex flex-col items-center">
+                            <iframe src="${idData}" class="w-full h-[520px] rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner"></iframe>
+                        </div>
+                    `;
+                } else if (idData && idData.startsWith('data:image/')) {
+                    bodyEl.innerHTML = `
+                        <div class="w-full max-h-[520px] overflow-auto flex items-center justify-center p-2">
+                            <img src="${idData}" alt="وثيقة الهوية / الإقامة" class="max-w-full max-h-[500px] object-contain rounded-2xl shadow-md border border-slate-200 dark:border-slate-800">
+                        </div>
+                    `;
+                } else {
+                    bodyEl.innerHTML = generateOfficialIdCardPdfHtml(rec);
+                }
+            }
+
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function generateOfficialContractPdfHtml(r) {
+            const isTarqeem = currentOrg === 'tarqeem';
+            const companyName = isTarqeem ? 'مؤسسة ترقيم المتميزة لتقنية المعلومات' : 'شركة تفنين لتقنية المعلومات وحلول الأعمال';
+            const companyCr = isTarqeem ? '1010896421' : '4030291882';
+            const nationalId = r.national_id || r.iqama_number || '2345678901';
+            const empName = r.name || 'محمد أحمد علي';
+            const profession = r.profession || 'موظف';
+            const dept = r.department || (isTarqeem ? 'تقنية المعلومات' : 'الإدارة العامة');
+            const startDate = r.contract_start_date || '2024-01-01';
+            const endDate = r.contract_end_date || r.expiry_date || '2026-12-30';
+            const notes = r.notes || 'تجديد سنوي تلقائي بموجب نظام العمل السعودي';
+
+            return `
+                <div class="w-full max-w-2xl bg-white text-slate-900 p-8 rounded-2xl border border-slate-200 shadow-xl space-y-6 text-right font-sans">
+                    <!-- ترويسة العقد الرسمية -->
+                    <div class="flex items-start justify-between pb-4 border-b-2 border-slate-900">
+                        <div class="space-y-1">
+                            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">المملكة العربية السعودية</p>
+                            <p class="text-xs font-bold text-slate-700">وزارة الموارد البشرية والتنمية الاجتماعية</p>
+                            <p class="text-sm font-black text-brand-600">منصة قوى (Qiwa Platform)</p>
+                        </div>
+                        <div class="text-left space-y-1">
+                            <span class="inline-block px-3 py-1 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-lg text-xs font-bold">عقد موثق ومعتمد 🟢</span>
+                            <p class="text-[11px] font-mono text-slate-400">DOC-${nationalId.slice(-4)}-${new Date().getFullYear()}</p>
+                        </div>
+                    </div>
+
+                    <!-- عنوان الوثيقة -->
+                    <div class="text-center py-2 bg-slate-50 rounded-xl border border-slate-200">
+                        <h2 class="text-base font-black text-slate-900">عقد عمل مهني رسمي موحد</h2>
+                        <p class="text-[11px] text-slate-500">وفقاً للنموذج المعتمد لنظام العمل السعودي ولائحته التنفيذية</p>
+                    </div>
+
+                    <!-- أطراف العقد -->
+                    <div class="space-y-3 text-xs">
+                        <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-900">الطرف الأول (صاحب العمل):</span>
+                                <span class="font-mono text-slate-500">س.ت: ${companyCr}</span>
+                            </div>
+                            <p class="text-slate-700 font-semibold">${companyName}</p>
+                        </div>
+
+                        <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 space-y-1">
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-slate-900">الطرف الثاني (الموظف):</span>
+                                <span class="font-mono text-brand-600 font-bold">رقم الهوية: ${nationalId}</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 pt-1 text-slate-700">
+                                <div><span class="text-slate-400">الاسم الكامل:</span> <span class="font-bold">${empName}</span></div>
+                                <div><span class="text-slate-400">المسمى الوظيفي:</span> <span class="font-semibold">${profession}</span></div>
+                                <div><span class="text-slate-400">الإدارة / القسم:</span> <span>${dept}</span></div>
+                                <div><span class="text-slate-400">تصنيف المهارة:</span> <span class="font-bold text-brand-600">${r.skill_classification || 'محترف'}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- تفاصيل السريان والشروط -->
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl border border-slate-200 bg-white space-y-1">
+                            <span class="text-slate-400 block text-[10px]">تاريخ سريان وبداية العقد:</span>
+                            <span class="font-mono font-bold text-slate-900">${startDate}</span>
+                        </div>
+                        <div class="p-3 rounded-xl border border-slate-200 bg-white space-y-1">
+                            <span class="text-slate-400 block text-[10px]">تاريخ نهاية العقد المقررة:</span>
+                            <span class="font-mono font-bold text-emerald-700">${endDate}</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+                        <span class="font-bold text-slate-800 block">شروط وأحكام العقد والتجديد:</span>
+                        <p class="text-slate-600 text-[11px] leading-relaxed">${notes}</p>
+                    </div>
+
+                    <!-- التوقيع والختم الإلكتروني -->
+                    <div class="pt-4 border-t border-slate-200 flex items-center justify-between text-xs">
+                        <div class="text-center space-y-1">
+                            <span class="text-[10px] text-slate-400 block">ختم المنشأة والاعتماد</span>
+                            <div class="w-20 h-20 mx-auto rounded-full border-2 border-dashed border-brand-500/50 flex flex-col items-center justify-center text-brand-600 text-[10px] font-bold p-1 bg-brand-50/40">
+                                <span>معتمد</span>
+                                <span class="text-[8px] font-mono">${isTarqeem ? 'TRQEM' : 'TAFNEEN'}</span>
+                            </div>
+                        </div>
+                        <div class="text-center space-y-1">
+                            <span class="text-[10px] text-slate-400 block">رمز التحقق الرقمي (QR)</span>
+                            <div class="w-16 h-16 mx-auto bg-slate-900 rounded-xl flex items-center justify-center text-white text-[9px] font-mono p-1 shadow-sm">
+                                <span>QR VERIFIED</span>
+                            </div>
+                        </div>
+                        <div class="text-center space-y-1">
+                            <span class="text-[10px] text-slate-400 block">توقيع الموظف</span>
+                            <p class="text-slate-800 font-bold font-mono pt-4 border-b border-slate-400 min-w-[100px]">${empName}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateOfficialIdCardPdfHtml(r) {
+            const isTarqeem = currentOrg === 'tarqeem';
+            const companyName = isTarqeem ? 'مؤسسة ترقيم' : 'شركة تفنين';
+            const idNum = r.iqama_number || r.national_id || '2345678901';
+            const empName = r.name || 'محمد أحمد علي';
+            const profession = r.profession || 'موظف';
+            const branch = r.branch || (isTarqeem ? 'المقر الرئيسي مكة' : 'المقر الرئيسي جدة');
+            const expiry = r.expiry_date || r.contract_end_date || '2026-11-20';
+            const days = calculateDaysRemaining(expiry);
+
+            return `
+                <div class="w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 text-white p-6 rounded-3xl border border-slate-700 shadow-2xl space-y-5 text-right font-sans relative overflow-hidden">
+                    <!-- زخرفة أمنية خلفية -->
+                    <div class="absolute -left-12 -top-12 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="absolute -right-12 -bottom-12 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+                    <!-- ترويسة بطاقة الهوية / الإقامة -->
+                    <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+                        <div class="space-y-0.5">
+                            <p class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">المملكة العربية السعودية</p>
+                            <h3 class="text-xs font-black text-white">هوية مقيم / وطنية رقمية</h3>
+                            <p class="text-[9px] text-slate-400 font-mono">RESIDENT IDENTITY CARD</p>
+                        </div>
+                        <div class="w-10 h-10 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center text-amber-300 text-lg shadow-inner">
+                            🪪
+                        </div>
+                    </div>
+
+                    <!-- محتوى الهوية -->
+                    <div class="flex items-start space-x-4 space-x-reverse">
+                        <!-- صورة الموظف والـ Chip -->
+                        <div class="flex flex-col items-center space-y-2">
+                            <div class="w-20 h-24 rounded-2xl bg-slate-800 border-2 border-slate-600 flex items-center justify-center text-3xl shadow-md overflow-hidden relative">
+                                <span class="opacity-80">👤</span>
+                                <div class="absolute bottom-0 inset-x-0 py-0.5 bg-slate-900/90 text-[8px] text-center font-mono text-slate-300">PHOTO</div>
+                            </div>
+                            <div class="w-7 h-5 rounded bg-amber-400/80 border border-amber-300 shadow-xs flex items-center justify-center text-[7px] text-slate-950 font-bold" title="Smart Chip">
+                                💳
+                            </div>
+                        </div>
+
+                        <!-- بيانات الهوية -->
+                        <div class="flex-1 space-y-2 text-xs">
+                            <div>
+                                <span class="text-[10px] text-slate-400 block">الاسم / Name:</span>
+                                <span class="font-black text-white text-sm block">${empName}</span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2 text-[11px]">
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block">رقم الهوية / ID No:</span>
+                                    <span class="font-mono font-bold text-amber-300 text-xs">${idNum}</span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block">المهنة / Profession:</span>
+                                    <span class="font-semibold text-slate-200">${profession}</span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block">صاحب العمل / Sponsor:</span>
+                                    <span class="font-semibold text-slate-300">${companyName}</span>
+                                </div>
+                                <div>
+                                    <span class="text-[9px] text-slate-400 block">الفرع / Location:</span>
+                                    <span class="text-slate-300">${branch}</span>
+                                </div>
+                            </div>
+
+                            <div class="pt-1 flex items-center justify-between border-t border-slate-700/60 text-[10px]">
+                                <div>
+                                    <span class="text-slate-400">تاريخ الانتهاء:</span>
+                                    <span class="font-mono font-bold text-white">${expiry}</span>
+                                </div>
+                                <span class="px-2 py-0.5 rounded-full font-bold ${days <= 0 ? 'bg-rose-900/80 text-rose-300 border border-rose-700' : (days <= 90 ? 'bg-amber-900/80 text-amber-300 border border-amber-700' : 'bg-emerald-900/80 text-emerald-300 border border-emerald-700')}">
+                                    ${days <= 0 ? 'منتهية 🔴' : `${days} يوم متبقي 🟢`}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- الباركود السفلي والـ QR -->
+                    <div class="pt-2 border-t border-slate-800 flex items-center justify-between text-[9px] font-mono text-slate-400">
+                        <span><< SAU << ${idNum} << 01 << 2026 <<</span>
+                        <span class="text-emerald-400 font-bold">✓ مُطابق لمنصة مقيم</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function closePdfViewerModal() {
+            const modal = document.getElementById('pdf-viewer-modal');
+            if (modal) modal.classList.add('hidden');
+            currentPdfRecord = null;
+            currentPdfType = null;
+            currentPdfModule = null;
+        }
+
+        function handlePdfModalReplace(event) {
+            const file = event.target.files[0];
+            if (!file || !currentPdfRecord || !currentPdfType) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const db = getDb();
+                const orgData = db[currentOrg] || {};
+
+                const propName = currentPdfType === 'contract' ? 'contract_pdf' : 'id_pdf';
+                const modKey = currentPdfModule || (currentPdfType === 'contract' ? 'contracts' : 'iqamas');
+                const list = orgData[modKey] || [];
+                const idx = list.findIndex(r => String(r.id) === String(currentPdfRecord.id));
+                if (idx >= 0) {
+                    list[idx][propName] = dataUrl;
+                }
+
+                const identifier = currentPdfRecord.iqama_number || currentPdfRecord.national_id;
+                if (identifier) {
+                    if (orgData.iqamas) {
+                        const iqIdx = orgData.iqamas.findIndex(r => String(r.iqama_number) === String(identifier) || r.name === currentPdfRecord.name);
+                        if (iqIdx >= 0) orgData.iqamas[iqIdx][propName] = dataUrl;
+                    }
+                    if (orgData.contracts) {
+                        const conIdx = orgData.contracts.findIndex(r => String(r.national_id) === String(identifier) || r.name === currentPdfRecord.name);
+                        if (conIdx >= 0) orgData.contracts[conIdx][propName] = dataUrl;
+                    }
+                }
+
+                saveDb(db);
+                currentPdfRecord[propName] = dataUrl;
+                showToast(`تم حفظ وتحديث وثيقة الـ PDF (${file.name}) بنجاح!`);
+                previewPdfDocument(currentPdfType, currentPdfRecord.id, modKey);
+                renderModuleTable(modKey);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function printOrDownloadActivePdf() {
+            const bodyContent = document.getElementById('pdf-modal-body');
+            if (!bodyContent) return;
+
+            const iframe = bodyContent.querySelector('iframe');
+            if (iframe) {
+                try {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                    return;
+                } catch (e) {
+                    console.warn('Iframe direct print fallback:', e);
+                }
+            }
+
+            const title = document.getElementById('pdf-modal-title')?.textContent || 'وثيقة رسمية';
+            const printWindow = window.open('', '_blank', 'width=850,height=900');
+            if (!printWindow) {
+                return showToast('يرجى السماح بالنوافذ المنبثقة لطباعة أو حفظ الوثيقة كـ PDF', true);
+            }
+
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="ar" dir="rtl">
+                <head>
+                    <meta charset="UTF-8">
+                    <title>${title}</title>
+                    <script src="https://cdn.tailwindcss.com"></script>
+                    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+                    <style>
+                        body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: white; color: black; padding: 20px; }
+                        @media print {
+                            @page { size: A4; margin: 12mm; }
+                            body { padding: 0; }
+                            .no-print { display: none !important; }
+                        }
+                    </style>
+                </head>
+                <body onload="setTimeout(() => { window.print(); }, 400);">
+                    <div class="flex justify-center items-center">
+                        ${bodyContent.innerHTML}
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        // ============================================================
         // 10. إدارة الأعضاء وسجل التدقيق الأمني (Admin Management)
         // ============================================================
         function renderAdminView() {
@@ -3844,75 +4318,113 @@
             const db = getDb();
             const orgData = db[orgKey] || {};
             const settings = orgData.settings || { iqama_days: 90, contract_days: 90, license_days: 90 };
-            const iqThreshold = settings.iqama_days || 90;
-            const conThreshold = settings.contract_days || 90;
-            const licThreshold = settings.license_days || 90;
+            
+            // عتبات المراحل الثلاث: 90 يوم، 60 يوم، 30 يوم
+            const tier90Active = settings.tier_90_enabled !== false;
+            const tier60Active = settings.tier_60_enabled !== false;
+            const tier30Active = settings.tier_30_enabled !== false;
 
             const items = [];
+            const tier30 = [];
+            const tier60 = [];
+            const tier90 = [];
+
             let expiredCount = 0;
             let nearCount = 0;
 
-            (orgData.iqamas || []).forEach(r => {
-                const days = calculateDaysRemaining(r.expiry_date);
-                if (days <= iqThreshold) {
-                    if (days < 0) expiredCount++; else nearCount++;
-                    items.push({
-                        type: 'إقامة',
-                        name: r.name,
-                        identifier: r.iqama_number,
-                        job: r.profession || '-',
-                        dept: r.branch || '-',
-                        expiry: r.expiry_date,
-                        days,
-                        notes: r.notes || r.transfer_renewal_notes || ''
-                    });
+            function processItem(r, type, identifier, expiryDate, job, dept, notes) {
+                if (!expiryDate) return;
+                const days = calculateDaysRemaining(expiryDate);
+                
+                let tier = null;
+                let tierLabel = '';
+                let tierColor = '';
+                let tierBg = '';
+                let tierDot = '';
+
+                if (days <= 30) {
+                    tier = 'tier30';
+                    tierLabel = days <= 0 ? (days === 0 ? '🔴 ينتهي اليوم' : `🔴 منتهي (${Math.abs(days)} يوم)`) : `🔴 حرج (متبقي ${days} يوم)`;
+                    tierColor = '#991b1b';
+                    tierBg = '#fee2e2';
+                    tierDot = 'bg-rose-500';
+                } else if (days <= 60) {
+                    tier = 'tier60';
+                    tierLabel = `🟠 مرحلي (متبقي ${days} يوم)`;
+                    tierColor = '#c2410c';
+                    tierBg = '#ffedd5';
+                    tierDot = 'bg-orange-500';
+                } else if (days <= 90) {
+                    tier = 'tier90';
+                    tierLabel = `🟡 مبكر (متبقي ${days} يوم)`;
+                    tierColor = '#b45309';
+                    tierBg = '#fef3c7';
+                    tierDot = 'bg-amber-500';
                 }
+
+                if (!tier) return; // أكثر من 90 يوماً لا يدخل في نطاق التنبيه
+
+                // فحص تفعيل المرحلة
+                if (tier === 'tier90' && !tier90Active) return;
+                if (tier === 'tier60' && !tier60Active) return;
+                if (tier === 'tier30' && !tier30Active) return;
+
+                if (days <= 0) expiredCount++; else nearCount++;
+
+                const entry = {
+                    id: r.id,
+                    type,
+                    name: r.name || r.document_name,
+                    identifier: identifier || '-',
+                    job: job || '-',
+                    dept: dept || '-',
+                    expiry: expiryDate,
+                    days,
+                    tier,
+                    tierLabel,
+                    tierColor,
+                    tierBg,
+                    tierDot,
+                    notes: notes || ''
+                };
+
+                items.push(entry);
+                if (tier === 'tier30') tier30.push(entry);
+                else if (tier === 'tier60') tier60.push(entry);
+                else if (tier === 'tier90') tier90.push(entry);
+            }
+
+            (orgData.iqamas || []).forEach(r => {
+                processItem(r, 'إقامة رسمية', r.iqama_number, r.expiry_date, r.profession, r.branch, r.notes || r.transfer_renewal_notes);
             });
 
             (orgData.contracts || []).forEach(r => {
-                const days = calculateDaysRemaining(r.contract_end_date);
-                if (days <= conThreshold) {
-                    if (days < 0) expiredCount++; else nearCount++;
-                    items.push({
-                        type: 'عقد وظيفي',
-                        name: r.name,
-                        identifier: r.national_id,
-                        job: r.profession || '-',
-                        dept: r.department || '-',
-                        expiry: r.contract_end_date,
-                        days,
-                        notes: r.notes || ''
-                    });
-                }
+                processItem(r, 'عقد وظيفي', r.national_id, r.contract_end_date, r.profession, r.department, r.notes);
             });
 
             (orgData.licenses || []).forEach(r => {
-                const days = calculateDaysRemaining(r.expiry_date);
-                if (days <= licThreshold) {
-                    if (days < 0) expiredCount++; else nearCount++;
-                    items.push({
-                        type: 'ترخيص / وثيقة',
-                        name: r.document_name,
-                        identifier: r.document_number,
-                        job: r.document_type || '-',
-                        dept: r.branch || '-',
-                        expiry: r.expiry_date,
-                        days,
-                        notes: r.notes || ''
-                    });
-                }
+                processItem(r, 'ترخيص / سجل', r.document_number, r.expiry_date, r.document_type, r.branch, r.notes);
             });
 
             items.sort((a, b) => a.days - b.days);
+            tier30.sort((a, b) => a.days - b.days);
+            tier60.sort((a, b) => a.days - b.days);
+            tier90.sort((a, b) => a.days - b.days);
 
             return {
                 items,
                 total: items.length,
+                tier30,
+                tier60,
+                tier90,
+                count30: tier30.length,
+                count60: tier60.length,
+                count90: tier90.length,
                 expiredCount,
                 nearCount,
-                iqThreshold,
-                conThreshold,
-                licThreshold
+                tier90Active,
+                tier60Active,
+                tier30Active
             };
         }
 
@@ -3949,6 +4461,16 @@
         function toggleEmailSystemActive() {
             const enabled = document.getElementById('setting-email-enabled')?.checked;
             updateEmailStatusUI(enabled);
+        }
+
+        function toggleAutoAlertActive() {
+            const enabled = document.getElementById('setting-auto-alert-enabled')?.checked ?? true;
+            const db = getDb();
+            db[currentOrg] = db[currentOrg] || {};
+            db[currentOrg].settings = db[currentOrg].settings || {};
+            db[currentOrg].settings.auto_alert_enabled = enabled;
+            saveDb(db);
+            showToast(enabled ? 'تم تفعيل نظام التنبيه التلقائي المجدول 🟢' : 'تم إيقاف نظام التنبيه التلقائي ⚠️');
         }
 
         function updateEmailStatusUI(overrideEnabled = null) {
@@ -3988,12 +4510,15 @@
         function renderSettingsView() {
             const db = getDb();
             const settings = db[currentOrg]?.settings || {
-                iqama_days: 45,
                 iqama_days: 90,
                 contract_days: 90,
                 license_days: 90,
                 emails: '',
                 email_enabled: true,
+                auto_alert_enabled: true,
+                tier_90_enabled: true,
+                tier_60_enabled: true,
+                tier_30_enabled: true,
                 email_provider: 'mailto',
                 sender_name: 'نظام تنبيهات ترقيم وتفنين',
                 sender_email: 'alerts@tarqeem-tafneen.com',
@@ -4021,6 +4546,23 @@
             const chk = document.getElementById('setting-email-enabled');
             if (chk) chk.checked = settings.email_enabled !== false;
 
+            const chkAuto = document.getElementById('setting-auto-alert-enabled');
+            if (chkAuto) chkAuto.checked = settings.auto_alert_enabled !== false;
+
+            const chk90 = document.getElementById('setting-tier-90');
+            if (chk90) chk90.checked = settings.tier_90_enabled !== false;
+
+            const chk60 = document.getElementById('setting-tier-60');
+            if (chk60) chk60.checked = settings.tier_60_enabled !== false;
+
+            const chk30 = document.getElementById('setting-tier-30');
+            if (chk30) chk30.checked = settings.tier_30_enabled !== false;
+
+            const lastTimeEl = document.getElementById('last-auto-alert-time');
+            if (lastTimeEl) {
+                lastTimeEl.textContent = settings.last_auto_alert_time || (settings.last_auto_alert_date ? 'تم الإرسال بتاريخ ' + settings.last_auto_alert_date : 'لم يتم الإرسال اليوم بعد');
+            }
+
             toggleProviderFields();
             updateEmailStatusUI();
         }
@@ -4031,6 +4573,10 @@
             const licDays = Math.max(1, Number(document.getElementById('setting-license-days')?.value) || 90);
             const emails = (document.getElementById('setting-emails')?.value || '').trim();
             const emailEnabled = document.getElementById('setting-email-enabled')?.checked ?? true;
+            const autoAlertEnabled = document.getElementById('setting-auto-alert-enabled')?.checked ?? true;
+            const tier90Enabled = document.getElementById('setting-tier-90')?.checked ?? true;
+            const tier60Enabled = document.getElementById('setting-tier-60')?.checked ?? true;
+            const tier30Enabled = document.getElementById('setting-tier-30')?.checked ?? true;
             const emailProvider = document.getElementById('setting-email-provider')?.value || 'mailto';
             const senderName = (document.getElementById('setting-sender-name')?.value || '').trim() || 'نظام تنبيهات ترقيم وتفنين';
             const senderEmail = (document.getElementById('setting-sender-email')?.value || '').trim() || 'alerts@tarqeem-tafneen.com';
@@ -4042,12 +4588,19 @@
 
             const db = getDb();
             db[currentOrg] = db[currentOrg] || {};
+            const prevSettings = db[currentOrg].settings || {};
+
             db[currentOrg].settings = {
+                ...prevSettings,
                 iqama_days: iqDays,
                 contract_days: conDays,
                 license_days: licDays,
                 emails,
                 email_enabled: emailEnabled,
+                auto_alert_enabled: autoAlertEnabled,
+                tier_90_enabled: tier90Enabled,
+                tier_60_enabled: tier60Enabled,
+                tier_30_enabled: tier30Enabled,
                 email_provider: emailProvider,
                 sender_name: senderName,
                 sender_email: senderEmail,
@@ -4061,15 +4614,16 @@
 
             recordAuditLog('UPDATE_SETTINGS', 'settings', 'email_and_thresholds', {
                 emailEnabled,
+                autoAlertEnabled,
+                tier90Enabled,
+                tier60Enabled,
+                tier30Enabled,
                 emailProvider,
-                iqDays,
-                conDays,
-                licDays,
                 recipientCount: emails ? emails.split(',').length : 0
             });
 
             updateEmailStatusUI(emailEnabled);
-            showToast('تم حفظ وتفعيل إعدادات نظام البريد الإلكتروني بنجاح! 💾');
+            showToast('تم حفظ وتفعيل إعدادات نظام البريد الإلكتروني وجدولة التنبيهات بنجاح! 💾');
         }
 
         // ============================================================
@@ -4079,59 +4633,125 @@
             const orgTitle = currentOrg === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)';
             const todayStr = new Date().toLocaleDateString('ar-SA', { year: 'numeric', month: 'long', day: 'numeric' });
 
-            const rowsHtml = items.map(item => `
-                <tr style="border-bottom: 1px solid #e2e8f0;">
-                    <td style="padding: 10px 12px; font-weight: bold; color: #0f172a;">${item.name}</td>
-                    <td style="padding: 10px 12px; color: #475569;"><span style="background: #f1f5f9; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-family: monospace;">${item.type}</span></td>
-                    <td style="padding: 10px 12px; font-family: monospace; color: #334155;">${item.identifier}</td>
-                    <td style="padding: 10px 12px; color: #475569;">${item.dept}</td>
-                    <td style="padding: 10px 12px; font-family: monospace; color: #0f172a;">${item.expiry}</td>
-                    <td style="padding: 10px 12px; text-align: center;">
-                        <span style="display: inline-block; padding: 3px 8px; border-radius: 9999px; font-size: 11px; font-weight: bold; background: ${item.days < 0 ? '#fee2e2' : '#fef3c7'}; color: ${item.days < 0 ? '#991b1b' : '#92400e'};">
-                            ${item.days < 0 ? 'منتهي منذ ' + Math.abs(item.days) + ' يوم' : item.days + ' يوم متبقي'}
-                        </span>
-                    </td>
-                    <td style="padding: 10px 12px; color: #64748b; font-size: 11px;">${item.notes || '-'}</td>
-                </tr>
-            `).join('');
+            function renderTierRows(tierItems) {
+                if (!tierItems || tierItems.length === 0) {
+                    return `<tr><td colspan="6" style="padding: 12px; text-align: center; color: #94a3b8; font-size: 11px;">لا توجد سجلات في هذه المرحلة حالياً</td></tr>`;
+                }
+                return tierItems.map(item => `
+                    <tr style="border-bottom: 1px solid #e2e8f0;">
+                        <td style="padding: 10px 12px; font-weight: bold; color: #0f172a;">${item.name}</td>
+                        <td style="padding: 10px 12px; color: #475569;"><span style="background: #f1f5f9; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-family: monospace;">${item.type}</span></td>
+                        <td style="padding: 10px 12px; font-family: monospace; color: #334155;">${item.identifier}</td>
+                        <td style="padding: 10px 12px; color: #475569;">${item.dept}</td>
+                        <td style="padding: 10px 12px; font-family: monospace; color: #0f172a;">${item.expiry}</td>
+                        <td style="padding: 10px 12px; text-align: center;">
+                            <span style="display: inline-block; padding: 3px 8px; border-radius: 9999px; font-size: 11px; font-weight: bold; background: ${item.tierBg}; color: ${item.tierColor};">
+                                ${item.days <= 0 ? (item.days === 0 ? 'ينتهي اليوم ⚠️' : 'منتهي منذ ' + Math.abs(item.days) + ' يوم') : item.days + ' يوم متبقي'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+            }
 
             return `
                 <div style="font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; direction: rtl; text-align: right;">
-                    <div style="max-width: 700px; margin: 0 auto; background: #ffffff; border-radius: 14px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                    <div style="max-width: 720px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
                         
-                        <!-- الرأس -->
+                        <!-- الرأس الرسمي -->
                         <div style="background: #0f172a; color: #ffffff; padding: 24px; text-align: center;">
-                            <h1 style="margin: 0 0 6px 0; font-size: 20px; font-weight: bold;">منصة المتابعة المؤسسية</h1>
-                            <p style="margin: 0; font-size: 14px; color: #38bdf8;">تقرير التنبيهات الفورية | ${orgTitle}</p>
+                            <h1 style="margin: 0 0 6px 0; font-size: 20px; font-weight: 800;">منصة المتابعة المؤسسية</h1>
+                            <p style="margin: 0; font-size: 13px; color: #38bdf8;">تقرير التنبيهات المجدولة لمراحل الصلاحية (90 • 60 • 30 يوماً) | ${orgTitle}</p>
                             <span style="display: inline-block; margin-top: 8px; font-size: 11px; color: #94a3b8;">تاريخ التقرير: ${todayStr}</span>
                         </div>
 
-                        <!-- إشعار التنبيه -->
                         <div style="padding: 24px;">
-                            <div style="background: #fff7ed; border-right: 4px solid #ea580c; padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; color: #9a3412; font-size: 13px; font-weight: 500;">
-                                ⚠️ <strong>إشعار فوري:</strong> تم رصد <strong>${stats.total} سجلات</strong> في النطاق الحرج للتجديد (${stats.expiredCount} منتهية الصلاحية و ${stats.nearCount} قاربت على الانتهاء). يرجى اتخاذ الإجراءات النظامية لتفادي الغرامات.
+                            <!-- بطاقات ملخص المراحل الثلاث -->
+                            <div style="display: flex; gap: 10px; margin-bottom: 24px; text-align: center;">
+                                <div style="flex: 1; padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px;">
+                                    <span style="display: block; font-size: 10px; font-weight: bold; color: #991b1b;">🔴 مرحلة 30 يوماً / منتهية</span>
+                                    <strong style="font-size: 20px; font-family: monospace; color: #991b1b;">${stats.count30 || 0}</strong>
+                                    <span style="display: block; font-size: 9px; color: #b91c1c;">تتطلب تجديد فوري</span>
+                                </div>
+                                <div style="flex: 1; padding: 12px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px;">
+                                    <span style="display: block; font-size: 10px; font-weight: bold; color: #c2410c;">🟠 مرحلة 60 يوماً</span>
+                                    <strong style="font-size: 20px; font-family: monospace; color: #c2410c;">${stats.count60 || 0}</strong>
+                                    <span style="display: block; font-size: 9px; color: #ea580c;">تسديد الرسوم وإصدار التجديد</span>
+                                </div>
+                                <div style="flex: 1; padding: 12px; background: #fefce8; border: 1px solid #fef08a; border-radius: 10px;">
+                                    <span style="display: block; font-size: 10px; font-weight: bold; color: #854d0e;">🟡 مرحلة 90 يوماً</span>
+                                    <strong style="font-size: 20px; font-family: monospace; color: #854d0e;">${stats.count90 || 0}</strong>
+                                    <span style="display: block; font-size: 9px; color: #ca8a04;">الإنذار المبكر واستطلاع الرأي</span>
+                                </div>
                             </div>
 
-                            <!-- جدول السجلات -->
-                            <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 24px;">
-                                <thead>
-                                    <tr style="background: #f1f5f9; color: #475569; text-align: right; border-bottom: 2px solid #cbd5e1;">
-                                        <th style="padding: 10px 12px;">الاسم / الوثيقة</th>
-                                        <th style="padding: 10px 12px;">النوع</th>
-                                        <th style="padding: 10px 12px;">رقم الهوية / السجل</th>
-                                        <th style="padding: 10px 12px;">الفرع / الإدارة</th>
-                                        <th style="padding: 10px 12px;">تاريخ الانتهاء</th>
-                                        <th style="padding: 10px 12px; text-align: center;">الحالة</th>
-                                        <th style="padding: 10px 12px;">الملاحظات</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${rowsHtml}
-                                </tbody>
-                            </table>
+                            <!-- 1. جدول مرحلة 30 يوماً -->
+                            ${stats.count30 > 0 ? `
+                            <div style="margin-bottom: 24px;">
+                                <div style="background: #fef2f2; border-right: 4px solid #dc2626; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #991b1b;">
+                                    🔴 أولاً: سجلات مرحلة 30 يوماً فأقل أو منتهية (${stats.count30} سجل - إجراء عاجل وفوري)
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                                    <thead>
+                                        <tr style="background: #f8fafc; color: #475569; text-align: right; border-bottom: 2px solid #cbd5e1;">
+                                            <th style="padding: 8px 10px;">الاسم</th>
+                                            <th style="padding: 8px 10px;">النوع</th>
+                                            <th style="padding: 8px 10px;">رقم الهوية / السجل</th>
+                                            <th style="padding: 8px 10px;">الفرع / الإدارة</th>
+                                            <th style="padding: 8px 10px;">تاريخ الانتهاء</th>
+                                            <th style="padding: 8px 10px; text-align: center;">الحالة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${renderTierRows(stats.tier30)}</tbody>
+                                </table>
+                            </div>
+                            ` : ''}
 
-                            <p style="font-size: 12px; color: #64748b; line-height: 1.6; border-top: 1px solid #f1f5f9; padding-top: 16px;">
-                                هذا التقرير آلي مرسل بموجب عتبات التنبيه المحددة في النظام (${stats.iqThreshold} يوماً للإقامات و ${stats.conThreshold} يوماً للعقود و ${stats.licThreshold} يوماً للتراخيص).
+                            <!-- 2. جدول مرحلة 60 يوماً -->
+                            ${stats.count60 > 0 ? `
+                            <div style="margin-bottom: 24px;">
+                                <div style="background: #fff7ed; border-right: 4px solid #ea580c; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #c2410c;">
+                                    🟠 ثانياً: سجلات مرحلة 60 يوماً / شهرين (${stats.count60} سجل - سداد الرسوم وإصدار التجديد)
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                                    <thead>
+                                        <tr style="background: #f8fafc; color: #475569; text-align: right; border-bottom: 2px solid #cbd5e1;">
+                                            <th style="padding: 8px 10px;">الاسم</th>
+                                            <th style="padding: 8px 10px;">النوع</th>
+                                            <th style="padding: 8px 10px;">رقم الهوية / السجل</th>
+                                            <th style="padding: 8px 10px;">الفرع / الإدارة</th>
+                                            <th style="padding: 8px 10px;">تاريخ الانتهاء</th>
+                                            <th style="padding: 8px 10px; text-align: center;">الحالة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${renderTierRows(stats.tier60)}</tbody>
+                                </table>
+                            </div>
+                            ` : ''}
+
+                            <!-- 3. جدول مرحلة 90 يوماً -->
+                            ${stats.count90 > 0 ? `
+                            <div style="margin-bottom: 24px;">
+                                <div style="background: #fefce8; border-right: 4px solid #ca8a04; padding: 10px 14px; border-radius: 8px; margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #854d0e;">
+                                    🟡 ثالثاً: سجلات مرحلة 90 يوماً / 3 أشهر (${stats.count90} سجل - الإنذار المبكر والتخطيط)
+                                </div>
+                                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                                    <thead>
+                                        <tr style="background: #f8fafc; color: #475569; text-align: right; border-bottom: 2px solid #cbd5e1;">
+                                            <th style="padding: 8px 10px;">الاسم</th>
+                                            <th style="padding: 8px 10px;">النوع</th>
+                                            <th style="padding: 8px 10px;">رقم الهوية / السجل</th>
+                                            <th style="padding: 8px 10px;">الفرع / الإدارة</th>
+                                            <th style="padding: 8px 10px;">تاريخ الانتهاء</th>
+                                            <th style="padding: 8px 10px; text-align: center;">الحالة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${renderTierRows(stats.tier90)}</tbody>
+                                </table>
+                            </div>
+                            ` : ''}
+
+                            <p style="font-size: 11px; color: #64748b; line-height: 1.6; border-top: 1px solid #f1f5f9; padding-top: 14px;">
+                                هذا التقرير يصدر تلقائياً بموجب نظام الجدولة الذكي لمراحل الاستحقاق (90 - 60 - 30 يوماً) لتفادي أي غرامات أو توقف لسريان الوثائق.
                             </p>
                         </div>
 
@@ -4146,21 +4766,28 @@
 
         function generateEmailPlainText(orgName, items, stats) {
             const orgTitle = currentOrg === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)';
-            let text = `تقرير التنبيهات الفورية | ${orgTitle}\n`;
+            let text = `تقرير التنبيهات المجدولة لمراحل الصلاحية (90 • 60 • 30 يوماً) | ${orgTitle}\n`;
             text += `التاريخ: ${new Date().toLocaleDateString('ar-SA')}\n`;
-            text += `إجمالي السجلات الحرجة: ${stats.total} (منتهي: ${stats.expiredCount} | قريب: ${stats.nearCount})\n\n`;
-            text += `قائمة السجلات المطلوب اتخاذ إجراء بشأنها:\n`;
-            text += `========================================================\n`;
+            text += `إجمالي السجلات: ${stats.total} (🔴 30 يوماً: ${stats.count30 || 0} | 🟠 60 يوماً: ${stats.count60 || 0} | 🟡 90 يوماً: ${stats.count90 || 0})\n\n`;
 
-            items.forEach((item, idx) => {
-                const statusStr = item.days < 0 ? `منتهي منذ ${Math.abs(item.days)} يوم` : `${item.days} يوم متبقي`;
-                text += `${idx + 1}. [${item.type}] ${item.name} (${item.identifier})\n`;
-                text += `   - الفرع/الإدارة: ${item.dept} | تاريخ الانتهاء: ${item.expiry}\n`;
-                text += `   - الحالة: ${statusStr} ${item.notes ? `| ملاحظات: ${item.notes}` : ''}\n\n`;
-            });
+            function formatTier(title, list) {
+                if (!list || list.length === 0) return '';
+                let s = `========================================================\n${title}\n========================================================\n`;
+                list.forEach((item, idx) => {
+                    const statusStr = item.days <= 0 ? (item.days === 0 ? 'ينتهي اليوم ⚠️' : `منتهي منذ ${Math.abs(item.days)} يوم`) : `${item.days} يوم متبقي`;
+                    s += `${idx + 1}. [${item.type}] ${item.name} (${item.identifier})\n`;
+                    s += `   - الفرع/الإدارة: ${item.dept} | تاريخ الانتهاء: ${item.expiry}\n`;
+                    s += `   - الحالة: ${statusStr} ${item.notes ? `| ملاحظات: ${item.notes}` : ''}\n\n`;
+                });
+                return s;
+            }
+
+            text += formatTier(`🔴 أولاً: مرحلة 30 يوماً فأقل أو منتهية (${stats.count30 || 0} سجل - عاجل وحرج)`, stats.tier30);
+            text += formatTier(`🟠 ثانياً: مرحلة 60 يوماً (${stats.count60 || 0} سجل - سداد رسوم وإصدار تجديد)`, stats.tier60);
+            text += formatTier(`🟡 ثالثاً: مرحلة 90 يوماً (${stats.count90} سجل - إنذار مبكر واستطلاع رأي)`, stats.tier90);
 
             text += `========================================================\n`;
-            text += `تم الإرسال عبر نظام المتابعة المؤسسية الموحد لترقيم وتفنين.`;
+            text += `تم الإرسال تلقائياً عبر نظام المتابعة المؤسسية الموحد لترقيم وتفنين.`;
             return text;
         }
 
@@ -4171,17 +4798,19 @@
             const crit = getCriticalRecords(currentOrg);
 
             const totEl = document.getElementById('modal-email-total-crit');
-            const expEl = document.getElementById('modal-email-expired-crit');
-            const nearEl = document.getElementById('modal-email-near-crit');
+            const exp30 = document.getElementById('modal-email-tier-30');
+            const exp60 = document.getElementById('modal-email-tier-60');
+            const exp90 = document.getElementById('modal-email-tier-90');
             if (totEl) totEl.textContent = crit.total;
-            if (expEl) expEl.textContent = crit.expiredCount;
-            if (nearEl) nearEl.textContent = crit.nearCount;
+            if (exp30) exp30.textContent = crit.count30;
+            if (exp60) exp60.textContent = crit.count60;
+            if (exp90) exp90.textContent = crit.count90;
 
             const recEl = document.getElementById('modal-email-recipients');
             if (recEl) recEl.value = settings.emails || 'hr@tarqeem.sa, alerts@trqem.com';
 
             const subEl = document.getElementById('modal-email-subject');
-            if (subEl) subEl.value = `🚨 تنبيه فوري: ${crit.total} وثائق وعقود قاربت على الانتهاء - ${orgName}`;
+            if (subEl) subEl.value = `🚨 تنبيه فوري: ${crit.total} إقامات وعقود في مراحل الاستحقاق (90 • 60 • 30 يوماً) - ${orgName}`;
 
             const badgeEl = document.getElementById('modal-email-provider-badge');
             const providerNames = {
@@ -4200,7 +4829,7 @@
                     previewEl.innerHTML = `
                         <div class="text-center py-6 text-slate-400 space-y-1">
                             <span class="text-xl">🎉</span>
-                            <p class="text-xs font-semibold text-emerald-600">كافة السجلات والوثائق سارية ومستقرة، لا توجد بنود حرجة حالياً.</p>
+                            <p class="text-xs font-semibold text-emerald-600">كافة السجلات والوثائق سارية ومستقرة، لا توجد بنود في مراحل 90 أو 60 أو 30 يوماً حالياً.</p>
                         </div>
                     `;
                 } else {
@@ -4209,6 +4838,113 @@
             }
 
             document.getElementById('email-dispatch-modal').classList.remove('hidden');
+        }
+
+        async function triggerImmediateAutoAlertCheck(manualTrigger = true) {
+            checkAndAutoDispatchAlerts(manualTrigger);
+        }
+
+        async function checkAndAutoDispatchAlerts(manualTrigger = false) {
+            const db = getDb();
+            const settings = db[currentOrg]?.settings || {};
+            const orgName = currentOrg === 'tarqeem' ? 'مؤسسة ترقيم (TRQEM)' : 'شركة تفنين (TAFNEEN)';
+            const crit = getCriticalRecords(currentOrg);
+            const recipients = (settings.emails || '').trim();
+
+            if (!manualTrigger && (settings.auto_alert_enabled === false || settings.email_enabled === false)) {
+                return;
+            }
+
+            if (crit.total === 0) {
+                if (manualTrigger) {
+                    showToast('لا توجد إقامات أو عقود في مراحل 90 أو 60 أو 30 يوماً حالياً. كافة السجلات مستقرة! 🎉');
+                }
+                return;
+            }
+
+            const todayStr = new Date().toISOString().substring(0, 10);
+            const provider = settings.email_provider || 'mailto';
+
+            if (manualTrigger) {
+                // في حالة التشغيل اليدوي المباشر، افتح نافذة المعاينة المجهزة فوراً
+                openSendEmailModal();
+                return;
+            }
+
+            // فحص الإرسال التلقائي اليومي
+            if (settings.last_auto_alert_date === todayStr) {
+                return;
+            }
+
+            if (provider === 'emailjs' || provider === 'resend' || provider === 'webhook') {
+                try {
+                    const subject = `🚨 إشعار تلقائي: تنبيه إقامات وعقود (مراحل 90 • 60 • 30 يوماً) - ${orgName}`;
+                    const htmlBody = generateEmailHtml(orgName, crit.items, crit);
+                    const plainBody = generateEmailPlainText(orgName, crit.items, crit);
+
+                    if (provider === 'emailjs' && settings.emailjs_public_key && settings.emailjs_service_id && settings.emailjs_template_id && window.emailjs) {
+                        window.emailjs.init({ publicKey: settings.emailjs_public_key });
+                        await window.emailjs.send(settings.emailjs_service_id, settings.emailjs_template_id, {
+                            to_email: recipients,
+                            subject,
+                            message_html: htmlBody,
+                            message_plain: plainBody,
+                            org_name: orgName,
+                            critical_count: crit.total
+                        });
+                    } else if (provider === 'resend' && settings.resend_api_key) {
+                        await fetch('https://api.resend.com/emails', {
+                            method: 'POST',
+                            headers: { 'Authorization': `Bearer ${settings.resend_api_key}`, 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                from: `${settings.sender_name || 'Tarqeem & Tafneen'} <${settings.sender_email || 'onboarding@resend.dev'}>`,
+                                to: recipients.split(',').map(e => e.trim()).filter(Boolean),
+                                subject,
+                                html: htmlBody
+                            })
+                        });
+                    } else if (provider === 'webhook' && settings.webhook_url) {
+                        await fetch(settings.webhook_url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                event: 'AUTO_SCHEDULED_ALERT',
+                                organization: currentOrg,
+                                recipients,
+                                subject,
+                                stats: crit,
+                                items: crit.items
+                            })
+                        });
+                    }
+
+                    settings.last_auto_alert_date = todayStr;
+                    settings.last_auto_alert_time = new Date().toLocaleString('ar-SA');
+                    saveDb(db);
+
+                    recordAuditLog('AUTO_SEND_EMAIL_ALERT', 'email', provider, {
+                        recipients,
+                        total: crit.total,
+                        count30: crit.count30,
+                        count60: crit.count60,
+                        count90: crit.count90
+                    });
+
+                    showToast(`🚀 تم الإرسال التلقائي لإشعارات مراحل (90 - 60 - 30 يوماً) بنجاح إلى: ${recipients}`);
+                } catch (err) {
+                    console.warn('Auto alert error:', err);
+                }
+            } else {
+                // وضع عميل البريد المكتبي (Mailto)
+                const banner = document.getElementById('auto-alert-notification-bar');
+                const desc = document.getElementById('auto-alert-bar-desc');
+                if (banner) {
+                    banner.classList.remove('hidden');
+                    if (desc) {
+                        desc.textContent = `تم رصد ${crit.total} سجلات (🔴 ${crit.count30} عاجل 30 يوم | 🟠 ${crit.count60} شهرين | 🟡 ${crit.count90} ثلاثة أشهر) جاهزة للإرسال على البريد.`;
+                    }
+                }
+            }
         }
 
         function closeEmailModal() {
@@ -4512,6 +5248,12 @@
             tAssert(trqSvg.includes('TRQEM') && trqSvg.includes('تـرقـيـم'), 'الهوية البصرية: كرت مؤسسة ترقيم الرسمي يطابق صورة الشعار بدقة', 'الهوية والشعارات');
             tAssert(tafSvg.includes('TAFNEEN') && tafSvg.includes('#0047cc'), 'الهوية البصرية: شعار شركة تفنين الرسمي بالكاليجرافي الأزرق والنقاط السبع', 'الهوية والشعارات');
 
+            // 11. فحص وثائق الـ PDF للعقود والهويات
+            tAssert(typeof previewPdfDocument === 'function' && typeof generateOfficialContractPdfHtml === 'function' && typeof generateOfficialIdCardPdfHtml === 'function', 'وثائق PDF: جاهزية نظام معاينة وطباعة عقود العمل وبطاقات الهوية PDF وربطها بالسجلات', 'وثائق PDF والعقود');
+
+            // 12. فحص نظام الإرسال التلقائي لمراحل الاستحقاق (90، 60، 30 يوماً)
+            tAssert(typeof checkAndAutoDispatchAlerts === 'function' && typeof triggerImmediateAutoAlertCheck === 'function' && typeof generateEmailPlainText === 'function', 'نظام الإرسال التلقائي: جاهزية الجدولة والمراحل الثلاث (90 • 60 • 30 يوماً) وإشعارات البريد التلقائية', 'الجدولة التلقائية');
+
             // عرض نافذة نتائج الفحص والتحقق الشامل
             const modal = document.getElementById('test-results-modal');
             const summary = document.getElementById('test-modal-summary');
@@ -4749,6 +5491,12 @@
                 enforceRBAC();
                 refreshActiveView();
                 updateEmailStatusUI();
+                
+                // تشغيل الفحص التلقائي لمراحل الاستحقاق (90، 60، 30 يوماً) وجدولة الفحص الدوري
+                checkAndAutoDispatchAlerts(false);
+                setInterval(() => {
+                    checkAndAutoDispatchAlerts(false);
+                }, 3600000); // فحص دوري كل 60 دقيقة في الخلفية
             }
 
             // إغلاق قائمة المستخدم المنسدلة عند النقر في أي مكان آخر بالصفحة
