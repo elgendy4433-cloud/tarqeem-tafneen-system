@@ -4151,30 +4151,26 @@
                 return showToast('يرجى السماح بالنوافذ المنبثقة لطباعة أو حفظ الوثيقة كـ PDF', true);
             }
 
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="ar" dir="rtl">
-                <head>
-                    <meta charset="UTF-8">
-                    <title>${title}</title>
-                    <script src="https://cdn.tailwindcss.com"></script>
-                    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-                    <style>
-                        body { font-family: 'IBM Plex Sans Arabic', sans-serif; background: white; color: black; padding: 20px; }
-                        @media print {
-                            @page { size: A4; margin: 12mm; }
-                            body { padding: 0; }
-                            .no-print { display: none !important; }
-                        }
-                    </style>
-                </head>
-                <body onload="setTimeout(() => { window.print(); }, 400);">
-                    <div class="flex justify-center items-center">
-                        ${bodyContent.innerHTML}
-                    </div>
-                </body>
-                </html>
-            `);
+            const printHtml = '<!DOCTYPE html>' +
+                '<html lang="ar" dir="rtl">' +
+                '<head>' +
+                '<meta charset="UTF-8">' +
+                '<title>' + title + '</title>' +
+                '<' + 'script src="https://cdn.tailwindcss.com"><' + '/script>' +
+                '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">' +
+                '<style>' +
+                'body { font-family: \'IBM Plex Sans Arabic\', sans-serif; background: white; color: black; padding: 20px; }' +
+                '@media print { @page { size: A4; margin: 12mm; } body { padding: 0; } .no-print { display: none !important; } }' +
+                '</style>' +
+                '</head>' +
+                '<body onload="setTimeout(() => { window.print(); }, 400);">' +
+                '<div class="flex justify-center items-center">' +
+                bodyContent.innerHTML +
+                '</div>' +
+                '</body>' +
+                '</html>';
+
+            printWindow.document.write(printHtml);
             printWindow.document.close();
         }
 
