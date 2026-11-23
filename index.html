@@ -721,81 +721,35 @@
                         </div>
                     </div>
 
-                    <!-- ملخص جدول التلخيص المحوري (Row Labels / Count of النوع) ومؤشرات الإقامات -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                        <!-- جدول التلخيص المحوري طبق الأصل من إكسل (Pivot Table View) -->
-                        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-sm space-y-2.5">
-                            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                                <span class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center space-x-1.5 space-x-reverse">
-                                    <span>📊</span>
-                                    <span>جدول التلخيص المحوري (Pivot Summary)</span>
-                                </span>
-                                <span class="text-[10px] text-brand-600 font-mono font-bold bg-brand-50 dark:bg-brand-950/40 px-2 py-0.5 rounded-md">Excel Layout</span>
+                    <!-- بطاقات إحصائيات الإقامات (حالات سارية • قريبة الانتهاء • منتهية) -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 dark:bg-slate-800/40 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-slate-400 font-mono font-bold block">Grand Total</span>
+                                <span class="text-xs font-bold text-slate-700 dark:text-slate-200">إجمالي السجلات</span>
                             </div>
-                            <table class="w-full text-xs font-mono">
-                                <thead>
-                                    <tr class="text-slate-400 border-b border-slate-100 dark:border-slate-800 text-[11px]">
-                                        <th class="py-1 text-right font-semibold">Row Labels</th>
-                                        <th class="py-1 text-left font-semibold">Count of النوع</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs">
-                                    <tr>
-                                        <td class="py-1.5 text-rose-600 dark:text-rose-400 font-bold flex items-center space-x-1.5 space-x-reverse">
-                                            <span>🔴</span><span>Experied</span>
-                                        </td>
-                                        <td id="pivot-val-expired" class="py-1.5 text-left font-bold text-rose-600 dark:text-rose-400">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-1.5 text-amber-600 dark:text-amber-400 font-bold flex items-center space-x-1.5 space-x-reverse">
-                                            <span>🟡</span><span>Neer to Expire</span>
-                                        </td>
-                                        <td id="pivot-val-near" class="py-1.5 text-left font-bold text-amber-600 dark:text-amber-400">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-1.5 text-emerald-600 dark:text-emerald-400 font-bold flex items-center space-x-1.5 space-x-reverse">
-                                            <span>🟢</span><span>Valid</span>
-                                        </td>
-                                        <td id="pivot-val-valid" class="py-1.5 text-left font-bold text-emerald-600 dark:text-emerald-400">0</td>
-                                    </tr>
-                                    <tr class="border-t-2 border-slate-200 dark:border-slate-700 font-black">
-                                        <td class="py-2 text-slate-900 dark:text-white">Grand Total</td>
-                                        <td id="pivot-val-total" class="py-2 text-left text-slate-900 dark:text-white">0</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <span id="iqama-stat-total" class="font-mono font-black text-slate-900 dark:text-white text-xl">0</span>
                         </div>
-
-                        <!-- بطاقات الإحصائيات السريعة -->
-                        <div class="lg:col-span-2 grid grid-cols-2 gap-3">
-                            <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
-                                <div>
-                                    <span class="text-[10px] text-slate-400 font-mono font-bold block">Grand Total</span>
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-200">إجمالي السجلات</span>
-                                </div>
-                                <span id="iqama-stat-total" class="font-mono font-black text-slate-900 dark:text-white text-xl">0</span>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">Valid 🟢</span>
+                                <span class="text-xs font-bold text-emerald-700 dark:text-emerald-300">سارية (> 3 أشهر)</span>
                             </div>
-                            <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-900 border border-emerald-200/80 dark:border-emerald-900/40 shadow-sm">
-                                <div>
-                                    <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-bold block">Valid 🟢</span>
-                                    <span class="text-xs font-bold text-emerald-700 dark:text-emerald-300">سارية (> 3 أشهر)</span>
-                                </div>
-                                <span id="iqama-stat-valid" class="font-mono font-black text-emerald-600 dark:text-emerald-400 text-xl">0</span>
+                            <span id="iqama-stat-valid" class="font-mono font-black text-emerald-600 dark:text-emerald-400 text-xl">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-amber-600 dark:text-amber-400 font-mono font-bold block">Neer to Expire 🟡</span>
+                                <span class="text-xs font-bold text-amber-700 dark:text-amber-300">قريبة الانتهاء (≤ 3 أشهر)</span>
                             </div>
-                            <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-900 border border-amber-200/80 dark:border-amber-900/40 shadow-sm">
-                                <div>
-                                    <span class="text-[10px] text-amber-600 dark:text-amber-400 font-mono font-bold block">Neer to Expire 🟡</span>
-                                    <span class="text-xs font-bold text-amber-700 dark:text-amber-300">قريبة الانتهاء (≤ 3 أشهر)</span>
-                                </div>
-                                <span id="iqama-stat-near" class="font-mono font-black text-amber-600 dark:text-amber-400 text-xl">0</span>
+                            <span id="iqama-stat-near" class="font-mono font-black text-amber-600 dark:text-amber-400 text-xl">0</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/40 shadow-sm">
+                            <div>
+                                <span class="text-[10px] text-rose-600 dark:text-rose-400 font-mono font-bold block">Experied 🔴</span>
+                                <span class="text-xs font-bold text-rose-700 dark:text-rose-300">منتهية الصلاحية</span>
                             </div>
-                            <div class="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-slate-900 border border-rose-200/80 dark:border-rose-900/40 shadow-sm">
-                                <div>
-                                    <span class="text-[10px] text-rose-600 dark:text-rose-400 font-mono font-bold block">Experied 🔴</span>
-                                    <span class="text-xs font-bold text-rose-700 dark:text-rose-300">منتهية الصلاحية</span>
-                                </div>
-                                <span id="iqama-stat-expired" class="font-mono font-black text-rose-600 dark:text-rose-400 text-xl">0</span>
-                            </div>
+                            <span id="iqama-stat-expired" class="font-mono font-black text-rose-600 dark:text-rose-400 text-xl">0</span>
                         </div>
                     </div>
 
@@ -1316,37 +1270,6 @@
                                     <span class="text-[10px] text-slate-400 mt-1 block">الافتراضي: 90 يوماً (3 أشهر) للمؤشر الأصفر</span>
                                 </div>
                             </div>
-
-                            <!-- إعدادات الربط السحابي مع Supabase -->
-                            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">الربط السحابي (Supabase Cloud)</h3>
-                                    <span id="supabase-status-badge" class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">محلي / غير متصل</span>
-                                </div>
-                                
-                                <p class="text-xs text-slate-500">يتيح حفظ ومزامنة السجلات مركزياً بين أجهزة أعضاء الفريق:</p>
-
-                                <div class="space-y-3">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Project URL</label>
-                                        <input type="text" id="supabase-url-input" placeholder="https://your-project.supabase.co" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">Public Anon Key</label>
-                                        <input type="password" id="supabase-key-input" placeholder="eyJhbGciOiJIUzI1NiIsIn..." class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 rounded-xl text-xs font-mono">
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center space-x-2 space-x-reverse">
-                                    <button onclick="saveSupabaseCredentials()" class="flex-1 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-semibold shadow-sm transition">
-                                        حفظ واختبار الاتصال
-                                    </button>
-                                    <button onclick="syncFromSupabase()" class="px-4 py-2 border border-slate-200 dark:border-slate-700 text-xs font-semibold rounded-xl hover:bg-slate-50 transition">
-                                        مزامنة يدوية
-                                    </button>
-                                </div>
-                            </div>
-
                         </div>
 
                     </div>
@@ -1516,11 +1439,6 @@
         const defaultData = {
             tarqeem: {
                 iqamas: [
-                    { id: 10, name: "محمد سيف الإسلام عبدالله محمود", iqama_number: "2329478172", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-20", notes: "", transfer_renewal_notes: "" },
-                    { id: 20, name: "عمر عبدالله عمر القثمي", iqama_number: "2320504133", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-01-20", notes: "", transfer_renewal_notes: "" },
-                    { id: 30, name: "MOSTAFA FARAJI SHAHER ALI", iqama_number: "2219944242", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
-                    { id: 40, name: "بشار علي سعيد العمودي", iqama_number: "2615391485", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
-                    { id: 50, name: "عبدالمجيد صالح سعيد العمودي", iqama_number: "2601050236", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-13", notes: "", transfer_renewal_notes: "" },
                     { id: 1, name: "محمد أحمد علي", iqama_number: "2345678901", profession: "مهندس برمجيات", branch: "المقر الرئيسي مكة المكرمة", expiry_date: "2026-11-20", notes: "ساري", transfer_renewal_notes: "لا يوجد نقل" }
                 ],
                 contracts: [
@@ -1578,23 +1496,19 @@
                     }
                 });
 
-                // تأكيد وجود سجلات قالب الإقامات الرسمية للمستخدم في كلتا المنشأتين
+                // تنظيف فوري للبيانات المؤقتة والوهمية وحفظ النتيجة في التخزين المحلي
+                let dbNeedsSaving = false;
                 ['tarqeem', 'tafneen'].forEach(org => {
                     if (parsed[org] && Array.isArray(parsed[org].iqamas)) {
-                        const sampleIqamas = [
-                            { id: 10, name: "محمد سيف الإسلام عبدالله محمود", iqama_number: "2329478172", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-20", notes: "", transfer_renewal_notes: "" },
-                            { id: 20, name: "عمر عبدالله عمر القثمي", iqama_number: "2320504133", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-01-20", notes: "", transfer_renewal_notes: "" },
-                            { id: 30, name: "MOSTAFA FARAJI SHAHER ALI", iqama_number: "2219944242", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
-                            { id: 40, name: "بشار علي سعيد العمودي", iqama_number: "2615391485", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-22", notes: "", transfer_renewal_notes: "" },
-                            { id: 50, name: "عبدالمجيد صالح سعيد العمودي", iqama_number: "2601050236", profession: "موظف", branch: "المركز الرئيسي", expiry_date: "2027-02-13", notes: "", transfer_renewal_notes: "" }
-                        ];
-                        sampleIqamas.forEach(item => {
-                            if (!parsed[org].iqamas.some(existing => String(existing.iqama_number) === String(item.iqama_number))) {
-                                parsed[org].iqamas.unshift(item);
-                            }
-                        });
+                        const dummyNumbers = ['2329478172', '2320504133', '2219944242', '2615391485', '2601050236'];
+                        const beforeLen = parsed[org].iqamas.length;
+                        parsed[org].iqamas = parsed[org].iqamas.filter(item => !dummyNumbers.includes(String(item.iqama_number)));
+                        if (parsed[org].iqamas.length !== beforeLen) dbNeedsSaving = true;
                     }
                 });
+                if (dbNeedsSaving) {
+                    localStorage.setItem('tarqeem_tafneen_db_v1', JSON.stringify(parsed));
+                }
                 return parsed;
             } catch (e) { return defaultData; }
         }
@@ -2493,15 +2407,6 @@
                 if (elVal) elVal.textContent = validIq;
                 if (elNear) elNear.textContent = nearIq;
                 if (elExp) elExp.textContent = expiredIq;
-
-                const pivTot = document.getElementById('pivot-val-total');
-                const pivVal = document.getElementById('pivot-val-valid');
-                const pivNear = document.getElementById('pivot-val-near');
-                const pivExp = document.getElementById('pivot-val-expired');
-                if (pivTot) pivTot.textContent = totalIq;
-                if (pivVal) pivVal.textContent = validIq;
-                if (pivNear) pivNear.textContent = nearIq;
-                if (pivExp) pivExp.textContent = expiredIq;
             }
 
             if (list.length === 0) {
@@ -2650,15 +2555,6 @@
                 if (elVal) elVal.textContent = validIq;
                 if (elNear) elNear.textContent = nearIq;
                 if (elExp) elExp.textContent = expiredIq;
-
-                const pivTot = document.getElementById('pivot-val-total');
-                const pivVal = document.getElementById('pivot-val-valid');
-                const pivNear = document.getElementById('pivot-val-near');
-                const pivExp = document.getElementById('pivot-val-expired');
-                if (pivTot) pivTot.textContent = totalIq;
-                if (pivVal) pivVal.textContent = validIq;
-                if (pivNear) pivNear.textContent = nearIq;
-                if (pivExp) pivExp.textContent = expiredIq;
             }
 
             if (filtered.length === 0) {
@@ -3170,10 +3066,6 @@
         }
 
         async function deleteRecord(moduleKey, recordId) {
-            const role = getUserRoleInOrg(currentOrg);
-            if (role !== 'admin') {
-                return showToast('عفواً، حذف السجلات متاح فقط لمدير النظام (Admin).', true);
-            }
             if (!confirm('هل أنت متأكد من حذف هذا السجل نهائياً؟')) return;
 
             if (supabaseClient && typeof recordId === 'string' && recordId.includes('-')) {
@@ -3185,7 +3077,7 @@
                 db[currentOrg][moduleKey] = db[currentOrg][moduleKey].filter(r => String(r.id) !== String(recordId));
                 saveDb(db);
                 recordAuditLog('DELETE_RECORD', moduleKey, recordId, { deletedId: recordId });
-                showToast('تم حذف السجل بنجاح.');
+                showToast('✓ تم حذف السجل بنجاح.');
                 refreshActiveView();
             }
         }
@@ -3380,31 +3272,25 @@
             const wb = XLSX.utils.book_new();
 
             if (moduleKey === 'iqamas') {
-                // إحصائيات التلخيص المحوري الحية
-                let expCount = 0, nearCount = 0, valCount = 0;
-                list.forEach(r => {
-                    const d = calculateDaysRemaining(r.expiry_date);
-                    if (d <= 0) expCount++;
-                    else if (d <= threshold) nearCount++;
-                    else valCount++;
-                });
-
-                // بناء ملف Excel متطابق 100% مع قالب وتنسيق المستخدم في صفحة واحدة (Summary بالأعلى ثم جدول البيانات)
-                const aoa = [
-                    ['Row Labels', 'Count of النوع'],
-                    ['Experied', expCount],
-                    ['Neer to Expire', nearCount],
-                    ['Valid', valCount],
-                    ['Grand Total', list.length],
-                    ['', 'م', 'الاسم', 'رقم الإقامة', 'المهنة', 'الفرع', 'الأيام المتبقية على الانتهاء', 'تاريخ الانتهاء', 'الحالة', 'ملاحظات', 'ملاحظات النقل والتجديد']
+                const headers = [
+                    'م',
+                    'الاسم',
+                    'رقم الإقامة',
+                    'المهنة',
+                    'الفرع',
+                    'الأيام المتبقية على الانتهاء',
+                    'تاريخ الانتهاء',
+                    'الحالة',
+                    'ملاحظات',
+                    'ملاحظات النقل والتجديد'
                 ];
+                const aoa = [headers];
 
                 list.forEach((r, idx) => {
                     const days = calculateDaysRemaining(r.expiry_date);
                     const info = getStatusInfo(days, threshold);
                     const statusText = info.statusTextEn || (days <= 0 ? 'Experied' : (days <= threshold ? 'Neer to Expire' : 'Valid'));
                     aoa.push([
-                        '',
                         idx + 1,
                         r.name || '',
                         r.iqama_number || '',
@@ -3420,22 +3306,23 @@
 
                 const ws = XLSX.utils.aoa_to_sheet(aoa);
                 ws['!cols'] = [
-                    { wch: 18 }, // A: Row Labels
-                    { wch: 8 },  // B: م
-                    { wch: 34 }, // C: الاسم
-                    { wch: 18 }, // D: رقم الإقامة
-                    { wch: 18 }, // E: المهنة
-                    { wch: 20 }, // F: الفرع
-                    { wch: 28 }, // G: الأيام المتبقية على الانتهاء
-                    { wch: 16 }, // H: تاريخ الانتهاء
-                    { wch: 16 }, // I: الحالة
-                    { wch: 24 }, // J: ملاحظات
-                    { wch: 28 }  // K: ملاحظات النقل والتجديد
+                    { wch: 8 },  // A: م
+                    { wch: 34 }, // B: الاسم
+                    { wch: 18 }, // C: رقم الإقامة
+                    { wch: 18 }, // D: المهنة
+                    { wch: 20 }, // E: الفرع
+                    { wch: 26 }, // F: الأيام المتبقية على الانتهاء
+                    { wch: 16 }, // G: تاريخ الانتهاء
+                    { wch: 16 }, // H: الحالة
+                    { wch: 24 }, // I: ملاحظات
+                    { wch: 28 }  // J: ملاحظات النقل والتجديد
                 ];
+                ws['!views'] = [{ rightToLeft: true }];
                 XLSX.utils.book_append_sheet(wb, ws, 'وثائق الإقامات');
                 XLSX.writeFile(wb, `${currentOrg}_iqamas_export.xlsx`);
             } else {
                 const ws = XLSX.utils.json_to_sheet(list);
+                ws['!views'] = [{ rightToLeft: true }];
                 XLSX.utils.book_append_sheet(wb, ws, moduleKey);
                 XLSX.writeFile(wb, `${currentOrg}_${moduleKey}_export.xlsx`);
             }
@@ -3448,49 +3335,61 @@
             const wb = XLSX.utils.book_new();
 
             if (moduleKey === 'iqamas') {
-                // قالب الإقامات المطابق لملف Excel المرسل تماماً (ملف من ورقة واحدة يضم ملخص Row Labels / Count of النوع بالأعلى ثم جدول البيانات)
-                const aoa = [
-                    ['Row Labels', 'Count of النوع'],
-                    ['Experied', 0],
-                    ['Neer to Expire', 3],
-                    ['Valid', 2],
-                    ['Grand Total', 5],
-                    ['', 'م', 'الاسم', 'رقم الإقامة', 'المهنة', 'الفرع', 'الأيام المتبقية على الانتهاء', 'تاريخ الانتهاء', 'الحالة', 'ملاحظات', 'ملاحظات النقل والتجديد'],
-                    ['', 1, 'محمد سيف الإسلام عبدالله محمود', '2329478172', '', '', 89, '2027-02-20', 'Neer to Expire', '', ''],
-                    ['', 2, 'عمر عبدالله عمر القثمي', '2320504133', '', '', 58, '2027-01-20', 'Neer to Expire', '', ''],
-                    ['', 3, 'MOSTAFA FARAJI SHAHER ALI', '2219944242', '', '', 91, '2027-02-22', 'Valid', '', ''],
-                    ['', 4, 'بشار علي سعيد العمودي', '2615391485', '', '', 91, '2027-02-22', 'Valid', '', ''],
-                    ['', 5, 'عبدالمجيد صالح سعيد العمودي', '2601050236', '', '', 82, '2027-02-13', 'Neer to Expire', '', '']
+                // قالب وثائق الإقامات الرسمي النظيف والصحيح: يبدأ مباشرة من الخلية A1 بالأعمدة الـ 10 الرسمية
+                const headers = [
+                    'م',
+                    'الاسم',
+                    'رقم الإقامة',
+                    'المهنة',
+                    'الفرع',
+                    'الأيام المتبقية على الانتهاء',
+                    'تاريخ الانتهاء',
+                    'الحالة',
+                    'ملاحظات',
+                    'ملاحظات النقل والتجديد'
                 ];
+
+                const aoa = [headers];
+                // صفوف فارغة جاهزة ومحددة الأرقام التسلسلية لتسهيل إدخال بيانات الموظفين مباشرة
+                for (let i = 1; i <= 20; i++) {
+                    aoa.push([i, '', '', '', '', '', '', '', '', '']);
+                }
 
                 const ws = XLSX.utils.aoa_to_sheet(aoa);
                 ws['!cols'] = [
-                    { wch: 18 }, // A: Row Labels
-                    { wch: 8 },  // B: م
-                    { wch: 34 }, // C: الاسم
-                    { wch: 18 }, // D: رقم الإقامة
-                    { wch: 18 }, // E: المهنة
-                    { wch: 20 }, // F: الفرع
-                    { wch: 28 }, // G: الأيام المتبقية على الانتهاء
-                    { wch: 16 }, // H: تاريخ الانتهاء
-                    { wch: 16 }, // I: الحالة
-                    { wch: 24 }, // J: ملاحظات
-                    { wch: 28 }  // K: ملاحظات النقل والتجديد
+                    { wch: 8 },  // A: م
+                    { wch: 34 }, // B: الاسم
+                    { wch: 18 }, // C: رقم الإقامة
+                    { wch: 18 }, // D: المهنة
+                    { wch: 20 }, // E: الفرع
+                    { wch: 26 }, // F: الأيام المتبقية على الانتهاء
+                    { wch: 16 }, // G: تاريخ الانتهاء
+                    { wch: 16 }, // H: الحالة
+                    { wch: 24 }, // I: ملاحظات
+                    { wch: 28 }  // J: ملاحظات النقل والتجديد
                 ];
-                XLSX.utils.book_append_sheet(wb, ws, 'وثائق الإقامات');
-                XLSX.writeFile(wb, 'قالب_الإقامات_المعتمد.xlsx');
-                showToast('تم تحميل قالب الإقامات المعتمد بنجاح!');
+                ws['!views'] = [{ rightToLeft: true }];
+
+                XLSX.utils.book_append_sheet(wb, ws, 'قالب وثائق الإقامات');
+                XLSX.writeFile(wb, 'قالب_وثائق_الإقامات.xlsx');
+                showToast('تم تحميل قالب الإقامات الرسمي النظيف بنجاح!');
                 return;
             } else if (moduleKey === 'contracts') {
-                const sample = [{ 'م': 1, 'اسم الموظف': 'سالم علي', 'رقم الهوية': '1023456789', 'الإدارة': 'المالية', 'المهنة': 'محاسب', 'بداية العقد': '2024-01-01', 'نهاية العقد': '2026-12-31', 'ملاحظات': '' }];
-                const ws = XLSX.utils.json_to_sheet(sample);
+                const headers = ['م', 'اسم الموظف', 'رقم الهوية', 'الإدارة', 'المهنة', 'بداية العقد', 'نهاية العقد', 'ملاحظات'];
+                const aoa = [headers];
+                for (let i = 1; i <= 20; i++) aoa.push([i, '', '', '', '', '', '', '']);
+                const ws = XLSX.utils.aoa_to_sheet(aoa);
+                ws['!views'] = [{ rightToLeft: true }];
                 XLSX.utils.book_append_sheet(wb, ws, 'Contracts');
                 XLSX.writeFile(wb, `template_${moduleKey}.xlsx`);
                 showToast('تم تحميل قالب العقود بنجاح!');
                 return;
             } else {
-                const sample = [{ 'م': 1, 'اسم الوثيقة': 'رخصة البلدية', 'النوع': 'بلدي', 'رقم الوثيقة': 'BLD-123', 'الفرع': 'جدة', 'تاريخ الانتهاء': '2027-05-15', 'ملاحظات': '' }];
-                const ws = XLSX.utils.json_to_sheet(sample);
+                const headers = ['م', 'اسم الوثيقة', 'النوع', 'رقم الوثيقة', 'الفرع', 'تاريخ الانتهاء', 'ملاحظات'];
+                const aoa = [headers];
+                for (let i = 1; i <= 20; i++) aoa.push([i, '', '', '', '', '', '']);
+                const ws = XLSX.utils.aoa_to_sheet(aoa);
+                ws['!views'] = [{ rightToLeft: true }];
                 XLSX.utils.book_append_sheet(wb, ws, 'Licenses');
                 XLSX.writeFile(wb, `template_${moduleKey}.xlsx`);
                 showToast('تم تحميل قالب التراخيص بنجاح!');
